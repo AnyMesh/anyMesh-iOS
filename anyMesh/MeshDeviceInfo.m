@@ -10,7 +10,6 @@
 
 @implementation MeshDeviceInfo
 
-@property (nonatomic)NSString *name;
-@property (nonatomic)NSArray *listensTo;
+
 
 @end

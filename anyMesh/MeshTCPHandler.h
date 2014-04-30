@@ -17,6 +17,8 @@
 	
 	GCDAsyncSocket *listenSocket;
 	NSMutableArray *connectedSockets;
+    NSMutableDictionary *connectedServers;
+    
 }
 
 @end

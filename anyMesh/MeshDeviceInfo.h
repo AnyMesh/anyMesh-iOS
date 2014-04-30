@@ -10,4 +10,7 @@
 
 @interface MeshDeviceInfo : NSObject
 
+@property (nonatomic)NSString *name;
+@property (nonatomic)NSArray *listensTo;
+
 @end

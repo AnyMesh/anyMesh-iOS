@@ -9,6 +9,7 @@
 #import "MeshTCPHandler.h"
 #import "GCDAsyncSocket.h"
 #import "MeshMessage.h"
+#import "MeshDeviceInfo.h"
 #import "AnyMesh.h"
 
 @implementation MeshTCPHandler
@@ -88,7 +89,17 @@
 }
 
 #pragma mark Client
-- (void)connectTo:
+- (void)connectTo:(MeshDeviceInfo*)device
+{
+    if (![connectedServers valueForKey:device.name]) {
+        //TODO connect
+        
+        
+        //TODO store name and subscribesTo inside object SOMEHOW?
+        
+        
+    }
+}
 
 
 @end
