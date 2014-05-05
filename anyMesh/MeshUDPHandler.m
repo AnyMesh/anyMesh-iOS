@@ -7,7 +7,10 @@
 //
 
 #import "MeshUDPHandler.h"
-#import "GCDAsyncUdpSocket.h"
+#import "MeshDeviceInfo.h"
+#import "AnyMesh.h"
+#import "MeshTCPServer.h"
+#import "MeshTCPClient.h"
 
 @implementation MeshUDPHandler
     
@@ -44,6 +47,19 @@
 -(void)broadcast
 {
     [udpSocket sendData:message toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];
+}
+
+#pragma mark UDP Server Delegate
+-(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
+{
+    MeshDeviceInfo *deviceInfo = [[MeshDeviceInfo alloc] init];
+    deviceInfo.ipAddress = [[NSString alloc] initWithData:address encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    deviceInfo.name = dataDict[KEY_NAME];
+    deviceInfo.listensTo = dataDict[KEY_LISTENSTO];
+    
+    [[AnyMesh sharedInstance].tcpClient connectTo:deviceInfo];
 }
 
 @end

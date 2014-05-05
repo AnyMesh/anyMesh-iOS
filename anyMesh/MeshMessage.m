@@ -7,10 +7,11 @@
 //
 
 #import "MeshMessage.h"
+#import "AnyMesh.h"
 
 @implementation MeshMessage
 
--(id)initWithHandler:(MeshTCPHandler*)handler messageObject:(NSDictionary*)msgObj
+-(id)initWithHandler:(MeshTCPServer*)handler messageObject:(NSDictionary*)msgObj
 {
     if (self = [super init]) {
         _tcpHandler = handler;

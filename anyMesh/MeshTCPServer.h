@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 @class GCDAsyncSocket;
+@class MeshDeviceInfo;
 
-@interface MeshTCPHandler : NSObject
+@interface MeshTCPServer : NSObject
 {
     int tcpPort;
-    
-    dispatch_queue_t socketQueue;
 	
 	GCDAsyncSocket *listenSocket;
 	NSMutableArray *connectedSockets;
-    NSMutableDictionary *connectedServers;
+
     
 }
+
+-(id)initWithPort:(int)port;
 
 @end

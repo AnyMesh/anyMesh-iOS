@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-@class GCDAsyncUdpSocket;
+#import "GCDAsyncUdpSocket.h"
 
-@interface MeshUDPHandler : NSObject {
+@interface MeshUDPHandler : NSObject <GCDAsyncUdpSocketDelegate> {
     GCDAsyncUdpSocket *udpSocket;
     NSData *message;
     int port;

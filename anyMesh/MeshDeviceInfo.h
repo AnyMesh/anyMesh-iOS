@@ -12,5 +12,6 @@
 
 @property (nonatomic)NSString *name;
 @property (nonatomic)NSArray *listensTo;
+@property (nonatomic)NSString *ipAddress;
 
 @end

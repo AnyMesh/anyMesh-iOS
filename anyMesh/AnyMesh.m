@@ -21,6 +21,19 @@ static AnyMesh *sharedInstance = nil;
     return sharedInstance;
 }
 
+-(id)init
+{
+    if (self = [super init]) {
+        self.socketQueue = dispatch_queue_create("socketQueue", NULL);
+    }
+    return self;
+}
+
+-(void)activateWithName:(NSString*)name listeningTo:(NSArray*)listeningTo
+{
+    
+}
+
 - (void)messageReceived:(MeshMessage *)message
 {
     

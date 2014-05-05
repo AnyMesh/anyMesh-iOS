@@ -7,16 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-@class MeshTCPHandler;
+@class MeshTCPServer;
+@class MeshTCPClient;
 @class MeshUDPHandler;
 @class MeshMessage;
 
-@interface AnyMesh : NSObject
+#define KEY_TYPE @"type"
+#define KEY_TARGET @"target"
+#define KEY_SENDER @"sender"
+#define KEY_DATA @"data"
+#define KEY_NAME @"name"
+#define KEY_LISTENSTO @"listensTo"
 
-@property (nonatomic) MeshTCPHandler *tcpHandler;
+@interface AnyMesh : NSObject 
+
+@property (nonatomic) MeshTCPServer *tcpServer;
+@property (nonatomic) MeshTCPClient *tcpClient;
 @property (nonatomic) MeshUDPHandler *udpHandler;
+@property (nonatomic) dispatch_queue_t socketQueue;
 
-+ (id)sharedInstance;
++ (AnyMesh*)sharedInstance;
 
 -(void)messageReceived:(MeshMessage*)message;
 

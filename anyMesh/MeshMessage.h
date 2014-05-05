@@ -6,13 +6,8 @@
 //  Copyright (c) 2014 dpTools. All rights reserved.
 //
 
-#define KEY_TYPE @"type"
-#define KEY_TARGET @"target"
-#define KEY_SENDER @"sender"
-#define KEY_DATA @"data"
-
 #import <Foundation/Foundation.h>
-@class MeshTCPHandler;
+@class MeshTCPServer;
 
 
 typedef enum {
@@ -28,9 +23,9 @@ typedef enum {
 @property (nonatomic)NSString *sender;
 @property (nonatomic)NSString *target;
 
-@property (nonatomic)MeshTCPHandler *tcpHandler;
+@property (nonatomic)MeshTCPServer *tcpHandler;
 
--(id)initWithHandler:(MeshTCPHandler*)handler messageObject:(NSDictionary*)msgObj;
+-(id)initWithHandler:(MeshTCPServer*)handler messageObject:(NSDictionary*)msgObj;
 -(void)respondWith:(NSDictionary*)responseObject;
 
 

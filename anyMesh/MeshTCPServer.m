@@ -6,22 +6,21 @@
 //  Copyright (c) 2014 dpTools. All rights reserved.
 //
 
-#import "MeshTCPHandler.h"
+#import "MeshTCPServer.h"
 #import "GCDAsyncSocket.h"
 #import "MeshMessage.h"
 #import "MeshDeviceInfo.h"
 #import "AnyMesh.h"
 
-@implementation MeshTCPHandler
+@implementation MeshTCPServer
 
 -(id)initWithPort:(int)port
 {
     if (self = [super init]) {
         tcpPort = port;
-        
-        socketQueue = dispatch_queue_create("socketQueue", NULL);
+    
 		
-		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:socketQueue];
+		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
 		
 		// Setup an array to store all accepted client connections
 		connectedSockets = [[NSMutableArray alloc] initWithCapacity:1];
@@ -88,18 +87,6 @@
 	}
 }
 
-#pragma mark Client
-- (void)connectTo:(MeshDeviceInfo*)device
-{
-    if (![connectedServers valueForKey:device.name]) {
-        //TODO connect
-        
-        
-        //TODO store name and subscribesTo inside object SOMEHOW?
-        
-        
-    }
-}
 
 
 @end
