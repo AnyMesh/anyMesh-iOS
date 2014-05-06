@@ -8,17 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "GCDAsyncSocket.h"
+#import "AnyMesh.h"
 @class MeshDeviceInfo;
 
 
 @interface MeshTCPClient : NSObject <GCDAsyncSocketDelegate>{
     NSMutableDictionary *connectedServers;
     int tcpPort;
+    AnyMesh *am;
 }
 
-@property (nonatomic) NSString *name;
 
 -(id)initWithPort:(int)port;
 -(void)connectTo:(MeshDeviceInfo*)device;
+
+-(void)sendMessageTo:(NSString*)target withType:(MeshMessageType)type dataObject:(NSDictionary*)dataDict;
 
 @end

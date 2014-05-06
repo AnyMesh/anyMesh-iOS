@@ -7,14 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AnyMesh.h"
 @class MeshTCPServer;
 
-
-typedef enum {
-    MeshMessageTypePublish,
-    MeshMessageTypeRequest,
-    MeshMessageTypeResponse
-} MeshMessageType;
 
 @interface MeshMessage : NSObject
 

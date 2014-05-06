@@ -40,15 +40,26 @@ static AnyMesh *sharedInstance = nil;
     _udpHandler = [[MeshUDPHandler alloc] initWithBroadcastMessage:msg onPort:UDP_PORT];
     
     _tcpClient = [[MeshTCPClient alloc] initWithPort:TCP_PORT];
-    _tcpClient.name = name;
+    _name = name;
     
     _tcpServer = [[MeshTCPServer alloc] initWithPort:TCP_PORT];
     
 }
 
+#pragma mark Messaging
 - (void)messageReceived:(MeshMessage *)message
 {
     [self.delegate anyMeshReceivedMessage:message];
 }
+
+- (void)publishToTarget:(NSString *)target withData:(NSDictionary *)dataDict
+{
+     [_tcpClient sendMessageTo:target withType:MeshMessageTypePublish dataObject:dataDict];
+}
+- (void)requestToTarget:(NSString *)target withData:(NSDictionary *)dataDict
+{
+     [_tcpClient sendMessageTo:target withType:MeshMessageTypeRequest dataObject:dataDict];
+}
+
 
 @end

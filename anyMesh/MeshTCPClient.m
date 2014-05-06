@@ -9,7 +9,6 @@
 #import "MeshTCPClient.h"
 #import "MeshDeviceInfo.h"
 #import "GCDAsyncSocket.h"
-#import "AnyMesh.h"
 
 
 @implementation MeshTCPClient
@@ -18,6 +17,7 @@
 {
     if (self = [super init]) {
         tcpPort = port;
+        am = [AnyMesh sharedInstance];
     }
     return self;
 }
@@ -35,6 +35,22 @@
 {
     MeshDeviceInfo *deviceInfo = (MeshDeviceInfo*)sock.userData;
     [connectedServers setObject:sock forKey:deviceInfo.name];
+}
+
+-(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
+{
+    GCDAsyncSocket *receiver = [connectedServers objectForKey:target];
+    if (receiver)
+    {
+        NSArray *types = @[@"pub", @"req", @"res"];
+        
+        NSDictionary *message = @{KEY_SENDER:am.name,
+                                  KEY_TARGET:target,
+                                  KEY_TYPE:types[type],
+                                  KEY_DATA:dataDict};
+        NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
+        [receiver writeData:msgData withTimeout:-1 tag:0];
+    }
 }
 
 

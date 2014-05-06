@@ -23,6 +23,12 @@
 #define UDP_PORT 12345
 #define TCP_PORT 12346
 
+typedef enum {
+    MeshMessageTypePublish,
+    MeshMessageTypeRequest,
+    MeshMessageTypeResponse
+} MeshMessageType;
+
 @protocol AnyMeshDelegate <NSObject>
 
 -(void)anyMeshReceivedMessage:(MeshMessage*)message;
@@ -38,6 +44,8 @@
 @property (nonatomic) MeshUDPHandler *udpHandler;
 @property (nonatomic) dispatch_queue_t socketQueue;
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
+
+@property (nonatomic) NSString *name;
 
 + (AnyMesh*)sharedInstance;
 
