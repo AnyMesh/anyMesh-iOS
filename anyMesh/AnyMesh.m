@@ -48,7 +48,7 @@ static AnyMesh *sharedInstance = nil;
 
 - (void)messageReceived:(MeshMessage *)message
 {
-    
+    [self.delegate anyMeshReceivedMessage:message];
 }
 
 @end

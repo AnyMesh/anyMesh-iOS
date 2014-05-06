@@ -7,16 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AnyMesh.h"
 
-@interface MeshViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface MeshViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, AnyMeshDelegate> {
+    AnyMesh *am;
+    NSMutableArray *connectedDevices;
+}
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 @property (weak, nonatomic) IBOutlet UITextField *msgField;
 @property (weak, nonatomic) IBOutlet UITextField *targetField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+-(IBAction)publishButtonPressed:(id)sender;
+-(IBAction)requestButtonPressed:(id)sender;
 
-
-- (IBAction)segmentPressed:(id)sender;
 
 @end

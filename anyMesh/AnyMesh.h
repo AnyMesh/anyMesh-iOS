@@ -11,6 +11,7 @@
 @class MeshTCPClient;
 @class MeshUDPHandler;
 @class MeshMessage;
+@class MeshDeviceInfo;
 
 #define KEY_TYPE @"type"
 #define KEY_TARGET @"target"
@@ -22,16 +23,27 @@
 #define UDP_PORT 12345
 #define TCP_PORT 12346
 
+@protocol AnyMeshDelegate <NSObject>
+
+-(void)anyMeshReceivedMessage:(MeshMessage*)message;
+-(void)anyMeshConnectedTo:(MeshDeviceInfo*)device;
+-(void)anyMeshDisconnectedFrom:(MeshDeviceInfo*)device;
+
+@end
+
 @interface AnyMesh : NSObject 
 
 @property (nonatomic) MeshTCPServer *tcpServer;
 @property (nonatomic) MeshTCPClient *tcpClient;
 @property (nonatomic) MeshUDPHandler *udpHandler;
 @property (nonatomic) dispatch_queue_t socketQueue;
+@property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
 + (AnyMesh*)sharedInstance;
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
 -(void)messageReceived:(MeshMessage*)message;
+-(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
+-(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 
 @end

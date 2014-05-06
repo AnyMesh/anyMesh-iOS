@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MeshViewController.h"
 
 @implementation AppDelegate
 
@@ -15,6 +16,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    MeshViewController *mvc = [[MeshViewController alloc] initWithNibName:@"MeshViewController" bundle:nil];
+    [self.window setRootViewController:mvc];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
