@@ -19,6 +19,9 @@
 #define KEY_NAME @"name"
 #define KEY_LISTENSTO @"listensTo"
 
+#define UDP_PORT 12345
+#define TCP_PORT 12346
+
 @interface AnyMesh : NSObject 
 
 @property (nonatomic) MeshTCPServer *tcpServer;
@@ -28,6 +31,7 @@
 
 + (AnyMesh*)sharedInstance;
 
+-(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
 -(void)messageReceived:(MeshMessage*)message;
 
 @end

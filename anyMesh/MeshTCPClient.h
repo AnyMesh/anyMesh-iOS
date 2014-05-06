@@ -16,6 +16,8 @@
     int tcpPort;
 }
 
+@property (nonatomic) NSString *name;
+
 -(id)initWithPort:(int)port;
 -(void)connectTo:(MeshDeviceInfo*)device;
 

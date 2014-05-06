@@ -7,6 +7,9 @@
 //
 
 #import "AnyMesh.h"
+#import "MeshUDPHandler.h"
+#import "MeshTCPServer.h"
+#import "MeshTCPClient.h"
 
 static AnyMesh *sharedInstance = nil;
 
@@ -29,8 +32,17 @@ static AnyMesh *sharedInstance = nil;
     return self;
 }
 
--(void)activateWithName:(NSString*)name listeningTo:(NSArray*)listeningTo
+-(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
+    NSDictionary *msgDict = @{KEY_NAME:name, KEY_LISTENSTO:listensTo};
+    NSData *msgData = [NSJSONSerialization dataWithJSONObject:msgDict options:0 error:nil];
+    NSString *msg = [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
+    _udpHandler = [[MeshUDPHandler alloc] initWithBroadcastMessage:msg onPort:UDP_PORT];
+    
+    _tcpClient = [[MeshTCPClient alloc] initWithPort:TCP_PORT];
+    _tcpClient.name = name;
+    
+    _tcpServer = [[MeshTCPServer alloc] initWithPort:TCP_PORT];
     
 }
 

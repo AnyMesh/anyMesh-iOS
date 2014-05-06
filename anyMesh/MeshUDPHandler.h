@@ -16,4 +16,6 @@
     NSTimer *broadcastTimer;
 }
 
+-(id)initWithBroadcastMessage:(NSString*)msg onPort:(int)thePort;
+
 @end
