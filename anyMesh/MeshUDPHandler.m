@@ -59,7 +59,7 @@
     
     [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
 
-    //TODO - return if ip address is bad
+    if ([ipAddress rangeOfString:@":"].length > 0)return;
     
     deviceInfo.ipAddress = ipAddress;
     
