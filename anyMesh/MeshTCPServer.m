@@ -21,7 +21,8 @@
     
 		
 		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
-		
+		[listenSocket acceptOnPort:port error:nil];
+        
 		// Setup an array to store all accepted client connections
 		connectedSockets = [[NSMutableArray alloc] initWithCapacity:1];
         
@@ -53,7 +54,8 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-	// This method is executed on the socketQueue (not the main thread)
+	NSLog(@"read");
+    // This method is executed on the socketQueue (not the main thread)
 	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		@autoreleasepool {

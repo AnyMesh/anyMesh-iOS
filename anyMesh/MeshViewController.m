@@ -24,6 +24,8 @@
         am.delegate = self;
         connectedDevices = [[NSMutableArray alloc] init];
         
+        [am connectWithName:@"iphone" listeningTo:@[@"mobile", @"global"]];
+        
         //[_tableView registerClass:[UITableViewCell class]  forCellReuseIdentifier:@"Cell"];
     }
     return self;

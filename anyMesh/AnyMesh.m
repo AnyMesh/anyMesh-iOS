@@ -38,6 +38,7 @@ static AnyMesh *sharedInstance = nil;
     NSData *msgData = [NSJSONSerialization dataWithJSONObject:msgDict options:0 error:nil];
     NSString *msg = [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
     _udpHandler = [[MeshUDPHandler alloc] initWithBroadcastMessage:msg onPort:UDP_PORT];
+    [_udpHandler startBroadcasting];
     
     _tcpClient = [[MeshTCPClient alloc] initWithPort:TCP_PORT];
     _name = name;

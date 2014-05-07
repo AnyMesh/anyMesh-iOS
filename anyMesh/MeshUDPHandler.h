@@ -17,5 +17,6 @@
 }
 
 -(id)initWithBroadcastMessage:(NSString*)msg onPort:(int)thePort;
+-(void)startBroadcasting;
 
 @end

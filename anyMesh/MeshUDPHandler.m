@@ -19,6 +19,7 @@
     if (self = [super init]) {
         
         udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+        [udpSocket enableBroadcast:true error:nil];
         port = thePort;
         message = [msg dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -41,8 +42,7 @@
 
 -(void)startBroadcasting
 {
-    broadcastTimer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
-    [broadcastTimer fire];
+    broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
 }
 -(void)broadcast
 {
@@ -52,8 +52,16 @@
 #pragma mark UDP Server Delegate
 -(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
+    uint16_t aport = 0;
+    NSString *ipAddress = nil;
+    
     MeshDeviceInfo *deviceInfo = [[MeshDeviceInfo alloc] init];
-    deviceInfo.ipAddress = [[NSString alloc] initWithData:address encoding:NSUTF8StringEncoding];
+    
+    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
+
+    //TODO - return if ip address is bad
+    
+    deviceInfo.ipAddress = ipAddress;
     
     NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     deviceInfo.name = dataDict[KEY_NAME];

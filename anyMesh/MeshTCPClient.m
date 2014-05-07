@@ -18,6 +18,7 @@
     if (self = [super init]) {
         tcpPort = port;
         am = [AnyMesh sharedInstance];
+        connectedServers = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -35,6 +36,13 @@
 {
     MeshDeviceInfo *deviceInfo = (MeshDeviceInfo*)sock.userData;
     [connectedServers setObject:sock forKey:deviceInfo.name];
+    
+    NSLog(@"client - server connected!");
+}
+
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
+{
+    NSLog(@"client - server disconnected?");
 }
 
 -(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
