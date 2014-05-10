@@ -25,17 +25,28 @@
 
 - (void)connectTo:(MeshDeviceInfo *)device
 {
+    if (!device.name) {
+        return;
+    }
+    
     if (![connectedServers objectForKey:device.name]) {
         GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
-        [socket connectToHost:device.ipAddress onPort:tcpPort error:nil];
+        
+        [connectedServers setObject:socket forKey:device.name];
+        
+        NSError *error = nil;
+       if (![socket connectToHost:device.ipAddress onPort:TCP_PORT error:nil])
+       {
+           NSLog(@"Error! %@", error);
+       }
         socket.userData = device;
     }
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    MeshDeviceInfo *deviceInfo = (MeshDeviceInfo*)sock.userData;
-    [connectedServers setObject:sock forKey:deviceInfo.name];
+    //MeshDeviceInfo *deviceInfo = (MeshDeviceInfo*)sock.userData;
+    //[connectedServers setObject:sock forKey:deviceInfo.name];
     
     NSLog(@"client - server connected!");
 }
@@ -43,6 +54,8 @@
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
     NSLog(@"client - server disconnected?");
+    
+    //TODO remove from dictionary
 }
 
 -(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict

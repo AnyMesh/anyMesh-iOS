@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "GCDAsyncUdpSocket.h"
+@class AnyMesh;
 
 @interface MeshUDPHandler : NSObject <GCDAsyncUdpSocketDelegate> {
+    AnyMesh *am;
     GCDAsyncUdpSocket *udpSocket;
     NSData *message;
     int port;
