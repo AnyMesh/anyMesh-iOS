@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556C54DC191E6DC50060AA61 /* DeviceCell.xib */; };
+		556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556C54DF191E6DF50060AA61 /* DeviceCell.m */; };
 		55ABC618190F577E000649D2 /* MeshUDPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC617190F577E000649D2 /* MeshUDPHandler.m */; };
 		55ABC61B19108FAC000649D2 /* MeshTCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61A19108FAC000649D2 /* MeshTCPServer.m */; };
 		55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61D191092A5000649D2 /* MeshMessage.m */; };
@@ -42,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		556C54DC191E6DC50060AA61 /* DeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceCell.xib; sourceTree = "<group>"; };
+		556C54DE191E6DF50060AA61 /* DeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCell.h; sourceTree = "<group>"; };
+		556C54DF191E6DF50060AA61 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
 		55ABC616190F577E000649D2 /* MeshUDPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshUDPHandler.h; sourceTree = "<group>"; };
 		55ABC617190F577E000649D2 /* MeshUDPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshUDPHandler.m; sourceTree = "<group>"; };
 		55ABC61919108FAC000649D2 /* MeshTCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPServer.h; sourceTree = "<group>"; };
@@ -175,6 +180,9 @@
 				55C1BC39190E853600F2A760 /* MeshViewController.h */,
 				55C1BC3A190E853600F2A760 /* MeshViewController.m */,
 				55C1BC3B190E853600F2A760 /* MeshViewController.xib */,
+				556C54DC191E6DC50060AA61 /* DeviceCell.xib */,
+				556C54DE191E6DF50060AA61 /* DeviceCell.h */,
+				556C54DF191E6DF50060AA61 /* DeviceCell.m */,
 			);
 			path = anyMesh;
 			sourceTree = "<group>";
@@ -286,6 +294,7 @@
 				55C1BC0F190D95EA00F2A760 /* InfoPlist.strings in Resources */,
 				55C1BC17190D95EA00F2A760 /* Images.xcassets in Resources */,
 				55C1BC3D190E853600F2A760 /* MeshViewController.xib in Resources */,
+				556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +316,7 @@
 				55ABC62119109774000649D2 /* AnyMesh.m in Sources */,
 				55C1BC38190D964300F2A760 /* GCDAsyncUdpSocket.m in Sources */,
 				55ABC61B19108FAC000649D2 /* MeshTCPServer.m in Sources */,
+				556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */,
 				55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */,
 				55C1BC37190D964300F2A760 /* GCDAsyncSocket.m in Sources */,
 				55C1BC15190D95EA00F2A760 /* AppDelegate.m in Sources */,

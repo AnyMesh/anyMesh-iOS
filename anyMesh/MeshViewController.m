@@ -8,6 +8,7 @@
 
 #import "MeshViewController.h"
 #import "MeshMessage.h"
+#import "DeviceCell.h"
 
 @interface MeshViewController ()
 
@@ -26,8 +27,7 @@
         
         [am connectWithName:@"iphone" listeningTo:@[@"mobile", @"global"]];
         
-        //[_tableView registerClass:[UITableViewCell class]  forCellReuseIdentifier:@"Cell"];
-    }
+            }
     return self;
 }
 
@@ -35,6 +35,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [_tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]]  forCellReuseIdentifier:@"Cell"];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,12 +60,15 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
-    }
-    cell.textLabel.text = @"Test";
+    DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+
+    
+    cell.nameLabel.text =[connectedDevices objectAtIndex:indexPath.row];
     return cell;
+}
+-(float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 137;
 }
 
 #pragma mark - AnyMesh Delegate Methods
