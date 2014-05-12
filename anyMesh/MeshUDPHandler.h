@@ -13,12 +13,12 @@
 @interface MeshUDPHandler : NSObject <GCDAsyncUdpSocketDelegate> {
     AnyMesh *am;
     GCDAsyncUdpSocket *udpSocket;
-    NSData *message;
+    NSData *networkID;
     int port;
     NSTimer *broadcastTimer;
 }
 
--(id)initWithBroadcastMessage:(NSString*)msg onPort:(int)thePort;
+-(id)initWithNetworkID:(NSString *)networkID onPort:(int)thePort;
 -(void)startBroadcasting;
 
 @end

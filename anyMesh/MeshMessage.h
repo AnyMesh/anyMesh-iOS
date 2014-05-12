@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AnyMesh.h"
-@class MeshTCPServer;
+@class MeshTCPHandler;
 
 
 @interface MeshMessage : NSObject
@@ -18,9 +18,9 @@
 @property (nonatomic)NSString *sender;
 @property (nonatomic)NSString *target;
 
-@property (nonatomic)MeshTCPServer *tcpHandler;
+@property (nonatomic)MeshTCPHandler *tcpHandler;
 
--(id)initWithHandler:(MeshTCPServer*)handler messageObject:(NSDictionary*)msgObj;
+-(id)initWithHandler:(MeshTCPHandler*)handler messageObject:(NSDictionary*)msgObj;
 -(void)respondWith:(NSDictionary*)responseObject;
 
 

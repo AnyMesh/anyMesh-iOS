@@ -9,12 +9,11 @@
 #import "MeshUDPHandler.h"
 #import "MeshDeviceInfo.h"
 #import "AnyMesh.h"
-#import "MeshTCPServer.h"
-#import "MeshTCPClient.h"
+#import "MeshTCPHandler.h"
 
 @implementation MeshUDPHandler
     
--(id)initWithBroadcastMessage:(NSString*)msg onPort:(int)thePort
+-(id)initWithNetworkID:(NSString*)_id onPort:(int)thePort
 {
     if (self = [super init]) {
         am = [AnyMesh sharedInstance];
@@ -22,7 +21,7 @@
         udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
         [udpSocket enableBroadcast:true error:nil];
         port = thePort;
-        message = [msg dataUsingEncoding:NSUTF8StringEncoding];
+        networkID = [_id dataUsingEncoding:NSUTF8StringEncoding];
         
         NSError *error = nil;
         if (![udpSocket bindToPort:port error:&error])
@@ -47,7 +46,7 @@
 }
 -(void)broadcast
 {
-    [udpSocket sendData:message toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];
+    [udpSocket sendData:networkID toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];
 }
 
 #pragma mark UDP Server Delegate
@@ -55,23 +54,13 @@
 {
     uint16_t aport = 0;
     NSString *ipAddress = nil;
-    
-    MeshDeviceInfo *deviceInfo = [[MeshDeviceInfo alloc] init];
-    
     [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
 
     if ([ipAddress rangeOfString:@":"].length > 0)return;
-    
-    deviceInfo.ipAddress = ipAddress;
-    NSLog(@"ip is %@", deviceInfo.ipAddress);
-    
-    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    deviceInfo.name = dataDict[KEY_NAME];
-    deviceInfo.listensTo = dataDict[KEY_LISTENSTO];
-    
-    
-    if (![deviceInfo.name isEqualToString:am.name]) {
-        [[AnyMesh sharedInstance].tcpClient connectTo:deviceInfo];
+    NSLog(@"ip is %@", ipAddress);
+
+    if ([am.networkID isEqualToString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]) {
+        [[AnyMesh sharedInstance].tcpHandler connectTo:ipAddress];
     }}
 
 @end

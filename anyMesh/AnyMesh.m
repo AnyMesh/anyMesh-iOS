@@ -8,8 +8,7 @@
 
 #import "AnyMesh.h"
 #import "MeshUDPHandler.h"
-#import "MeshTCPServer.h"
-#import "MeshTCPClient.h"
+#import "MeshTCPHandler.h"
 
 static AnyMesh *sharedInstance = nil;
 
@@ -28,22 +27,18 @@ static AnyMesh *sharedInstance = nil;
 {
     if (self = [super init]) {
         self.socketQueue = dispatch_queue_create("socketQueue", NULL);
+        self.networkID = @"c8m3!x";
     }
     return self;
 }
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
-    NSDictionary *msgDict = @{KEY_NAME:name, KEY_LISTENSTO:listensTo};
-    NSData *msgData = [NSJSONSerialization dataWithJSONObject:msgDict options:0 error:nil];
-    NSString *msg = [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
-    _udpHandler = [[MeshUDPHandler alloc] initWithBroadcastMessage:msg onPort:UDP_PORT];
+    _udpHandler = [[MeshUDPHandler alloc] initWithNetworkID:_networkID onPort:UDP_PORT];
     [_udpHandler startBroadcasting];
     
-    _tcpClient = [[MeshTCPClient alloc] initWithPort:TCP_PORT];
     _name = name;
-    
-    _tcpServer = [[MeshTCPServer alloc] initWithPort:TCP_PORT];
+    _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
     
 }
 
@@ -55,11 +50,11 @@ static AnyMesh *sharedInstance = nil;
 
 - (void)publishToTarget:(NSString *)target withData:(NSDictionary *)dataDict
 {
-     [_tcpClient sendMessageTo:target withType:MeshMessageTypePublish dataObject:dataDict];
+     [_tcpHandler sendMessageTo:target withType:MeshMessageTypePublish dataObject:dataDict];
 }
 - (void)requestToTarget:(NSString *)target withData:(NSDictionary *)dataDict
 {
-     [_tcpClient sendMessageTo:target withType:MeshMessageTypeRequest dataObject:dataDict];
+     [_tcpHandler sendMessageTo:target withType:MeshMessageTypeRequest dataObject:dataDict];
 }
 
 

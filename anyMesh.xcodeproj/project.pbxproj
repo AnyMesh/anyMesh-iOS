@@ -10,11 +10,10 @@
 		556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556C54DC191E6DC50060AA61 /* DeviceCell.xib */; };
 		556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556C54DF191E6DF50060AA61 /* DeviceCell.m */; };
 		55ABC618190F577E000649D2 /* MeshUDPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC617190F577E000649D2 /* MeshUDPHandler.m */; };
-		55ABC61B19108FAC000649D2 /* MeshTCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61A19108FAC000649D2 /* MeshTCPServer.m */; };
+		55ABC61B19108FAC000649D2 /* MeshTCPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */; };
 		55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61D191092A5000649D2 /* MeshMessage.m */; };
 		55ABC62119109774000649D2 /* AnyMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC62019109774000649D2 /* AnyMesh.m */; };
 		55ABC6241910994C000649D2 /* MeshDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC6231910994C000649D2 /* MeshDeviceInfo.m */; };
-		55ABE8431911E7DD00EEF8A6 /* MeshTCPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABE8421911E7DD00EEF8A6 /* MeshTCPClient.m */; };
 		55C1BC05190D95EA00F2A760 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC04190D95EA00F2A760 /* Foundation.framework */; };
 		55C1BC07190D95EA00F2A760 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */; };
 		55C1BC09190D95EA00F2A760 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC08190D95EA00F2A760 /* UIKit.framework */; };
@@ -49,16 +48,14 @@
 		556C54DF191E6DF50060AA61 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
 		55ABC616190F577E000649D2 /* MeshUDPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshUDPHandler.h; sourceTree = "<group>"; };
 		55ABC617190F577E000649D2 /* MeshUDPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshUDPHandler.m; sourceTree = "<group>"; };
-		55ABC61919108FAC000649D2 /* MeshTCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPServer.h; sourceTree = "<group>"; };
-		55ABC61A19108FAC000649D2 /* MeshTCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshTCPServer.m; sourceTree = "<group>"; };
+		55ABC61919108FAC000649D2 /* MeshTCPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPHandler.h; sourceTree = "<group>"; };
+		55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshTCPHandler.m; sourceTree = "<group>"; };
 		55ABC61C191092A5000649D2 /* MeshMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshMessage.h; sourceTree = "<group>"; };
 		55ABC61D191092A5000649D2 /* MeshMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshMessage.m; sourceTree = "<group>"; };
 		55ABC61F19109774000649D2 /* AnyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyMesh.h; sourceTree = "<group>"; };
 		55ABC62019109774000649D2 /* AnyMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnyMesh.m; sourceTree = "<group>"; };
 		55ABC6221910994C000649D2 /* MeshDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshDeviceInfo.h; sourceTree = "<group>"; };
 		55ABC6231910994C000649D2 /* MeshDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshDeviceInfo.m; sourceTree = "<group>"; };
-		55ABE8411911E7DD00EEF8A6 /* MeshTCPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPClient.h; sourceTree = "<group>"; };
-		55ABE8421911E7DD00EEF8A6 /* MeshTCPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshTCPClient.m; sourceTree = "<group>"; };
 		55C1BC01190D95EA00F2A760 /* anyMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = anyMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C1BC04190D95EA00F2A760 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -115,10 +112,8 @@
 				55ABC62019109774000649D2 /* AnyMesh.m */,
 				55ABC616190F577E000649D2 /* MeshUDPHandler.h */,
 				55ABC617190F577E000649D2 /* MeshUDPHandler.m */,
-				55ABC61919108FAC000649D2 /* MeshTCPServer.h */,
-				55ABC61A19108FAC000649D2 /* MeshTCPServer.m */,
-				55ABE8411911E7DD00EEF8A6 /* MeshTCPClient.h */,
-				55ABE8421911E7DD00EEF8A6 /* MeshTCPClient.m */,
+				55ABC61919108FAC000649D2 /* MeshTCPHandler.h */,
+				55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */,
 				55ABC61C191092A5000649D2 /* MeshMessage.h */,
 				55ABC61D191092A5000649D2 /* MeshMessage.m */,
 				55ABC6221910994C000649D2 /* MeshDeviceInfo.h */,
@@ -315,12 +310,11 @@
 			files = (
 				55ABC62119109774000649D2 /* AnyMesh.m in Sources */,
 				55C1BC38190D964300F2A760 /* GCDAsyncUdpSocket.m in Sources */,
-				55ABC61B19108FAC000649D2 /* MeshTCPServer.m in Sources */,
+				55ABC61B19108FAC000649D2 /* MeshTCPHandler.m in Sources */,
 				556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */,
 				55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */,
 				55C1BC37190D964300F2A760 /* GCDAsyncSocket.m in Sources */,
 				55C1BC15190D95EA00F2A760 /* AppDelegate.m in Sources */,
-				55ABE8431911E7DD00EEF8A6 /* MeshTCPClient.m in Sources */,
 				55ABC6241910994C000649D2 /* MeshDeviceInfo.m in Sources */,
 				55C1BC11190D95EA00F2A760 /* main.m in Sources */,
 				55C1BC3C190E853600F2A760 /* MeshViewController.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class MeshTCPServer;
+@class MeshTCPHandler;
 @class MeshTCPClient;
 @class MeshUDPHandler;
 @class MeshMessage;
@@ -39,13 +39,13 @@ typedef enum {
 
 @interface AnyMesh : NSObject 
 
-@property (nonatomic) MeshTCPServer *tcpServer;
-@property (nonatomic) MeshTCPClient *tcpClient;
+@property (nonatomic) MeshTCPHandler *tcpHandler;
 @property (nonatomic) MeshUDPHandler *udpHandler;
 @property (nonatomic) dispatch_queue_t socketQueue;
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
 @property (nonatomic) NSString *name;
+@property (nonatomic) NSString *networkID;
 
 + (AnyMesh*)sharedInstance;
 
