@@ -31,6 +31,47 @@
     return self;
 }
 
+- (void)connectTo:(NSString*)ipAddress
+{
+    if ([self IpExistsInConnections:ipAddress]) return;
+    if ([[self getLocalIP] isEqualToString:ipAddress]) return;
+    
+    GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
+    
+    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
+    dInfo.ipAddress = ipAddress;
+    socket.userData = dInfo;
+    @synchronized(connections){[connections addObject:socket];}
+    
+    [socket connectToHost:ipAddress onPort:TCP_PORT error:nil];
+}
+
+-(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
+{
+    NSArray *types = @[@"pub", @"req", @"res"];
+    NSDictionary *message = @{KEY_SENDER:am.name,
+                              KEY_TARGET:target,
+                              KEY_TYPE:types[type],
+                              KEY_DATA:dataDict};
+    NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
+    
+    if (type == MeshMessageTypePublish) {
+        for (GCDAsyncSocket *connection in connections) {
+            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
+            if ([devInfo.listensTo containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
+        }
+    }
+    else {
+        for (GCDAsyncSocket *connection in connections) {
+            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
+            if ([devInfo.name isEqualToString:target]) {
+                [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
+                return;
+            }
+        }
+    }
+}
+
 -(void)sendInfoTo:(GCDAsyncSocket*)socket
 {
     NSDictionary *message = @{KEY_TYPE:@"info",
@@ -41,20 +82,23 @@
     
 }
 
+#pragma mark Socket Delegate Methods
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
 	// This method is executed on the socketQueue (not the main thread)
-	
-	@synchronized(connections)
-	{
-        //TODO: check for existing IP!
-        
-        MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-        dInfo.ipAddress = [sock connectedHost];
-        newSocket.userData = dInfo;
-        [connections addObject:newSocket];
-        [self sendInfoTo:newSocket];
-	}
+    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
+    dInfo.ipAddress = [sock connectedHost];
+    
+    if ([self IpExistsInConnections:dInfo.ipAddress]) {
+        [newSocket disconnect];
+        return;
+    }
+    
+    newSocket.userData = dInfo;
+    
+	@synchronized(connections){[connections addObject:newSocket];}
+    
+    [self sendInfoTo:newSocket];
 		
 	dispatch_async(dispatch_get_main_queue(), ^{
 		@autoreleasepool {
@@ -88,7 +132,7 @@
             else {
                 [[AnyMesh sharedInstance] messageReceived:msg];
             }
-            }
+        }
 	});
 	
 	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
@@ -101,39 +145,14 @@
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
-                
-				NSLog(@"server - client disconnected");
-                
+				NSLog(@"socket disconnected");
 			}
 		});
 		
-		@synchronized(connections)
-		{
-			[connections removeObject:sock];
-		}
+		@synchronized(connections){[connections removeObject:sock];}
 	}
 }
 
-- (void)connectTo:(NSString*)ipAddress
-{
-    for (GCDAsyncSocket *connection in connections) {
-        MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
-        if ([devInfo.ipAddress isEqualToString:ipAddress] ) return;
-    }
-    
-
-    GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
-    
-    NSString *localIp  = [listenSocket localHost];
-    if ([localIp isEqualToString:ipAddress]) return;
-    
-    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    dInfo.ipAddress = ipAddress;
-    socket.userData = dInfo;
-    [connections addObject:socket];
-        
-    [socket connectToHost:ipAddress onPort:TCP_PORT error:nil];
-}
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
@@ -141,30 +160,22 @@
     [self sendInfoTo:sock];
 }
 
-
--(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
+#pragma mark Utility
+- (NSString*)getLocalIP
 {
-    NSArray *types = @[@"pub", @"req", @"res"];
-    NSDictionary *message = @{KEY_SENDER:am.name,
-                              KEY_TARGET:target,
-                              KEY_TYPE:types[type],
-                              KEY_DATA:dataDict};
-    NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
-    
-    if (type == MeshMessageTypePublish) {
-        for (GCDAsyncSocket *connection in connections) {
-            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
-            if ([devInfo.listensTo containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
-        }
-    }
-    else {
-        for (GCDAsyncSocket *connection in connections) {
-            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
-            if ([devInfo.name isEqualToString:target]) {
-                [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
-                return;
+    return [listenSocket localHost];
+}
+- (BOOL)IpExistsInConnections:(NSString*)address
+{
+    @synchronized(connections){
+        for (GCDAsyncSocket* connection in connections)
+        {
+            MeshDeviceInfo *dInfo = (MeshDeviceInfo*)connection.userData;
+            if ([dInfo.ipAddress isEqualToString:address]) {
+                return true;
             }
         }
+        return false;
     }
 }
 
