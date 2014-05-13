@@ -38,6 +38,7 @@ static AnyMesh *sharedInstance = nil;
     [_udpHandler startBroadcasting];
     
     _name = name;
+    _listensTo = listensTo;
     _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
     
 }

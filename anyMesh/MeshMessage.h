@@ -17,6 +17,7 @@
 @property (nonatomic)NSDictionary *data;
 @property (nonatomic)NSString *sender;
 @property (nonatomic)NSString *target;
+@property (nonatomic)NSArray *listensTo;
 
 @property (nonatomic)MeshTCPHandler *tcpHandler;
 

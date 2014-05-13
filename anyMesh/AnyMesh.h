@@ -26,7 +26,8 @@
 typedef enum {
     MeshMessageTypePublish,
     MeshMessageTypeRequest,
-    MeshMessageTypeResponse
+    MeshMessageTypeResponse,
+    MeshMessageTypeInfo
 } MeshMessageType;
 
 @protocol AnyMeshDelegate <NSObject>
@@ -45,6 +46,7 @@ typedef enum {
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
 @property (nonatomic) NSString *name;
+@property (nonatomic) NSArray *listensTo;
 @property (nonatomic) NSString *networkID;
 
 + (AnyMesh*)sharedInstance;

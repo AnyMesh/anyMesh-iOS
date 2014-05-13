@@ -19,10 +19,12 @@
         if ([msgObj[KEY_TYPE] isEqualToString:@"pub"]) _type = MeshMessageTypePublish;
         else if ([msgObj[KEY_TYPE] isEqualToString:@"req"]) _type = MeshMessageTypeRequest;
         else if ([msgObj[KEY_TYPE] isEqualToString:@"res"]) _type = MeshMessageTypeResponse;
+        else if ([msgObj[KEY_TYPE] isEqualToString:@"info"]) _type = MeshMessageTypeInfo;
         
         _data = msgObj[KEY_DATA];
         _sender = msgObj[KEY_SENDER];
         _target = msgObj[KEY_TARGET];
+        _listensTo = msgObj[KEY_LISTENSTO];
         
     }
     
