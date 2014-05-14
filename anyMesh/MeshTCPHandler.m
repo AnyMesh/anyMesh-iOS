@@ -34,7 +34,6 @@
 - (void)connectTo:(NSString*)ipAddress
 {
     if ([self IpExistsInConnections:ipAddress]) return;
-    if ([[self getLocalIP] isEqualToString:ipAddress]) return;
     
     GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
     
@@ -87,7 +86,8 @@
 {
 	// This method is executed on the socketQueue (not the main thread)
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    dInfo.ipAddress = [sock connectedHost];
+    
+    dInfo.ipAddress = [newSocket connectedHost];
     
     if ([self IpExistsInConnections:dInfo.ipAddress]) {
         [newSocket disconnect];
@@ -158,13 +158,10 @@
 {
     NSLog(@"client - server connected!");
     [self sendInfoTo:sock];
+    [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 
 #pragma mark Utility
-- (NSString*)getLocalIP
-{
-    return [listenSocket localHost];
-}
 - (BOOL)IpExistsInConnections:(NSString*)address
 {
     @synchronized(connections){

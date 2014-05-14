@@ -46,10 +46,11 @@
 }
 
 - (IBAction)publishButtonPressed:(id)sender {
+    [am publishToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
     
 }
 - (IBAction)requestButtonPressed:(id)sender {
-    
+    [am requestToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
 }
 
 
@@ -88,6 +89,7 @@
     NSLog(@"Received message from %@", message.sender);
     NSLog(@"Message type:%d", message.type);
     NSLog(@"Message target:%@", message.target);
+    NSLog(@"%@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message.data options:0 error:nil] encoding:NSUTF8StringEncoding]);
     NSLog(@"****************************");
     
 }

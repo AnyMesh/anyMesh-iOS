@@ -55,5 +55,6 @@ typedef enum {
 -(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
+- (NSString *)getIPAddress;
 
 @end
