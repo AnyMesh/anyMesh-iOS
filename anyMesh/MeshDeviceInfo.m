@@ -10,6 +10,18 @@
 
 @implementation MeshDeviceInfo
 
+-(MeshDeviceInfo*)clone
+{
+    MeshDeviceInfo *clone = [[MeshDeviceInfo alloc] init];
+    clone.name = [NSString stringWithString:self.name];
+    NSMutableArray *clonedArray = [[NSMutableArray alloc] init];
+    for (NSString *listenString in self.listensTo) {
+        [clonedArray addObject:[NSString stringWithString:listenString]];
+    }
+    clone.listensTo = clonedArray;
+    clone.ipAddress = nil;
+    return clone;
+}
 
 
 @end

@@ -12,6 +12,7 @@
 @class MeshUDPHandler;
 @class MeshMessage;
 @class MeshDeviceInfo;
+@class GCDAsyncSocket;
 
 #define KEY_TYPE @"type"
 #define KEY_TARGET @"target"
@@ -34,7 +35,7 @@ typedef enum {
 
 -(void)anyMeshReceivedMessage:(MeshMessage*)message;
 -(void)anyMeshConnectedTo:(MeshDeviceInfo*)device;
--(void)anyMeshDisconnectedFrom:(MeshDeviceInfo*)device;
+-(void)anyMeshDisconnectedFrom:(NSString*)name;
 
 @end
 
@@ -52,6 +53,8 @@ typedef enum {
 + (AnyMesh*)sharedInstance;
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
+-(void)tcpConnectedTo:(GCDAsyncSocket*)socket;
+-(void)tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
 -(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;

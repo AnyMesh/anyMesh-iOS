@@ -128,6 +128,8 @@
                 MeshDeviceInfo *dInfo = (MeshDeviceInfo*)sock.userData;
                 dInfo.name = msg.sender;
                 dInfo.listensTo = msg.listensTo;
+                
+                [am tcpConnectedTo:sock];
             }
             else {
                 [[AnyMesh sharedInstance] messageReceived:msg];
@@ -146,10 +148,13 @@
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
 				NSLog(@"socket disconnected");
+                [am tcpDisconnectedFrom:sock];
 			}
 		});
 		
 		@synchronized(connections){[connections removeObject:sock];}
+        
+        
 	}
 }
 

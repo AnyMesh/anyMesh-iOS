@@ -9,6 +9,7 @@
 #import "MeshViewController.h"
 #import "MeshMessage.h"
 #import "DeviceCell.h"
+#import "MeshDeviceInfo.h"
 
 @interface MeshViewController ()
 
@@ -63,8 +64,8 @@
 {
     DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    
-    cell.nameLabel.text =[connectedDevices objectAtIndex:indexPath.row];
+    MeshDeviceInfo *info = [connectedDevices objectAtIndex:indexPath.row];
+    cell.nameLabel.text = info.name;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -76,11 +77,18 @@
 -(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
 {
     [connectedDevices addObject:device];
+    [self.tableView reloadData];
 }
 
--(void)anyMeshDisconnectedFrom:(MeshDeviceInfo *)device
+-(void)anyMeshDisconnectedFrom:(NSString *)name
 {
-    [connectedDevices removeObject:device];
+    for (MeshDeviceInfo *device in connectedDevices)
+    {
+        if ([device.name isEqualToString:name]) {
+            [connectedDevices removeObject:device];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 -(void)anyMeshReceivedMessage:(MeshMessage *)message

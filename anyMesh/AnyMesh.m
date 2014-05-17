@@ -9,6 +9,8 @@
 #import "AnyMesh.h"
 #import "MeshUDPHandler.h"
 #import "MeshTCPHandler.h"
+#import "MeshDeviceInfo.h"
+#import "GCDAsyncSocket.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
@@ -43,6 +45,22 @@ static AnyMesh *sharedInstance = nil;
     _listensTo = listensTo;
     _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
     
+}
+
+#pragma mark Connections
+-(void)tcpConnectedTo:(GCDAsyncSocket *)socket
+{
+    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
+    if (socketInfo.name) {
+        [self.delegate anyMeshConnectedTo:[socketInfo clone]];
+    }
+}
+-(void)tcpDisconnectedFrom:(GCDAsyncSocket *)socket
+{
+    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
+    if (socketInfo.name) {
+        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.name]];
+    }
 }
 
 #pragma mark Messaging
