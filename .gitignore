@@ -8,3 +8,6 @@ anyMesh.xcodeproj/xcuserdata/dpaul.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptl
 anyMesh.xcodeproj/xcuserdata/dpaul.xcuserdatad/xcschemes/anyMesh.xcscheme
 anyMesh.xcodeproj/xcuserdata/dpaul.xcuserdatad/xcschemes/xcschememanagement.plist
 *.xcbkptlist
+*.xcscheme
+*.xcuserstate
+demo/anyMesh.xcodeproj/xcuserdata/Dave.xcuserdatad/xcschemes

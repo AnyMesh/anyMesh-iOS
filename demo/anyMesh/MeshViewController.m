@@ -82,17 +82,35 @@
 
 -(void)anyMeshDisconnectedFrom:(NSString *)name
 {
+    MeshDeviceInfo *objectToRemove;
     for (MeshDeviceInfo *device in connectedDevices)
     {
         if ([device.name isEqualToString:name]) {
-            [connectedDevices removeObject:device];
+            objectToRemove = device;
         }
     }
+    if (objectToRemove)[connectedDevices removeObject:objectToRemove];
+    
     [self.tableView reloadData];
 }
 
 -(void)anyMeshReceivedMessage:(MeshMessage *)message
 {
+    MeshDeviceInfo *objectToRemove;
+    for (MeshDeviceInfo *device in connectedDevices)
+    {
+        if ([device.name isEqualToString:message.sender]) {
+            objectToRemove = device;
+        }
+    }
+    if (objectToRemove){
+        [connectedDevices removeObject:objectToRemove];
+        [connectedDevices insertObject:objectToRemove atIndex:0];
+    }
+    
+    [self.tableView reloadData];
+    
+    
     NSLog(@"***************************");
     NSLog(@"Received message from %@", message.sender);
     NSLog(@"Message type:%d", message.type);

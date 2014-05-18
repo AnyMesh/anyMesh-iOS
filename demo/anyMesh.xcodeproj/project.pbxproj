@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		55374EEF1921B92100EA1611 /* NSData+lineReturn.m in Sources */ = {isa = PBXBuildFile; fileRef = 55374EEE1921B92100EA1611 /* NSData+lineReturn.m */; };
-		55374EF51922424D00EA1611 /* MeshDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55374EF41922424D00EA1611 /* MeshDeviceInfo.m */; };
+		552580C01929361A00BEED0E /* AnyMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580B01929361A00BEED0E /* AnyMesh.m */; };
+		552580C11929361A00BEED0E /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580B31929361A00BEED0E /* GCDAsyncSocket.m */; };
+		552580C21929361A00BEED0E /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580B51929361A00BEED0E /* GCDAsyncUdpSocket.m */; };
+		552580C31929361A00BEED0E /* MeshDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580B71929361A00BEED0E /* MeshDeviceInfo.m */; };
+		552580C41929361A00BEED0E /* MeshMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580B91929361A00BEED0E /* MeshMessage.m */; };
+		552580C51929361A00BEED0E /* MeshTCPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580BB1929361A00BEED0E /* MeshTCPHandler.m */; };
+		552580C61929361A00BEED0E /* MeshUDPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580BD1929361A00BEED0E /* MeshUDPHandler.m */; };
+		552580C71929361A00BEED0E /* NSData+lineReturn.m in Sources */ = {isa = PBXBuildFile; fileRef = 552580BF1929361A00BEED0E /* NSData+lineReturn.m */; };
 		556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556C54DC191E6DC50060AA61 /* DeviceCell.xib */; };
 		556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556C54DF191E6DF50060AA61 /* DeviceCell.m */; };
-		55ABC618190F577E000649D2 /* MeshUDPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC617190F577E000649D2 /* MeshUDPHandler.m */; };
-		55ABC61B19108FAC000649D2 /* MeshTCPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */; };
-		55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC61D191092A5000649D2 /* MeshMessage.m */; };
-		55ABC62119109774000649D2 /* AnyMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 55ABC62019109774000649D2 /* AnyMesh.m */; };
 		55C1BC05190D95EA00F2A760 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC04190D95EA00F2A760 /* Foundation.framework */; };
 		55C1BC07190D95EA00F2A760 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */; };
 		55C1BC09190D95EA00F2A760 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC08190D95EA00F2A760 /* UIKit.framework */; };
@@ -22,43 +24,30 @@
 		55C1BC11190D95EA00F2A760 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC10190D95EA00F2A760 /* main.m */; };
 		55C1BC15190D95EA00F2A760 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC14190D95EA00F2A760 /* AppDelegate.m */; };
 		55C1BC17190D95EA00F2A760 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C1BC16190D95EA00F2A760 /* Images.xcassets */; };
-		55C1BC1E190D95EB00F2A760 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC1D190D95EB00F2A760 /* XCTest.framework */; };
-		55C1BC1F190D95EB00F2A760 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC04190D95EA00F2A760 /* Foundation.framework */; };
-		55C1BC20190D95EB00F2A760 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC08190D95EA00F2A760 /* UIKit.framework */; };
-		55C1BC28190D95EB00F2A760 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55C1BC26190D95EB00F2A760 /* InfoPlist.strings */; };
-		55C1BC2A190D95EB00F2A760 /* anyMeshTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC29190D95EB00F2A760 /* anyMeshTests.m */; };
-		55C1BC37190D964300F2A760 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC34190D964300F2A760 /* GCDAsyncSocket.m */; };
-		55C1BC38190D964300F2A760 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC36190D964300F2A760 /* GCDAsyncUdpSocket.m */; };
 		55C1BC3C190E853600F2A760 /* MeshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC3A190E853600F2A760 /* MeshViewController.m */; };
 		55C1BC3D190E853600F2A760 /* MeshViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55C1BC3B190E853600F2A760 /* MeshViewController.xib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		55C1BC21190D95EB00F2A760 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55C1BBF9190D95EA00F2A760 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 55C1BC00190D95EA00F2A760;
-			remoteInfo = anyMesh;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		55374EED1921B92100EA1611 /* NSData+lineReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+lineReturn.h"; sourceTree = "<group>"; };
-		55374EEE1921B92100EA1611 /* NSData+lineReturn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+lineReturn.m"; sourceTree = "<group>"; };
-		55374EF31922424D00EA1611 /* MeshDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshDeviceInfo.h; sourceTree = "<group>"; };
-		55374EF41922424D00EA1611 /* MeshDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshDeviceInfo.m; sourceTree = "<group>"; };
+		552580AF1929361A00BEED0E /* AnyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyMesh.h; sourceTree = "<group>"; };
+		552580B01929361A00BEED0E /* AnyMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnyMesh.m; sourceTree = "<group>"; };
+		552580B21929361A00BEED0E /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		552580B31929361A00BEED0E /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		552580B41929361A00BEED0E /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
+		552580B51929361A00BEED0E /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		552580B61929361A00BEED0E /* MeshDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshDeviceInfo.h; sourceTree = "<group>"; };
+		552580B71929361A00BEED0E /* MeshDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshDeviceInfo.m; sourceTree = "<group>"; };
+		552580B81929361A00BEED0E /* MeshMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshMessage.h; sourceTree = "<group>"; };
+		552580B91929361A00BEED0E /* MeshMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshMessage.m; sourceTree = "<group>"; };
+		552580BA1929361A00BEED0E /* MeshTCPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPHandler.h; sourceTree = "<group>"; };
+		552580BB1929361A00BEED0E /* MeshTCPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshTCPHandler.m; sourceTree = "<group>"; };
+		552580BC1929361A00BEED0E /* MeshUDPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshUDPHandler.h; sourceTree = "<group>"; };
+		552580BD1929361A00BEED0E /* MeshUDPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshUDPHandler.m; sourceTree = "<group>"; };
+		552580BE1929361A00BEED0E /* NSData+lineReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+lineReturn.h"; sourceTree = "<group>"; };
+		552580BF1929361A00BEED0E /* NSData+lineReturn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+lineReturn.m"; sourceTree = "<group>"; };
 		556C54DC191E6DC50060AA61 /* DeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceCell.xib; sourceTree = "<group>"; };
 		556C54DE191E6DF50060AA61 /* DeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCell.h; sourceTree = "<group>"; };
 		556C54DF191E6DF50060AA61 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
-		55ABC616190F577E000649D2 /* MeshUDPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshUDPHandler.h; sourceTree = "<group>"; };
-		55ABC617190F577E000649D2 /* MeshUDPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshUDPHandler.m; sourceTree = "<group>"; };
-		55ABC61919108FAC000649D2 /* MeshTCPHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshTCPHandler.h; sourceTree = "<group>"; };
-		55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshTCPHandler.m; sourceTree = "<group>"; };
-		55ABC61C191092A5000649D2 /* MeshMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshMessage.h; sourceTree = "<group>"; };
-		55ABC61D191092A5000649D2 /* MeshMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshMessage.m; sourceTree = "<group>"; };
-		55ABC61F19109774000649D2 /* AnyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnyMesh.h; sourceTree = "<group>"; };
-		55ABC62019109774000649D2 /* AnyMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnyMesh.m; sourceTree = "<group>"; };
 		55C1BC01190D95EA00F2A760 /* anyMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = anyMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C1BC04190D95EA00F2A760 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -70,15 +59,7 @@
 		55C1BC13190D95EA00F2A760 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		55C1BC14190D95EA00F2A760 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		55C1BC16190D95EA00F2A760 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		55C1BC1C190D95EB00F2A760 /* anyMeshTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = anyMeshTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C1BC1D190D95EB00F2A760 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		55C1BC25190D95EB00F2A760 /* anyMeshTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "anyMeshTests-Info.plist"; sourceTree = "<group>"; };
-		55C1BC27190D95EB00F2A760 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		55C1BC29190D95EB00F2A760 /* anyMeshTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = anyMeshTests.m; sourceTree = "<group>"; };
-		55C1BC33190D964300F2A760 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
-		55C1BC34190D964300F2A760 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
-		55C1BC35190D964300F2A760 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
-		55C1BC36190D964300F2A760 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		55C1BC39190E853600F2A760 /* MeshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshViewController.h; sourceTree = "<group>"; };
 		55C1BC3A190E853600F2A760 /* MeshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshViewController.m; sourceTree = "<group>"; };
 		55C1BC3B190E853600F2A760 /* MeshViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeshViewController.xib; sourceTree = "<group>"; };
@@ -95,54 +76,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		55C1BC19190D95EB00F2A760 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				55C1BC1E190D95EB00F2A760 /* XCTest.framework in Frameworks */,
-				55C1BC20190D95EB00F2A760 /* UIKit.framework in Frameworks */,
-				55C1BC1F190D95EB00F2A760 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		552580B11929361A00BEED0E /* CocoaAsyncSocket */ = {
+			isa = PBXGroup;
+			children = (
+				552580B21929361A00BEED0E /* GCDAsyncSocket.h */,
+				552580B31929361A00BEED0E /* GCDAsyncSocket.m */,
+				552580B41929361A00BEED0E /* GCDAsyncUdpSocket.h */,
+				552580B51929361A00BEED0E /* GCDAsyncUdpSocket.m */,
+			);
+			path = CocoaAsyncSocket;
+			sourceTree = "<group>";
+		};
 		55A17A031917168800FCD8EA /* AnyMesh */ = {
 			isa = PBXGroup;
 			children = (
-				55ABC61F19109774000649D2 /* AnyMesh.h */,
-				55ABC62019109774000649D2 /* AnyMesh.m */,
-				55ABC616190F577E000649D2 /* MeshUDPHandler.h */,
-				55ABC617190F577E000649D2 /* MeshUDPHandler.m */,
-				55ABC61919108FAC000649D2 /* MeshTCPHandler.h */,
-				55ABC61A19108FAC000649D2 /* MeshTCPHandler.m */,
-				55ABC61C191092A5000649D2 /* MeshMessage.h */,
-				55ABC61D191092A5000649D2 /* MeshMessage.m */,
-				55374EF31922424D00EA1611 /* MeshDeviceInfo.h */,
-				55374EF41922424D00EA1611 /* MeshDeviceInfo.m */,
-				55374EED1921B92100EA1611 /* NSData+lineReturn.h */,
-				55374EEE1921B92100EA1611 /* NSData+lineReturn.m */,
+				552580AF1929361A00BEED0E /* AnyMesh.h */,
+				552580B01929361A00BEED0E /* AnyMesh.m */,
+				552580B11929361A00BEED0E /* CocoaAsyncSocket */,
+				552580B61929361A00BEED0E /* MeshDeviceInfo.h */,
+				552580B71929361A00BEED0E /* MeshDeviceInfo.m */,
+				552580B81929361A00BEED0E /* MeshMessage.h */,
+				552580B91929361A00BEED0E /* MeshMessage.m */,
+				552580BA1929361A00BEED0E /* MeshTCPHandler.h */,
+				552580BB1929361A00BEED0E /* MeshTCPHandler.m */,
+				552580BC1929361A00BEED0E /* MeshUDPHandler.h */,
+				552580BD1929361A00BEED0E /* MeshUDPHandler.m */,
+				552580BE1929361A00BEED0E /* NSData+lineReturn.h */,
+				552580BF1929361A00BEED0E /* NSData+lineReturn.m */,
 			);
 			name = AnyMesh;
-			sourceTree = "<group>";
-		};
-		55ABC615190F5725000649D2 /* AsyncSocket */ = {
-			isa = PBXGroup;
-			children = (
-				55C1BC33190D964300F2A760 /* GCDAsyncSocket.h */,
-				55C1BC34190D964300F2A760 /* GCDAsyncSocket.m */,
-				55C1BC35190D964300F2A760 /* GCDAsyncUdpSocket.h */,
-				55C1BC36190D964300F2A760 /* GCDAsyncUdpSocket.m */,
-			);
-			name = AsyncSocket;
 			sourceTree = "<group>";
 		};
 		55C1BBF8190D95EA00F2A760 = {
 			isa = PBXGroup;
 			children = (
 				55C1BC0A190D95EA00F2A760 /* anyMesh */,
-				55C1BC23190D95EB00F2A760 /* anyMeshTests */,
 				55C1BC03190D95EA00F2A760 /* Frameworks */,
 				55C1BC02190D95EA00F2A760 /* Products */,
 			);
@@ -152,7 +123,6 @@
 			isa = PBXGroup;
 			children = (
 				55C1BC01190D95EA00F2A760 /* anyMesh.app */,
-				55C1BC1C190D95EB00F2A760 /* anyMeshTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,7 +141,6 @@
 		55C1BC0A190D95EA00F2A760 /* anyMesh */ = {
 			isa = PBXGroup;
 			children = (
-				55ABC615190F5725000649D2 /* AsyncSocket */,
 				55C1BC13190D95EA00F2A760 /* AppDelegate.h */,
 				55C1BC14190D95EA00F2A760 /* AppDelegate.m */,
 				55A17A031917168800FCD8EA /* AnyMesh */,
@@ -198,24 +167,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		55C1BC23190D95EB00F2A760 /* anyMeshTests */ = {
-			isa = PBXGroup;
-			children = (
-				55C1BC29190D95EB00F2A760 /* anyMeshTests.m */,
-				55C1BC24190D95EB00F2A760 /* Supporting Files */,
-			);
-			path = anyMeshTests;
-			sourceTree = "<group>";
-		};
-		55C1BC24190D95EB00F2A760 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				55C1BC25190D95EB00F2A760 /* anyMeshTests-Info.plist */,
-				55C1BC26190D95EB00F2A760 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -236,24 +187,6 @@
 			productReference = 55C1BC01190D95EA00F2A760 /* anyMesh.app */;
 			productType = "com.apple.product-type.application";
 		};
-		55C1BC1B190D95EB00F2A760 /* anyMeshTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 55C1BC30190D95EB00F2A760 /* Build configuration list for PBXNativeTarget "anyMeshTests" */;
-			buildPhases = (
-				55C1BC18190D95EB00F2A760 /* Sources */,
-				55C1BC19190D95EB00F2A760 /* Frameworks */,
-				55C1BC1A190D95EB00F2A760 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				55C1BC22190D95EB00F2A760 /* PBXTargetDependency */,
-			);
-			name = anyMeshTests;
-			productName = anyMeshTests;
-			productReference = 55C1BC1C190D95EB00F2A760 /* anyMeshTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -262,11 +195,6 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = dpTools;
-				TargetAttributes = {
-					55C1BC1B190D95EB00F2A760 = {
-						TestTargetID = 55C1BC00190D95EA00F2A760;
-					};
-				};
 			};
 			buildConfigurationList = 55C1BBFC190D95EA00F2A760 /* Build configuration list for PBXProject "anyMesh" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -281,7 +209,6 @@
 			projectRoot = "";
 			targets = (
 				55C1BC00190D95EA00F2A760 /* anyMesh */,
-				55C1BC1B190D95EB00F2A760 /* anyMeshTests */,
 			);
 		};
 /* End PBXProject section */
@@ -298,14 +225,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		55C1BC1A190D95EB00F2A760 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				55C1BC28190D95EB00F2A760 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -313,52 +232,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55374EF51922424D00EA1611 /* MeshDeviceInfo.m in Sources */,
-				55ABC62119109774000649D2 /* AnyMesh.m in Sources */,
-				55C1BC38190D964300F2A760 /* GCDAsyncUdpSocket.m in Sources */,
-				55ABC61B19108FAC000649D2 /* MeshTCPHandler.m in Sources */,
+				552580C11929361A00BEED0E /* GCDAsyncSocket.m in Sources */,
 				556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */,
-				55ABC61E191092A5000649D2 /* MeshMessage.m in Sources */,
-				55C1BC37190D964300F2A760 /* GCDAsyncSocket.m in Sources */,
+				552580C01929361A00BEED0E /* AnyMesh.m in Sources */,
+				552580C51929361A00BEED0E /* MeshTCPHandler.m in Sources */,
 				55C1BC15190D95EA00F2A760 /* AppDelegate.m in Sources */,
-				55374EEF1921B92100EA1611 /* NSData+lineReturn.m in Sources */,
+				552580C31929361A00BEED0E /* MeshDeviceInfo.m in Sources */,
+				552580C21929361A00BEED0E /* GCDAsyncUdpSocket.m in Sources */,
+				552580C61929361A00BEED0E /* MeshUDPHandler.m in Sources */,
+				552580C71929361A00BEED0E /* NSData+lineReturn.m in Sources */,
 				55C1BC11190D95EA00F2A760 /* main.m in Sources */,
+				552580C41929361A00BEED0E /* MeshMessage.m in Sources */,
 				55C1BC3C190E853600F2A760 /* MeshViewController.m in Sources */,
-				55ABC618190F577E000649D2 /* MeshUDPHandler.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		55C1BC18190D95EB00F2A760 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				55C1BC2A190D95EB00F2A760 /* anyMeshTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		55C1BC22190D95EB00F2A760 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 55C1BC00190D95EA00F2A760 /* anyMesh */;
-			targetProxy = 55C1BC21190D95EB00F2A760 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		55C1BC0D190D95EA00F2A760 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				55C1BC0E190D95EA00F2A760 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		55C1BC26190D95EB00F2A760 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				55C1BC27190D95EB00F2A760 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -464,46 +359,6 @@
 			};
 			name = Release;
 		};
-		55C1BC31190D95EB00F2A760 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/anyMesh.app/anyMesh";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "anyMesh/anyMesh-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "anyMeshTests/anyMeshTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		55C1BC32190D95EB00F2A760 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/anyMesh.app/anyMesh";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "anyMesh/anyMesh-Prefix.pch";
-				INFOPLIST_FILE = "anyMeshTests/anyMeshTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -521,15 +376,6 @@
 			buildConfigurations = (
 				55C1BC2E190D95EB00F2A760 /* Debug */,
 				55C1BC2F190D95EB00F2A760 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		55C1BC30190D95EB00F2A760 /* Build configuration list for PBXNativeTarget "anyMeshTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				55C1BC31190D95EB00F2A760 /* Debug */,
-				55C1BC32190D95EB00F2A760 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
