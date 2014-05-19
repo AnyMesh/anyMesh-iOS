@@ -9,11 +9,8 @@
 #import "MeshViewController.h"
 #import "MeshMessage.h"
 #import "DeviceCell.h"
+#import "CellInfo.h"
 #import "MeshDeviceInfo.h"
-
-@interface MeshViewController ()
-
-@end
 
 @implementation MeshViewController
 
@@ -26,10 +23,17 @@
         am.delegate = self;
         connectedDevices = [[NSMutableArray alloc] init];
         
-        [am connectWithName:@"iphone" listeningTo:@[@"mobile", @"global"]];
-        
             }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    if (!am.name) {
+        inputVC = [[InputViewController alloc] initWithNibName:@"InputViewController" bundle:nil];
+        inputVC.delegate = self;
+        [self presentViewController:inputVC animated:true completion:nil];
+    }
 }
 
 - (void)viewDidLoad
@@ -37,7 +41,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [_tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]]  forCellReuseIdentifier:@"Cell"];
-
+    _msgField.delegate = self;
+    _targetField.delegate = self;
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,28 +70,43 @@
 {
     DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    MeshDeviceInfo *info = [connectedDevices objectAtIndex:indexPath.row];
-    cell.nameLabel.text = info.name;
+    CellInfo *info = [connectedDevices objectAtIndex:indexPath.row];
+    cell.nameLabel.text = info.deviceInfo.name;
+    cell.messageTextView.text = info.message;
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 137;
+    return 100;
+}
+
+-(void)inputViewSubmittedWithInfo:(MeshDeviceInfo *)info
+{
+    [self dismissViewControllerAnimated:TRUE completion:nil];
+    [am connectWithName:info.name listeningTo:info.listensTo];
+    _nameLabel.text = [NSString stringWithFormat:@"Name: %@", info.name];
+    NSMutableString *listensToString = [[NSMutableString alloc] initWithFormat:@"Listens To:"];
+    for (NSString *listensToItem in info.listensTo) {
+        [listensToString appendString:[NSString stringWithFormat:@"%@ ", listensToItem]];
+    }
+    _listensToLabel.text = listensToString;
 }
 
 #pragma mark - AnyMesh Delegate Methods
 -(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
 {
-    [connectedDevices addObject:device];
+    CellInfo *info = [[CellInfo alloc] init];
+    info.deviceInfo = device;
+    [connectedDevices addObject:info];
     [self.tableView reloadData];
 }
 
 -(void)anyMeshDisconnectedFrom:(NSString *)name
 {
-    MeshDeviceInfo *objectToRemove;
-    for (MeshDeviceInfo *device in connectedDevices)
+    CellInfo *objectToRemove;
+    for (CellInfo *device in connectedDevices)
     {
-        if ([device.name isEqualToString:name]) {
+        if ([device.deviceInfo.name isEqualToString:name]) {
             objectToRemove = device;
         }
     }
@@ -96,16 +117,17 @@
 
 -(void)anyMeshReceivedMessage:(MeshMessage *)message
 {
-    MeshDeviceInfo *objectToRemove;
-    for (MeshDeviceInfo *device in connectedDevices)
+    CellInfo *senderCell;
+    for (CellInfo *device in connectedDevices)
     {
-        if ([device.name isEqualToString:message.sender]) {
-            objectToRemove = device;
+        if ([device.deviceInfo.name isEqualToString:message.sender]) {
+            senderCell = device;
         }
     }
-    if (objectToRemove){
-        [connectedDevices removeObject:objectToRemove];
-        [connectedDevices insertObject:objectToRemove atIndex:0];
+    if (senderCell){
+        [connectedDevices removeObject:senderCell];
+        [connectedDevices insertObject:senderCell atIndex:0];
+        senderCell.message = message.data[@"msg"];
     }
     
     [self.tableView reloadData];
@@ -119,5 +141,28 @@
     NSLog(@"****************************");
     
 }
+
+-(void)dismissKeyboard:(id)sender
+{
+    [_msgField resignFirstResponder];
+    [_targetField resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return TRUE;
+}
+
+-(BOOL)shouldAutorotate
+{
+    return FALSE;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationPortrait;
+}
+
 
 @end

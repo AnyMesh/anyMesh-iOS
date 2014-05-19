@@ -103,8 +103,6 @@
 	dispatch_async(dispatch_get_main_queue(), ^{
 		@autoreleasepool {
             
-			NSLog(@"server - client connected!");
-            
 		}
 	});
 	
@@ -114,9 +112,6 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
-	NSLog(@"read");
-    // This method is executed on the socketQueue (not the main thread)
-	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		@autoreleasepool {
             
@@ -147,21 +142,17 @@
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
-				NSLog(@"socket disconnected");
                 [am tcpDisconnectedFrom:sock];
 			}
 		});
 		
 		@synchronized(connections){[connections removeObject:sock];}
-        
-        
 	}
 }
 
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    NSLog(@"client - server connected!");
     [self sendInfoTo:sock];
     [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }

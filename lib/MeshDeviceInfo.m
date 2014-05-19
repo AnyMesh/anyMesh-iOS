@@ -19,7 +19,7 @@
         [clonedArray addObject:[NSString stringWithString:listenString]];
     }
     clone.listensTo = clonedArray;
-    clone.ipAddress = nil;
+    clone.ipAddress = self.ipAddress;
     return clone;
 }
 
