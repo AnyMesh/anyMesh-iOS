@@ -8,9 +8,10 @@
 
 #import "MeshViewController.h"
 #import "MeshMessage.h"
-#import "DeviceCell.h"
-#import "CellInfo.h"
 #import "MeshDeviceInfo.h"
+#import "SetupView.h"
+#import "UIView+AutoLayout.h"
+
 
 @implementation MeshViewController
 
@@ -21,7 +22,7 @@
         // Custom initialization
         am = [AnyMesh sharedInstance];
         am.delegate = self;
-        connectedDevices = [[NSMutableArray alloc] init];
+        messages = [[NSMutableArray alloc] init];
         
             }
     return self;
@@ -30,9 +31,14 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     if (!am.name) {
-        inputVC = [[InputViewController alloc] initWithNibName:@"InputViewController" bundle:nil];
-        inputVC.delegate = self;
-        [self presentViewController:inputVC animated:true completion:nil];
+
+        SetupView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SetupView" owner:self options:nil] objectAtIndex:0];
+        sView.parentController = self;
+        [sView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
+        [self.view addSubview:sView];
+        [sView constrainToSuperView];
+
+        
     }
 }
 
@@ -40,10 +46,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [_tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]]  forCellReuseIdentifier:@"Cell"];
+    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     _msgField.delegate = self;
     _targetField.delegate = self;
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,15 +69,13 @@
 #pragma mark - TableView Datasource and Delegate Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [connectedDevices count];
+    return [messages count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    CellInfo *info = [connectedDevices objectAtIndex:indexPath.row];
-    cell.nameLabel.text = info.deviceInfo.name;
-    cell.messageTextView.text = info.message;
+    cell.textLabel.text = @"Test";
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,77 +83,57 @@
     return 100;
 }
 
--(void)inputViewSubmittedWithInfo:(MeshDeviceInfo *)info
+-(void)connectWithInfo:(MeshDeviceInfo *)info
 {
-    [self dismissViewControllerAnimated:TRUE completion:nil];
     [am connectWithName:info.name listeningTo:info.listensTo];
-    _nameLabel.text = [NSString stringWithFormat:@"Name: %@", info.name];
-    NSMutableString *listensToString = [[NSMutableString alloc] initWithFormat:@"Listens To:"];
-    for (NSString *listensToItem in info.listensTo) {
-        [listensToString appendString:[NSString stringWithFormat:@"%@ ", listensToItem]];
-    }
-    _listensToLabel.text = listensToString;
 }
 
 #pragma mark - AnyMesh Delegate Methods
 -(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
 {
-    CellInfo *info = [[CellInfo alloc] init];
-    info.deviceInfo = device;
-    [connectedDevices addObject:info];
+    [messages addObject:[NSString stringWithFormat:@"Connected to %@", device.name]];
     [self.tableView reloadData];
 }
 
 -(void)anyMeshDisconnectedFrom:(NSString *)name
 {
-    CellInfo *objectToRemove;
-    for (CellInfo *device in connectedDevices)
-    {
-        if ([device.deviceInfo.name isEqualToString:name]) {
-            objectToRemove = device;
-        }
-    }
-    if (objectToRemove)[connectedDevices removeObject:objectToRemove];
-    
+    [messages addObject:[NSString stringWithFormat:@"Disconnected from %@", name]];
     [self.tableView reloadData];
+
 }
 
 -(void)anyMeshReceivedMessage:(MeshMessage *)message
 {
-    CellInfo *senderCell;
-    for (CellInfo *device in connectedDevices)
-    {
-        if ([device.deviceInfo.name isEqualToString:message.sender]) {
-            senderCell = device;
-        }
-    }
-    if (senderCell){
-        [connectedDevices removeObject:senderCell];
-        [connectedDevices insertObject:senderCell atIndex:0];
-        senderCell.message = message.data[@"msg"];
-    }
+    [messages addObject:[NSString stringWithFormat:@"Message from: %@", message.sender]];
     
     [self.tableView reloadData];
     
-    
-    NSLog(@"***************************");
-    NSLog(@"Received message from %@", message.sender);
-    NSLog(@"Message type:%d", message.type);
-    NSLog(@"Message target:%@", message.target);
-    NSLog(@"%@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message.data options:0 error:nil] encoding:NSUTF8StringEncoding]);
-    NSLog(@"****************************");
-    
+        
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (!recognizer) {
+        recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+        [self.view addGestureRecognizer:recognizer];
+    }
 }
 
 -(void)dismissKeyboard:(id)sender
 {
-    [_msgField resignFirstResponder];
-    [_targetField resignFirstResponder];
+    [self.view endEditing:TRUE];
+    if (recognizer) {
+        [self.view removeGestureRecognizer:recognizer];
+        recognizer = nil;
+    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    [self.view endEditing:TRUE];
+    if (recognizer) {
+        [self.view removeGestureRecognizer:recognizer];
+        recognizer = nil;
+    }
     return TRUE;
 }
 

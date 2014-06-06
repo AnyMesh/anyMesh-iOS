@@ -8,21 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "AnyMesh.h"
-#import "InputViewController.h"
 
-@interface MeshViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, AnyMeshDelegate, UITextFieldDelegate, InputViewControllerDelegate> {
+@interface MeshViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, AnyMeshDelegate, UITextFieldDelegate> {
     AnyMesh *am;
-    NSMutableArray *connectedDevices;
-    InputViewController *inputVC;
+    NSMutableArray *messages;
+    UITapGestureRecognizer *recognizer;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *msgField;
 @property (weak, nonatomic) IBOutlet UITextField *targetField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *listensToLabel;
 
-
+-(void)connectWithInfo:(MeshDeviceInfo *)info;
 -(IBAction)publishButtonPressed:(id)sender;
 -(IBAction)requestButtonPressed:(id)sender;
 

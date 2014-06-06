@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556C54DC191E6DC50060AA61 /* DeviceCell.xib */; };
-		556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556C54DF191E6DF50060AA61 /* DeviceCell.m */; };
 		55C1BC05190D95EA00F2A760 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC04190D95EA00F2A760 /* Foundation.framework */; };
 		55C1BC07190D95EA00F2A760 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */; };
 		55C1BC09190D95EA00F2A760 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC08190D95EA00F2A760 /* UIKit.framework */; };
@@ -18,7 +16,6 @@
 		55C1BC17190D95EA00F2A760 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C1BC16190D95EA00F2A760 /* Images.xcassets */; };
 		55C1BC3C190E853600F2A760 /* MeshViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55C1BC3A190E853600F2A760 /* MeshViewController.m */; };
 		55C1BC3D190E853600F2A760 /* MeshViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55C1BC3B190E853600F2A760 /* MeshViewController.xib */; };
-		55F8EB17192937A300CDC743 /* CellInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB16192937A300CDC743 /* CellInfo.m */; };
 		55F8EB291929382E00CDC743 /* AnyMesh.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB191929382E00CDC743 /* AnyMesh.m */; };
 		55F8EB2A1929382E00CDC743 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB1C1929382E00CDC743 /* GCDAsyncSocket.m */; };
 		55F8EB2B1929382E00CDC743 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB1E1929382E00CDC743 /* GCDAsyncUdpSocket.m */; };
@@ -27,14 +24,12 @@
 		55F8EB2E1929382E00CDC743 /* MeshTCPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB241929382E00CDC743 /* MeshTCPHandler.m */; };
 		55F8EB2F1929382E00CDC743 /* MeshUDPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB261929382E00CDC743 /* MeshUDPHandler.m */; };
 		55F8EB301929382E00CDC743 /* NSData+lineReturn.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB281929382E00CDC743 /* NSData+lineReturn.m */; };
-		55F8EB33192998C700CDC743 /* InputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8EB32192998C700CDC743 /* InputViewController.m */; };
-		55F8EB35192998E500CDC743 /* InputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55F8EB34192998E500CDC743 /* InputViewController.xib */; };
+		5822D11F194223EF00F8A383 /* SetupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5822D11E194223EF00F8A383 /* SetupView.m */; };
+		5822D1211942240600F8A383 /* SetupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5822D1201942240600F8A383 /* SetupView.xib */; };
+		5822D18419422D2000F8A383 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 5822D18319422D2000F8A383 /* UIView+AutoLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		556C54DC191E6DC50060AA61 /* DeviceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceCell.xib; sourceTree = "<group>"; };
-		556C54DE191E6DF50060AA61 /* DeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCell.h; sourceTree = "<group>"; };
-		556C54DF191E6DF50060AA61 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
 		55C1BC01190D95EA00F2A760 /* anyMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = anyMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C1BC04190D95EA00F2A760 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		55C1BC06190D95EA00F2A760 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -50,8 +45,6 @@
 		55C1BC39190E853600F2A760 /* MeshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshViewController.h; sourceTree = "<group>"; };
 		55C1BC3A190E853600F2A760 /* MeshViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeshViewController.m; sourceTree = "<group>"; };
 		55C1BC3B190E853600F2A760 /* MeshViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeshViewController.xib; sourceTree = "<group>"; };
-		55F8EB15192937A300CDC743 /* CellInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellInfo.h; sourceTree = "<group>"; };
-		55F8EB16192937A300CDC743 /* CellInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellInfo.m; sourceTree = "<group>"; };
 		55F8EB181929382E00CDC743 /* AnyMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnyMesh.h; path = ../../lib/AnyMesh.h; sourceTree = "<group>"; };
 		55F8EB191929382E00CDC743 /* AnyMesh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnyMesh.m; path = ../../lib/AnyMesh.m; sourceTree = "<group>"; };
 		55F8EB1B1929382E00CDC743 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
@@ -68,9 +61,11 @@
 		55F8EB261929382E00CDC743 /* MeshUDPHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeshUDPHandler.m; path = ../../lib/MeshUDPHandler.m; sourceTree = "<group>"; };
 		55F8EB271929382E00CDC743 /* NSData+lineReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+lineReturn.h"; path = "../../lib/NSData+lineReturn.h"; sourceTree = "<group>"; };
 		55F8EB281929382E00CDC743 /* NSData+lineReturn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+lineReturn.m"; path = "../../lib/NSData+lineReturn.m"; sourceTree = "<group>"; };
-		55F8EB31192998C700CDC743 /* InputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputViewController.h; sourceTree = "<group>"; };
-		55F8EB32192998C700CDC743 /* InputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputViewController.m; sourceTree = "<group>"; };
-		55F8EB34192998E500CDC743 /* InputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputViewController.xib; sourceTree = "<group>"; };
+		5822D11D194223EF00F8A383 /* SetupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupView.h; sourceTree = "<group>"; };
+		5822D11E194223EF00F8A383 /* SetupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupView.m; sourceTree = "<group>"; };
+		5822D1201942240600F8A383 /* SetupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetupView.xib; sourceTree = "<group>"; };
+		5822D18219422D2000F8A383 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
+		5822D18319422D2000F8A383 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,14 +141,9 @@
 				55C1BC39190E853600F2A760 /* MeshViewController.h */,
 				55C1BC3A190E853600F2A760 /* MeshViewController.m */,
 				55C1BC3B190E853600F2A760 /* MeshViewController.xib */,
-				55F8EB31192998C700CDC743 /* InputViewController.h */,
-				55F8EB32192998C700CDC743 /* InputViewController.m */,
-				55F8EB34192998E500CDC743 /* InputViewController.xib */,
-				55F8EB15192937A300CDC743 /* CellInfo.h */,
-				55F8EB16192937A300CDC743 /* CellInfo.m */,
-				556C54DC191E6DC50060AA61 /* DeviceCell.xib */,
-				556C54DE191E6DF50060AA61 /* DeviceCell.h */,
-				556C54DF191E6DF50060AA61 /* DeviceCell.m */,
+				5822D11D194223EF00F8A383 /* SetupView.h */,
+				5822D11E194223EF00F8A383 /* SetupView.m */,
+				5822D1201942240600F8A383 /* SetupView.xib */,
 			);
 			path = anyMesh;
 			sourceTree = "<group>";
@@ -165,6 +155,8 @@
 				55C1BC0D190D95EA00F2A760 /* InfoPlist.strings */,
 				55C1BC10190D95EA00F2A760 /* main.m */,
 				55C1BC12190D95EA00F2A760 /* anyMesh-Prefix.pch */,
+				5822D18219422D2000F8A383 /* UIView+AutoLayout.h */,
+				5822D18319422D2000F8A383 /* UIView+AutoLayout.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -216,6 +208,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ar,
 			);
 			mainGroup = 55C1BBF8190D95EA00F2A760;
 			productRefGroup = 55C1BC02190D95EA00F2A760 /* Products */;
@@ -232,11 +225,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5822D1211942240600F8A383 /* SetupView.xib in Resources */,
 				55C1BC0F190D95EA00F2A760 /* InfoPlist.strings in Resources */,
 				55C1BC17190D95EA00F2A760 /* Images.xcassets in Resources */,
 				55C1BC3D190E853600F2A760 /* MeshViewController.xib in Resources */,
-				556C54DD191E6DC50060AA61 /* DeviceCell.xib in Resources */,
-				55F8EB35192998E500CDC743 /* InputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,14 +239,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				556C54E0191E6DF50060AA61 /* DeviceCell.m in Sources */,
+				5822D11F194223EF00F8A383 /* SetupView.m in Sources */,
 				55C1BC15190D95EA00F2A760 /* AppDelegate.m in Sources */,
 				55F8EB2D1929382E00CDC743 /* MeshMessage.m in Sources */,
-				55F8EB17192937A300CDC743 /* CellInfo.m in Sources */,
 				55F8EB2E1929382E00CDC743 /* MeshTCPHandler.m in Sources */,
 				55F8EB2C1929382E00CDC743 /* MeshDeviceInfo.m in Sources */,
+				5822D18419422D2000F8A383 /* UIView+AutoLayout.m in Sources */,
 				55F8EB291929382E00CDC743 /* AnyMesh.m in Sources */,
-				55F8EB33192998C700CDC743 /* InputViewController.m in Sources */,
 				55F8EB2B1929382E00CDC743 /* GCDAsyncUdpSocket.m in Sources */,
 				55C1BC11190D95EA00F2A760 /* main.m in Sources */,
 				55F8EB301929382E00CDC743 /* NSData+lineReturn.m in Sources */,
