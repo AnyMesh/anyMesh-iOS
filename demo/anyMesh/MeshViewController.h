@@ -22,6 +22,6 @@
 -(void)connectWithInfo:(MeshDeviceInfo *)info;
 -(IBAction)publishButtonPressed:(id)sender;
 -(IBAction)requestButtonPressed:(id)sender;
-
+-(IBAction)infoButtonPressed:(id)sender;
 
 @end

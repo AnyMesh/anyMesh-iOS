@@ -25,5 +25,5 @@
 -(id)initWithPort:(int)port;
 -(void)connectTo:(NSString*)ipAddress;
 -(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict;
-
+-(NSArray*)getConnections;
 @end

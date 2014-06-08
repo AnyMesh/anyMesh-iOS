@@ -11,7 +11,8 @@
 #import "MeshDeviceInfo.h"
 #import "SetupView.h"
 #import "UIView+AutoLayout.h"
-
+#import "CellData.h"
+#import "SessionInfoView.h"
 
 @implementation MeshViewController
 
@@ -42,7 +43,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     _msgField.delegate = self;
     _targetField.delegate = self;
 }
@@ -53,14 +53,49 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)connectWithInfo:(MeshDeviceInfo *)info
+{
+    [am connectWithName:info.name listeningTo:info.listensTo];
+}
+
 - (IBAction)publishButtonPressed:(id)sender {
     [am publishToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
+    
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Published: %@", _msgField.text];
+    cData.subTitle = [NSString stringWithFormat:@"Targeting all \"%@\" subscribers", _targetField.text];
+    cData.color = [UIColor purpleColor];
+    [messages addObject:cData];
+    [self updateTableView];
     
 }
 - (IBAction)requestButtonPressed:(id)sender {
     [am requestToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
+    
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Message sent: %@", _msgField.text];
+    cData.subTitle = [NSString stringWithFormat:@"Requested to: %@", _targetField.text];
+    cData.color = [UIColor purpleColor];
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
+-(IBAction)infoButtonPressed:(id)sender
+{
+    SessionInfoView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SessionInfoView" owner:self options:nil] objectAtIndex:0];
+    sView.parentController = self;
+    sView.nameLabel.text = am.name;
+    sView.connectedDevices = [am connectedDevices];
+    [sView presentInView:self.view];
+}
+
+-(void)updateTableView
+{
+    [_tableView reloadData];
+    int rows = [_tableView numberOfRowsInSection:0];
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(rows-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
+    [self.view endEditing:TRUE];
+}
 
 #pragma mark - TableView Datasource and Delegate Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -70,40 +105,57 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+    }
 
-    cell.textLabel.text = @"Test";
+    CellData *cData = [messages objectAtIndex:indexPath.row];
+    cell.textLabel.text = cData.message;
+    cell.detailTextLabel.text = cData.subTitle;
+    cell.textLabel.textColor = cData.color;
     return cell;
 }
 
 
--(void)connectWithInfo:(MeshDeviceInfo *)info
-{
-    [am connectWithName:info.name listeningTo:info.listensTo];
-}
+
 
 #pragma mark - AnyMesh Delegate Methods
 -(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
 {
-    [messages addObject:[NSString stringWithFormat:@"Connected to %@", device.name]];
-    [self.tableView reloadData];
+    CellData *cData = [[CellData alloc] init];
+    cData.message = @"New Connection";
+    cData.subTitle = device.name;
+    cData.color = [UIColor greenColor];
+    
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
 -(void)anyMeshDisconnectedFrom:(NSString *)name
 {
-    [messages addObject:[NSString stringWithFormat:@"Disconnected from %@", name]];
-    [self.tableView reloadData];
-
+    CellData *cData = [[CellData alloc] init];
+    cData.message = @"Disconnected From";
+    cData.subTitle = name;
+    cData.color = [UIColor redColor];
+    
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
 -(void)anyMeshReceivedMessage:(MeshMessage *)message
 {
-    [messages addObject:[NSString stringWithFormat:@"Message from: %@", message.sender]];
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Message: %@", message.data[@"msg"]];
+    cData.subTitle = message.sender;
+    cData.color = [UIColor blueColor];
     
-    [self.tableView reloadData];
+    [messages addObject:cData];
+    [self updateTableView];
     
-        
 }
 
+
+#pragma mark - TextField
 -(void)textFieldDidBeginEditing:(UITextField *)textField {
     if (!recognizer) {
         recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
@@ -130,6 +182,7 @@
     return TRUE;
 }
 
+#pragma mark - Orientation
 -(BOOL)shouldAutorotate
 {
     return FALSE;

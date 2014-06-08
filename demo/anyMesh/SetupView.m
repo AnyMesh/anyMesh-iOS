@@ -58,6 +58,7 @@
 -(void)presentInView:(UIView*)superView {
     [self setAlpha:0];
     [superView addSubview:self];
+    [self layoutSubviews];
     [self constrainToSuperView];
     
     [UIView animateWithDuration:0.5 animations:^{

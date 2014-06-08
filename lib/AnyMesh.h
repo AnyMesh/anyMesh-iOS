@@ -53,6 +53,7 @@ typedef enum {
 + (AnyMesh*)sharedInstance;
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
+-(NSArray*)connectedDevices;
 -(void)tcpConnectedTo:(GCDAsyncSocket*)socket;
 -(void)tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
 -(void)messageReceived:(MeshMessage*)message;

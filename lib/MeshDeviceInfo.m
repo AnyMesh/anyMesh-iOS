@@ -13,7 +13,7 @@
 -(MeshDeviceInfo*)clone
 {
     MeshDeviceInfo *clone = [[MeshDeviceInfo alloc] init];
-    if(clone.name)clone.name = [NSString stringWithString:self.name];
+    if(self.name)clone.name = [NSString stringWithString:self.name];
     NSMutableArray *clonedArray = [[NSMutableArray alloc] init];
     if (self.listensTo) {
         for (NSString *listenString in self.listensTo) {

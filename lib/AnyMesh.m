@@ -47,6 +47,11 @@ static AnyMesh *sharedInstance = nil;
     
 }
 
+-(NSArray*)connectedDevices
+{
+    return [_tcpHandler getConnections];
+}
+
 #pragma mark Connections
 -(void)tcpConnectedTo:(GCDAsyncSocket *)socket
 {

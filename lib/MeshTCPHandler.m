@@ -81,6 +81,19 @@
     
 }
 
+-(NSArray*)getConnections
+{
+    NSMutableArray *devices = [[NSMutableArray alloc] init];
+    @synchronized(connections){
+        for (GCDAsyncSocket* connection in connections)
+        {
+            MeshDeviceInfo *info = connection.userData;
+            [devices addObject:[info clone]];
+        }
+    }
+    return devices;
+}
+
 #pragma mark Socket Delegate Methods
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
