@@ -34,11 +34,7 @@
 
         SetupView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SetupView" owner:self options:nil] objectAtIndex:0];
         sView.parentController = self;
-        [sView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
-        [self.view addSubview:sView];
-        [sView constrainToSuperView];
-
-        
+        [sView presentInView:self.view];
     }
 }
 
@@ -78,10 +74,7 @@
     cell.textLabel.text = @"Test";
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
-}
+
 
 -(void)connectWithInfo:(MeshDeviceInfo *)info
 {

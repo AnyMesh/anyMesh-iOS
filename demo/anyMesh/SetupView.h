@@ -23,5 +23,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *listen3Field;
 @property (weak, nonatomic) IBOutlet UITextField *listen4Field;
 
+
 - (id) initWithParentController:(MeshViewController*)parentVC;
+
+
+-(void)presentInView:(UIView*)superView;
+-(void)dismiss;
 @end

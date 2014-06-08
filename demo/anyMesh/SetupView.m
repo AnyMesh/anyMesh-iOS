@@ -9,6 +9,7 @@
 #import "SetupView.h"
 #import "MeshViewController.h"
 #import "MeshDeviceInfo.h"
+#import "UIView+AutoLayout.h"
 
 @implementation SetupView
 
@@ -19,7 +20,7 @@
     if (self) {
         // Initialization code
         _parentController = parentVC;
-
+        [self setTranslatesAutoresizingMaskIntoConstraints:FALSE];
     }
     return self;
 }
@@ -51,6 +52,25 @@
     dInfo.listensTo = listens;
     
     [_parentController connectWithInfo:dInfo];
-    [self removeFromSuperview];
+    [self dismiss];
+}
+
+-(void)presentInView:(UIView*)superView {
+    [self setAlpha:0];
+    [superView addSubview:self];
+    [self constrainToSuperView];
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        [self setAlpha:1];
+    }];
+}
+
+-(void)dismiss
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        [self setAlpha:0];
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
 }
 @end
