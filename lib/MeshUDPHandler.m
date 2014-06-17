@@ -44,6 +44,11 @@
 {
     broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
 }
+-(void)stopBroadcasting
+{
+    [broadcastTimer invalidate];
+    broadcastTimer = nil;
+}
 -(void)broadcast
 {
     [udpSocket sendData:networkID toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];

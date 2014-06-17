@@ -52,6 +52,19 @@ static AnyMesh *sharedInstance = nil;
     return [_tcpHandler getConnections];
 }
 
+-(void)suspend
+{
+    [_udpHandler stopBroadcasting];
+    [_tcpHandler disconnectAll];
+    
+}
+
+-(void)resume
+{
+    [_udpHandler startBroadcasting];
+    [_tcpHandler resumeAccepting];
+}
+
 #pragma mark Connections
 -(void)_tcpConnectedTo:(GCDAsyncSocket *)socket
 {

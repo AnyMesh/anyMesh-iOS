@@ -58,6 +58,8 @@ typedef enum {
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 
+-(void)suspend;
+-(void)resume;
 
 
 -(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;

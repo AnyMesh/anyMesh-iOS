@@ -31,6 +31,19 @@
     return self;
 }
 
+
+-(void)disconnectAll
+{
+    for(GCDAsyncSocket *socket in connections)
+    {
+        [socket disconnect];
+    }
+}
+-(void)resumeAccepting
+{
+    [listenSocket acceptOnPort:tcpPort error:nil];
+}
+
 - (void)connectTo:(NSString*)ipAddress
 {
     if ([self IpExistsInConnections:ipAddress]) return;
