@@ -34,7 +34,10 @@
 
 -(void)disconnectAll
 {
-    [listenSocket disconnect];
+    for(GCDAsyncSocket *socket in connections)
+    {
+        [socket disconnect];
+    }
 }
 -(void)resumeAccepting
 {
