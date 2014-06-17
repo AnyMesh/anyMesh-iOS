@@ -20,5 +20,5 @@
 
 -(id)initWithNetworkID:(NSString *)networkID onPort:(int)thePort;
 -(void)startBroadcasting;
-
+-(void)stopBroadcasting;
 @end
