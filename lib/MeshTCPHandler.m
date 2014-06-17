@@ -88,7 +88,7 @@
         for (GCDAsyncSocket* connection in connections)
         {
             MeshDeviceInfo *info = connection.userData;
-            [devices addObject:[info clone]];
+            if (info.name.length > 0) [devices addObject:[info clone]];
         }
     }
     return devices;
