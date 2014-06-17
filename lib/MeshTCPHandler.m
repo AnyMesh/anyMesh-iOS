@@ -88,7 +88,7 @@
         for (GCDAsyncSocket* connection in connections)
         {
             MeshDeviceInfo *info = connection.userData;
-            if (info.name.length > 0) [devices addObject:[info clone]];
+            if (info.name.length > 0) [devices addObject:[info _clone]];
         }
     }
     return devices;
@@ -134,10 +134,13 @@
            
             if (msg.type == MeshMessageTypeInfo) {
                 MeshDeviceInfo *dInfo = (MeshDeviceInfo*)sock.userData;
-                dInfo.name = msg.sender;
-                dInfo.listensTo = msg.listensTo;
-                
-                [am tcpConnectedTo:sock];
+                if ([dInfo _validate]) {
+                    dInfo.name = msg.sender;
+                    dInfo.listensTo = msg.listensTo;
+                    
+                    [am tcpConnectedTo:sock];
+                }
+                else [sock disconnect];
             }
             else {
                 [[AnyMesh sharedInstance] messageReceived:msg];
@@ -184,5 +187,6 @@
         return false;
     }
 }
+
 
 @end

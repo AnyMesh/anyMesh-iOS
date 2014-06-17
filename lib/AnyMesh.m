@@ -57,7 +57,7 @@ static AnyMesh *sharedInstance = nil;
 {
     MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
     if (socketInfo.name) {
-        [self.delegate anyMeshConnectedTo:[socketInfo clone]];
+        [self.delegate anyMeshConnectedTo:[socketInfo _clone]];
     }
 }
 -(void)tcpDisconnectedFrom:(GCDAsyncSocket *)socket
