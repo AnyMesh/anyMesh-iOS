@@ -27,12 +27,17 @@
 
 -(BOOL)_validate
 {
-    if (![[self.name class] isSubclassOfClass:[NSString class]]) return FALSE;
-    if (![[self.listensTo class] isSubclassOfClass:[NSArray class]]) return FALSE;
-    
-    for (NSObject *subscription in self.listensTo)
-    {
-        if (![[subscription class] isSubclassOfClass:[NSString class]]) return FALSE;
+    if(self.name){
+        if(![[self.name class] isSubclassOfClass:[NSString class]]) return FALSE;
+    }
+    if(self.listensTo){
+        if (![[self.listensTo class] isSubclassOfClass:[NSArray class]]) return FALSE;
+        
+        for (NSObject *subscription in self.listensTo)
+        {
+            if (![[subscription class] isSubclassOfClass:[NSString class]]) return FALSE;
+        }
+
     }
     return TRUE;
 }
