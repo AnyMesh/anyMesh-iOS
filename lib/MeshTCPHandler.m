@@ -144,12 +144,11 @@
            
             if (msg.type == MeshMessageTypeInfo) {
                 MeshDeviceInfo *dInfo = (MeshDeviceInfo*)sock.userData;
-                if ([dInfo _validate]) {
-                    dInfo.name = msg.sender;
-                    dInfo.listensTo = msg.listensTo;
-                    
-                    [am _tcpConnectedTo:sock];
-                }
+                
+                dInfo.name = msg.sender;
+                dInfo.listensTo = msg.listensTo;
+                
+                if ([dInfo _validate]) [am _tcpConnectedTo:sock];
                 else [sock disconnect];
             }
             else {
