@@ -57,7 +57,7 @@
     [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
 
     if ([ipAddress rangeOfString:@":"].length > 0)return;
-    if ([ipAddress isEqualToString:[am getIPAddress]]) return;
+    if ([ipAddress isEqualToString:[am _getIPAddress]]) return;
     
     if ([am.networkID isEqualToString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]) {
         [[AnyMesh sharedInstance].tcpHandler connectTo:ipAddress];

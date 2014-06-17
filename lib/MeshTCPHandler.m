@@ -138,7 +138,7 @@
                     dInfo.name = msg.sender;
                     dInfo.listensTo = msg.listensTo;
                     
-                    [am tcpConnectedTo:sock];
+                    [am _tcpConnectedTo:sock];
                 }
                 else [sock disconnect];
             }
@@ -158,7 +158,7 @@
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
-                [am tcpDisconnectedFrom:sock];
+                [am _tcpDisconnectedFrom:sock];
 			}
 		});
 		

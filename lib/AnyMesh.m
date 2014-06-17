@@ -53,14 +53,14 @@ static AnyMesh *sharedInstance = nil;
 }
 
 #pragma mark Connections
--(void)tcpConnectedTo:(GCDAsyncSocket *)socket
+-(void)_tcpConnectedTo:(GCDAsyncSocket *)socket
 {
     MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
     if (socketInfo.name) {
         [self.delegate anyMeshConnectedTo:[socketInfo _clone]];
     }
 }
--(void)tcpDisconnectedFrom:(GCDAsyncSocket *)socket
+-(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
 {
     MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
     if (socketInfo.name) {
@@ -84,7 +84,7 @@ static AnyMesh *sharedInstance = nil;
 }
 
 #pragma mark Utility
-- (NSString *)getIPAddress
+- (NSString *)_getIPAddress
 {
     NSString *address = @"error";
     struct ifaddrs *interfaces = NULL;
