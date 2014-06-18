@@ -44,6 +44,11 @@
 {
     broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
 }
+-(void)stopBroadcasting
+{
+    [broadcastTimer invalidate];
+    broadcastTimer = nil;
+}
 -(void)broadcast
 {
     [udpSocket sendData:networkID toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];
@@ -57,7 +62,7 @@
     [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
 
     if ([ipAddress rangeOfString:@":"].length > 0)return;
-    if ([ipAddress isEqualToString:[am getIPAddress]]) return;
+    if ([ipAddress isEqualToString:[am _getIPAddress]]) return;
     
     if ([am.networkID isEqualToString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]) {
         [[AnyMesh sharedInstance].tcpHandler connectTo:ipAddress];

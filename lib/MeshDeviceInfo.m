@@ -10,7 +10,7 @@
 
 @implementation MeshDeviceInfo
 
--(MeshDeviceInfo*)clone
+-(MeshDeviceInfo*)_clone
 {
     MeshDeviceInfo *clone = [[MeshDeviceInfo alloc] init];
     if(self.name)clone.name = [NSString stringWithString:self.name];
@@ -25,5 +25,21 @@
     return clone;
 }
 
+-(BOOL)_validate
+{
+    if(self.name){
+        if(![[self.name class] isSubclassOfClass:[NSString class]]) return FALSE;
+    }
+    if(self.listensTo){
+        if (![[self.listensTo class] isSubclassOfClass:[NSArray class]]) return FALSE;
+        
+        for (NSObject *subscription in self.listensTo)
+        {
+            if (![[subscription class] isSubclassOfClass:[NSString class]]) return FALSE;
+        }
+
+    }
+    return TRUE;
+}
 
 @end

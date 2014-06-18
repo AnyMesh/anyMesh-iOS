@@ -366,6 +366,7 @@
 				GCC_PREFIX_HEADER = "anyMesh/anyMesh-Prefix.pch";
 				INFOPLIST_FILE = "anyMesh/anyMesh-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -379,6 +380,7 @@
 				GCC_PREFIX_HEADER = "anyMesh/anyMesh-Prefix.pch";
 				INFOPLIST_FILE = "anyMesh/anyMesh-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

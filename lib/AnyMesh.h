@@ -54,11 +54,16 @@ typedef enum {
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
 -(NSArray*)connectedDevices;
--(void)tcpConnectedTo:(GCDAsyncSocket*)socket;
--(void)tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
 -(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
-- (NSString *)getIPAddress;
+
+-(void)suspend;
+-(void)resume;
+
+
+-(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
+-(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
+- (NSString *)_getIPAddress;
 
 @end

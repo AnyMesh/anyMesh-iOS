@@ -14,5 +14,6 @@
 @property (nonatomic)NSArray *listensTo;
 @property (nonatomic)NSString *ipAddress;
 
-- (MeshDeviceInfo*)clone;
+- (MeshDeviceInfo*)_clone;
+- (BOOL)_validate;
 @end

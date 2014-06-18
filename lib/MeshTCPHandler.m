@@ -31,6 +31,19 @@
     return self;
 }
 
+
+-(void)disconnectAll
+{
+    for(GCDAsyncSocket *socket in connections)
+    {
+        [socket disconnect];
+    }
+}
+-(void)resumeAccepting
+{
+    [listenSocket acceptOnPort:tcpPort error:nil];
+}
+
 - (void)connectTo:(NSString*)ipAddress
 {
     if ([self IpExistsInConnections:ipAddress]) return;
@@ -88,7 +101,7 @@
         for (GCDAsyncSocket* connection in connections)
         {
             MeshDeviceInfo *info = connection.userData;
-            [devices addObject:[info clone]];
+            if (info.name.length > 0) [devices addObject:[info _clone]];
         }
     }
     return devices;
@@ -134,10 +147,12 @@
            
             if (msg.type == MeshMessageTypeInfo) {
                 MeshDeviceInfo *dInfo = (MeshDeviceInfo*)sock.userData;
+                
                 dInfo.name = msg.sender;
                 dInfo.listensTo = msg.listensTo;
                 
-                [am tcpConnectedTo:sock];
+                if ([dInfo _validate]) [am _tcpConnectedTo:sock];
+                else [sock disconnect];
             }
             else {
                 [[AnyMesh sharedInstance] messageReceived:msg];
@@ -155,7 +170,7 @@
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
-                [am tcpDisconnectedFrom:sock];
+                [am _tcpDisconnectedFrom:sock];
 			}
 		});
 		
@@ -184,5 +199,6 @@
         return false;
     }
 }
+
 
 @end

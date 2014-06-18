@@ -26,16 +26,16 @@ That's all there is to it!
 
 #AnyMesh iOS
 
-Quickstart:
+##Quickstart:
 Create/access AnyMesh singleton:
 
     AnyMesh *am = [AnyMesh sharedInstance];
     am.delegate = self;
     
 Enable connectivity:
-    
+
     [am connectWithName:@"Dave" listeningTo:@[@"events", @"updates"]];
-    
+
 Send a request:
 
     [am requestToTarget:@"Bob" withData:@{@"msg":@"Hi Bob!"}];
@@ -43,13 +43,27 @@ Send a request:
 Publish to subscribers:
 
     [am publishToTarget:@"events" withData:@{@"priority":@1, @"alert":"attention!"}];
-    
+
 Handle messages received:
 
     -(void)anyMeshReceivedMessage:(MeshMessage *)message  {
         //react to message
     }
 
+
+###A few more helpful methods:
+
+Get an array of MeshDeviceInfo objects:
+
+    NSArray *activeConnections = [am getConnections];
+
+
+Suspend and resume operation when required:
+
+    [am suspend];    //put these in your Application Delegate where appropriate.
+    [am resume];
+
+###Any questions, comments, or suggestions, e-mail me (Dave) at davepaul0@gmail.com!
 
 
 
