@@ -7,6 +7,7 @@
 //
 
 #import "MeshTCPHandler.h"
+#import "MeshUDPHandler.h"
 #import "GCDAsyncSocket.h"
 #import "MeshDeviceInfo.h"
 #import "MeshMessage.h"
@@ -14,21 +15,34 @@
 
 @implementation MeshTCPHandler
 
--(id)initWithPort:(int)port
+-(id)initWithAnyMesh:(AnyMesh *)anyMesh
 {
     if (self = [super init]) {
-        tcpPort = port;
+        tcpPort = TCP_PORT;
     
-        am = [AnyMesh sharedInstance];
+        am = anyMesh;
         
-		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
-		[listenSocket acceptOnPort:port error:nil];
+		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
+        [self beginListening];
         
 		// Setup an array to store all accepted client connections
 		connections = [[NSMutableArray alloc] initWithCapacity:1];
         
     }
     return self;
+}
+
+-(void)beginListening
+{
+    NSError *error;
+    BOOL success = [listenSocket acceptOnPort:tcpPort error:&error];
+    if (!success) {
+        tcpPort++;
+        [self beginListening];
+    }
+    else {
+        [am.udpHandler startBroadcastingWithPort:tcpPort];
+    }
 }
 
 
@@ -39,23 +53,19 @@
         [socket disconnect];
     }
 }
--(void)resumeAccepting
-{
-    [listenSocket acceptOnPort:tcpPort error:nil];
-}
 
-- (void)connectTo:(NSString*)ipAddress
+- (void)connectTo:(NSString*)ipAddress port:(int)port name:(NSString *)name
 {
-    if ([self IpExistsInConnections:ipAddress]) return;
+    if ([self socketForName:name]) return;
     
-    GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:[AnyMesh sharedInstance].socketQueue];
+    GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
     
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
     dInfo.ipAddress = ipAddress;
     socket.userData = dInfo;
     @synchronized(connections){[connections addObject:socket];}
     
-    [socket connectToHost:ipAddress onPort:TCP_PORT error:nil];
+    [socket connectToHost:ipAddress onPort:port error:nil];
 }
 
 -(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
@@ -155,7 +165,7 @@
                 else [sock disconnect];
             }
             else {
-                [[AnyMesh sharedInstance] messageReceived:msg];
+                [am messageReceived:msg];
             }
         }
 	});
@@ -186,6 +196,22 @@
 }
 
 #pragma mark Utility
+- (GCDAsyncSocket*)socketForName:(NSString*)name
+{
+    @synchronized(connections){
+        for (GCDAsyncSocket *connection in connections)
+        {
+            MeshDeviceInfo *dInfo = (MeshDeviceInfo*)connection.userData;
+            if ([dInfo.name isEqualToString:name]) {
+                return connection;
+            }
+        }
+    }
+    return nil;
+}
+
+
+/*
 - (BOOL)IpExistsInConnections:(NSString*)address
 {
     @synchronized(connections){
@@ -199,6 +225,6 @@
         return false;
     }
 }
-
+*/
 
 @end

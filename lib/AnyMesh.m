@@ -14,24 +14,16 @@
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
-static AnyMesh *sharedInstance = nil;
 
 @implementation AnyMesh
 
-
-+ (AnyMesh *)sharedInstance {
-    if (sharedInstance == nil) {
-        sharedInstance = [[super allocWithZone:NULL] init];
-    }
-    
-    return sharedInstance;
-}
 
 -(id)init
 {
     if (self = [super init]) {
         self.socketQueue = dispatch_queue_create("socketQueue", NULL);
-        self.networkID = @"c8m3!x";
+        self.networkID = @"anymesh";
+        self.discoveryPort = UDP_PORT;
     }
     return self;
 }

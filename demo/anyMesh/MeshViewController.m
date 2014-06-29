@@ -15,13 +15,14 @@
 #import "SessionInfoView.h"
 
 @implementation MeshViewController
+@synthesize am;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        am = [AnyMesh sharedInstance];
+        am = [[AnyMesh alloc] init];
         am.delegate = self;
         messages = [[NSMutableArray alloc] init];
         
@@ -92,7 +93,7 @@
 -(void)updateTableView
 {
     [_tableView reloadData];
-    int rows = [_tableView numberOfRowsInSection:0];
+    NSInteger rows = [_tableView numberOfRowsInSection:0];
     [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(rows-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
     [self.view endEditing:TRUE];
 }

@@ -93,9 +93,9 @@
 		55A17A031917168800FCD8EA /* AnyMesh */ = {
 			isa = PBXGroup;
 			children = (
+				55F8EB1A1929382E00CDC743 /* CocoaAsyncSocket */,
 				55F8EB181929382E00CDC743 /* AnyMesh.h */,
 				55F8EB191929382E00CDC743 /* AnyMesh.m */,
-				55F8EB1A1929382E00CDC743 /* CocoaAsyncSocket */,
 				55F8EB1F1929382E00CDC743 /* MeshDeviceInfo.h */,
 				55F8EB201929382E00CDC743 /* MeshDeviceInfo.m */,
 				55F8EB211929382E00CDC743 /* MeshMessage.h */,
