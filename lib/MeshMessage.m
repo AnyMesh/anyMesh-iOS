@@ -20,6 +20,7 @@
         else if ([msgObj[KEY_TYPE] isEqualToString:@"req"]) _type = MeshMessageTypeRequest;
         else if ([msgObj[KEY_TYPE] isEqualToString:@"res"]) _type = MeshMessageTypeResponse;
         else if ([msgObj[KEY_TYPE] isEqualToString:@"info"]) _type = MeshMessageTypeInfo;
+        else if ([msgObj[KEY_TYPE] isEqualToString:@"pass"]) _type = MeshMessageTypePass;
         
         _data = msgObj[KEY_DATA];
         _sender = msgObj[KEY_SENDER];

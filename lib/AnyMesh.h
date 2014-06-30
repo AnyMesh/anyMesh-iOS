@@ -28,7 +28,8 @@ typedef enum {
     MeshMessageTypePublish,
     MeshMessageTypeRequest,
     MeshMessageTypeResponse,
-    MeshMessageTypeInfo
+    MeshMessageTypeInfo,
+    MeshMessageTypePass
 } MeshMessageType;
 
 @protocol AnyMeshDelegate <NSObject>
