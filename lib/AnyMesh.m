@@ -31,7 +31,6 @@
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
     _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
-    [_udpHandler startBroadcasting];
     
     _name = name;
     _listensTo = listensTo;
