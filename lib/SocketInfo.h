@@ -12,6 +12,6 @@
 @interface SocketInfo : NSObject
 
 @property MeshDeviceInfo *dInfo;
-@property BOOL isServer;
+@property BOOL serverRelationship;
 
 @end

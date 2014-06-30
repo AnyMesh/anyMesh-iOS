@@ -128,10 +128,11 @@
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
 	// This method is executed on the socketQueue (not the main thread)
+    SocketInfo *info = [[SocketInfo alloc] init];
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    
-
-    newSocket.userData = dInfo;
+    info.dInfo = dInfo;
+    info.serverRelationship = TRUE;
+    newSocket.userData = info;
 	@synchronized(connections){[connections addObject:newSocket];}
 	[newSocket readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
