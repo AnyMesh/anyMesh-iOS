@@ -11,6 +11,7 @@
 #import "MeshTCPHandler.h"
 #import "MeshDeviceInfo.h"
 #import "GCDAsyncSocket.h"
+#import "SocketInfo.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
@@ -59,9 +60,9 @@
 #pragma mark Connections
 -(void)_tcpConnectedTo:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshConnectedTo:[socketInfo _clone]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMeshConnectedTo:[socketInfo.dInfo _clone]];
     }
 }
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket

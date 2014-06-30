@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55098004196106E100239D5D /* SocketInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 55098003196106E100239D5D /* SocketInfo.m */; };
 		556AA34E1944E3EE00D3FB57 /* CellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 556AA34D1944E3EE00D3FB57 /* CellData.m */; };
 		556AA3511944E83900D3FB57 /* SessionInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 556AA3501944E83900D3FB57 /* SessionInfoView.m */; };
 		556AA3531944E85B00D3FB57 /* SessionInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556AA3521944E85B00D3FB57 /* SessionInfoView.xib */; };
@@ -33,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		55098002196106E100239D5D /* SocketInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SocketInfo.h; path = ../../lib/SocketInfo.h; sourceTree = "<group>"; };
+		55098003196106E100239D5D /* SocketInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SocketInfo.m; path = ../../lib/SocketInfo.m; sourceTree = "<group>"; };
 		556AA34C1944E3EE00D3FB57 /* CellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellData.h; sourceTree = "<group>"; };
 		556AA34D1944E3EE00D3FB57 /* CellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellData.m; sourceTree = "<group>"; };
 		556AA34F1944E83900D3FB57 /* SessionInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionInfoView.h; sourceTree = "<group>"; };
@@ -98,6 +101,8 @@
 				55F8EB191929382E00CDC743 /* AnyMesh.m */,
 				55F8EB1F1929382E00CDC743 /* MeshDeviceInfo.h */,
 				55F8EB201929382E00CDC743 /* MeshDeviceInfo.m */,
+				55098002196106E100239D5D /* SocketInfo.h */,
+				55098003196106E100239D5D /* SocketInfo.m */,
 				55F8EB211929382E00CDC743 /* MeshMessage.h */,
 				55F8EB221929382E00CDC743 /* MeshMessage.m */,
 				55F8EB231929382E00CDC743 /* MeshTCPHandler.h */,
@@ -265,6 +270,7 @@
 				55F8EB2B1929382E00CDC743 /* GCDAsyncUdpSocket.m in Sources */,
 				55C1BC11190D95EA00F2A760 /* main.m in Sources */,
 				55F8EB301929382E00CDC743 /* NSData+lineReturn.m in Sources */,
+				55098004196106E100239D5D /* SocketInfo.m in Sources */,
 				55F8EB2A1929382E00CDC743 /* GCDAsyncSocket.m in Sources */,
 				55C1BC3C190E853600F2A760 /* MeshViewController.m in Sources */,
 				55F8EB2F1929382E00CDC743 /* MeshUDPHandler.m in Sources */,

@@ -12,6 +12,7 @@
 #import "MeshDeviceInfo.h"
 #import "MeshMessage.h"
 #import "NSData+lineReturn.h"
+#import "SocketInfo.h"
 
 @implementation MeshTCPHandler
 
@@ -62,7 +63,10 @@
     
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
     dInfo.ipAddress = ipAddress;
-    socket.userData = dInfo;
+    SocketInfo *sInfo = [[SocketInfo alloc] init];
+    sInfo.dInfo = dInfo;
+    socket.userData = sInfo;
+
     @synchronized(connections){[connections addObject:socket];}
     
     [socket connectToHost:ipAddress onPort:port error:nil];
@@ -79,13 +83,15 @@
     
     if (type == MeshMessageTypePublish) {
         for (GCDAsyncSocket *connection in connections) {
-            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
+            SocketInfo *info = (SocketInfo*)connection.userData;
+            MeshDeviceInfo *devInfo = info.dInfo;
             if ([devInfo.listensTo containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
         }
     }
     else {
         for (GCDAsyncSocket *connection in connections) {
-            MeshDeviceInfo *devInfo = (MeshDeviceInfo*)connection.userData;
+            SocketInfo *info = (SocketInfo*)connection.userData;
+            MeshDeviceInfo *devInfo = info.dInfo;
             if ([devInfo.name isEqualToString:target]) {
                 [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
                 return;
@@ -110,8 +116,9 @@
     @synchronized(connections){
         for (GCDAsyncSocket* connection in connections)
         {
-            MeshDeviceInfo *info = connection.userData;
-            if (info.name.length > 0) [devices addObject:[info _clone]];
+            SocketInfo *info = (SocketInfo*)connection.userData;
+            MeshDeviceInfo *dInfo = info.dInfo;
+            if (dInfo.name.length > 0) [devices addObject:[dInfo _clone]];
         }
     }
     return devices;
@@ -140,7 +147,8 @@
             MeshMessage *msg = [[MeshMessage alloc] initWithHandler:self messageObject:msgObj];
            
             if (msg.type == MeshMessageTypeInfo) {
-                MeshDeviceInfo *dInfo = (MeshDeviceInfo*)sock.userData;
+                SocketInfo *info = (SocketInfo*)sock.userData;
+                MeshDeviceInfo *dInfo = info.dInfo;
                 
                 dInfo.name = msg.sender;
                 dInfo.listensTo = msg.listensTo;
@@ -185,7 +193,8 @@
     @synchronized(connections){
         for (GCDAsyncSocket *connection in connections)
         {
-            MeshDeviceInfo *dInfo = (MeshDeviceInfo*)connection.userData;
+            SocketInfo *info = (SocketInfo*)connection.userData;
+            MeshDeviceInfo *dInfo = info.dInfo;
             if ([dInfo.name isEqualToString:name]) {
                 return connection;
             }
