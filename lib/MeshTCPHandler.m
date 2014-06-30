@@ -123,25 +123,9 @@
 	// This method is executed on the socketQueue (not the main thread)
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
     
-    dInfo.ipAddress = [newSocket connectedHost];
-    
-    if ([self IpExistsInConnections:dInfo.ipAddress]) {
-        [newSocket disconnect];
-        return;
-    }
-    
+
     newSocket.userData = dInfo;
-    
 	@synchronized(connections){[connections addObject:newSocket];}
-    
-    [self sendInfoTo:newSocket];
-		
-	dispatch_async(dispatch_get_main_queue(), ^{
-		@autoreleasepool {
-            
-		}
-	});
-	
 	[newSocket readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 

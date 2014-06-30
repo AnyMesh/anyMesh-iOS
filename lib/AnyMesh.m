@@ -30,12 +30,12 @@
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
-    _udpHandler = [[MeshUDPHandler alloc] initWithNetworkID:_networkID onPort:UDP_PORT];
+    _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
     [_udpHandler startBroadcasting];
     
     _name = name;
     _listensTo = listensTo;
-    _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
+    _tcpHandler = [[MeshTCPHandler alloc] initWithAnyMesh:self];
     
 }
 
@@ -53,8 +53,8 @@
 
 -(void)resume
 {
-    [_udpHandler startBroadcasting];
-    [_tcpHandler resumeAccepting];
+    //[_udpHandler startBroadcasting];
+    [_tcpHandler beginListening];
 }
 
 #pragma mark Connections
