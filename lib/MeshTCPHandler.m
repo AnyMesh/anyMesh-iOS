@@ -151,12 +151,24 @@
                 SocketInfo *info = (SocketInfo*)sock.userData;
                 MeshDeviceInfo *dInfo = info.dInfo;
                 
+                if (info.serverRelationship) {
+                    //validate, add device info and send info back
+                }
+                else {
+                    //validate, add device, notify, and send PASS.  check array index
+                }
+                
                 dInfo.name = msg.sender;
                 dInfo.listensTo = msg.listensTo;
                 
                 if ([dInfo _validate]) [am _tcpConnectedTo:sock];
                 else [sock disconnect];
             }
+            else if (msg.type == MeshMessageTypePass) {
+                //notify
+            }
+            
+            
             else {
                 [am messageReceived:msg];
             }
