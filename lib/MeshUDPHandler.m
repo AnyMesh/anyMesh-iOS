@@ -62,9 +62,9 @@
     if (!am.name || serverPort == 0) return;
     
     
-    uint16_t aport = 0;
+    uint16_t aport_DONOTUSE = 0;
     NSString *ipAddress = nil;
-    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
+    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport_DONOTUSE fromAddress:address];
     if ([ipAddress rangeOfString:@":"].length > 0)return;
     
     NSArray *dataArray = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] componentsSeparatedByString:@","];
@@ -73,7 +73,7 @@
         NSString *senderName = dataArray[2];
         
         if (![ipAddress isEqualToString:[am _getIPAddress]] || serverPort != senderPort) {
-            [am.tcpHandler connectTo:ipAddress port:aport name:senderName];
+            [am.tcpHandler connectTo:ipAddress port:senderPort name:senderName];
         }
         
     }
