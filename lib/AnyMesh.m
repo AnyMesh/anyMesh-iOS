@@ -25,18 +25,18 @@
         self.socketQueue = dispatch_queue_create("socketQueue", NULL);
         self.networkID = @"anymesh";
         self.discoveryPort = UDP_PORT;
+        
+        _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
+        _tcpHandler = [[MeshTCPHandler alloc] initWithAnyMesh:self];
     }
     return self;
 }
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
-    _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
-    
     _name = name;
     _listensTo = listensTo;
-    _tcpHandler = [[MeshTCPHandler alloc] initWithAnyMesh:self];
-    
+    [_tcpHandler beginListening];
 }
 
 -(NSArray*)connectedDevices
@@ -54,7 +54,7 @@
 -(void)resume
 {
     //[_udpHandler startBroadcasting];
-    [_tcpHandler beginListening];
+    if(self.name)[_tcpHandler beginListening];
 }
 
 #pragma mark Connections
@@ -67,9 +67,9 @@
 }
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.name]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
     }
 }
 
