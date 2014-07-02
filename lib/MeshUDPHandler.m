@@ -13,18 +13,16 @@
 
 @implementation MeshUDPHandler
     
--(id)initWithNetworkID:(NSString*)_id onPort:(int)thePort
+-(id)initWithAnyMesh:(AnyMesh *)anyMesh
 {
     if (self = [super init]) {
-        am = [AnyMesh sharedInstance];
+        am = anyMesh;
         
         udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
         [udpSocket enableBroadcast:true error:nil];
-        port = thePort;
-        networkID = [_id dataUsingEncoding:NSUTF8StringEncoding];
         
         NSError *error = nil;
-        if (![udpSocket bindToPort:port error:&error])
+        if (![udpSocket bindToPort:am.discoveryPort error:&error])
         {
             NSLog(@"Error starting server (bind): %@", error);
             return nil;
@@ -40,8 +38,9 @@
     return self;
 }
 
--(void)startBroadcasting
+-(void)startBroadcastingWithPort:(int)port;
 {
+    serverPort = port;
     broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
 }
 -(void)stopBroadcasting
@@ -51,21 +50,41 @@
 }
 -(void)broadcast
 {
-    [udpSocket sendData:networkID toHost:@"255.255.255.255" port:port withTimeout:-1 tag:0];
+    if(!am.name)return;
+    NSString *broadcastString = [NSString stringWithFormat:@"%@,%d,%@", am.networkID, serverPort, am.name];
+    NSData *broadcastData = [broadcastString dataUsingEncoding:NSUTF8StringEncoding];
+    [udpSocket sendData:broadcastData toHost:@"255.255.255.255" port:am.discoveryPort withTimeout:-1 tag:0];
 }
 
 #pragma mark UDP Server Delegate
 -(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
 {
-    uint16_t aport = 0;
+    if (!am.name || serverPort == 0) return;
+    
+    
+    uint16_t aport_DONOTUSE = 0;
     NSString *ipAddress = nil;
-    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport fromAddress:address];
-
+    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport_DONOTUSE fromAddress:address];
+    if ([ipAddress rangeOfString:@":"].length > 0)return;
+    
+    NSArray *dataArray = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] componentsSeparatedByString:@","];
+    if ([am.networkID isEqualToString:dataArray[0]]) {
+        int senderPort = [dataArray[1] intValue];
+        NSString *senderName = dataArray[2];
+        
+        if (![ipAddress isEqualToString:[am _getIPAddress]] || serverPort != senderPort) {
+            [am.tcpHandler connectTo:ipAddress port:senderPort name:senderName];
+        }
+        
+    }
+    
+}
+/*
     if ([ipAddress rangeOfString:@":"].length > 0)return;
     if ([ipAddress isEqualToString:[am _getIPAddress]]) return;
     
     if ([am.networkID isEqualToString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]]) {
-        [[AnyMesh sharedInstance].tcpHandler connectTo:ipAddress];
+        [am.tcpHandler connectTo:ipAddress];
     }}
-
+*/
 @end

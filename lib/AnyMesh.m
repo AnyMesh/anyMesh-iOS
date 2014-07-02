@@ -11,40 +11,32 @@
 #import "MeshTCPHandler.h"
 #import "MeshDeviceInfo.h"
 #import "GCDAsyncSocket.h"
+#import "SocketInfo.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
-static AnyMesh *sharedInstance = nil;
 
 @implementation AnyMesh
 
-
-+ (AnyMesh *)sharedInstance {
-    if (sharedInstance == nil) {
-        sharedInstance = [[super allocWithZone:NULL] init];
-    }
-    
-    return sharedInstance;
-}
 
 -(id)init
 {
     if (self = [super init]) {
         self.socketQueue = dispatch_queue_create("socketQueue", NULL);
-        self.networkID = @"c8m3!x";
+        self.networkID = @"anymesh";
+        self.discoveryPort = UDP_PORT;
+        
+        _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
+        _tcpHandler = [[MeshTCPHandler alloc] initWithAnyMesh:self];
     }
     return self;
 }
 
 -(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
 {
-    _udpHandler = [[MeshUDPHandler alloc] initWithNetworkID:_networkID onPort:UDP_PORT];
-    [_udpHandler startBroadcasting];
-    
     _name = name;
     _listensTo = listensTo;
-    _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
-    
+    [_tcpHandler beginListening];
 }
 
 -(NSArray*)connectedDevices
@@ -61,23 +53,23 @@ static AnyMesh *sharedInstance = nil;
 
 -(void)resume
 {
-    [_udpHandler startBroadcasting];
-    [_tcpHandler resumeAccepting];
+    //[_udpHandler startBroadcasting];
+    if(self.name)[_tcpHandler beginListening];
 }
 
 #pragma mark Connections
 -(void)_tcpConnectedTo:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshConnectedTo:[socketInfo _clone]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMeshConnectedTo:[socketInfo.dInfo _clone]];
     }
 }
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.name]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
     }
 }
 
