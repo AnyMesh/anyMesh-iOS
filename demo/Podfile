@@ -1,0 +1,13 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, "6.0"
+
+target "anyMesh" do
+  pod "AnyMesh", :path => "../"
+end
+
+target "anyMesh Tests" do
+  pod "AnyMesh", :path => "../"
+
+  pod 'Specta', '~> 0.2.1'
+  pod 'Expecta'
+end
