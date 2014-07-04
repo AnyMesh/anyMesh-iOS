@@ -49,20 +49,22 @@ typedef enum {
 
 @property (nonatomic) int discoveryPort;
 @property (nonatomic) NSString *name;
-@property (nonatomic) NSArray *listensTo;
+@property (nonatomic) NSArray *subscriptions;
 @property (nonatomic) NSString *networkID;
 
 
--(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
+-(void)connectWithName:(NSString*)name subscriptions:(NSArray*)subscriptions;
 -(NSArray*)connectedDevices;
 -(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
+-(void)updateSubscriptions:(NSArray*)subscriptions;
 
 -(void)suspend;
 -(void)resume;
 
 
+#pragma mark Internal Use
 -(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
 - (NSString *)_getIPAddress;

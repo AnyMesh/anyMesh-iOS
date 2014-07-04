@@ -25,6 +25,7 @@
 -(id)initWithAnyMesh:(AnyMesh*)anyMesh;
 -(void)connectTo:(NSString*)ipAddress port:(int)port name:(NSString*)name;
 -(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict;
+-(void)sendInfoUpdates;
 -(NSArray*)getConnections;
 -(void)beginListening;
 -(void)disconnectAll;
