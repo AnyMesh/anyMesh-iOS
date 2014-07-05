@@ -49,7 +49,7 @@
     }
     MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
     dInfo.name = _nameField.text;
-    dInfo.listensTo = listens;
+    dInfo.subscriptions = listens;
     
     [_parentController connectWithInfo:dInfo];
     [self dismiss];
@@ -58,8 +58,8 @@
 -(void)presentInView:(UIView*)superView {
     [self setAlpha:0];
     [superView addSubview:self];
-    [self layoutSubviews];
     [self constrainToSuperView];
+    [self layoutSubviews];
     
     [UIView animateWithDuration:0.5 animations:^{
         [self setAlpha:1];

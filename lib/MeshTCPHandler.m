@@ -83,7 +83,7 @@
         for (GCDAsyncSocket *connection in connections) {
             SocketInfo *info = (SocketInfo*)connection.userData;
             MeshDeviceInfo *devInfo = info.dInfo;
-            if ([devInfo.listensTo containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
+            if ([devInfo.subscriptions containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
         }
     }
     else {
@@ -98,14 +98,26 @@
     }
 }
 
--(void)sendInfoTo:(GCDAsyncSocket*)socket
+-(void)sendInfoTo:(GCDAsyncSocket*)socket update:(BOOL)isUpdate
 {
+    NSString *name = am.name;
+    if (isUpdate) name = @"";
     NSDictionary *message = @{KEY_TYPE:@"info",
-                              KEY_SENDER:am.name,
-                              KEY_LISTENSTO:am.listensTo};
+                              KEY_SENDER:name,
+                              KEY_LISTENSTO:am.subscriptions};
     NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
     [socket writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
     
+}
+
+-(void)sendInfoUpdates
+{
+    for (GCDAsyncSocket *connection in connections) {
+        SocketInfo *sInfo = (SocketInfo*)connection.userData;
+        if (sInfo.dInfo.name) {
+            [self sendInfoTo:connection update:TRUE];
+        }
+    }
 }
 
 -(void)sendPassTo:(GCDAsyncSocket*)socket
@@ -156,7 +168,10 @@
                 SocketInfo *info = (SocketInfo*)sock.userData;
                 MeshDeviceInfo *dInfo = info.dInfo;
                 
-                if (info.serverRelationship) {
+                if (msg.sender.length < 1) {
+                    dInfo.subscriptions = msg.listensTo;
+                }
+                else if (info.serverRelationship) {
                     //validate, add device info and send info back
                     if ([self socketForName:msg.sender]) {
                         [connections removeObject:sock];
@@ -164,8 +179,8 @@
                     }
                     else {
                         dInfo.name = msg.sender;
-                        dInfo.listensTo = msg.listensTo;
-                        [self sendInfoTo:sock];
+                        dInfo.subscriptions = msg.listensTo;
+                        [self sendInfoTo:sock update:FALSE];
                     }
                 }
                 else {
@@ -180,7 +195,7 @@
                     }
                     [self sendPassTo:sock];
                     dInfo.name = msg.sender;
-                    dInfo.listensTo = msg.listensTo;
+                    dInfo.subscriptions = msg.listensTo;
                     [am _tcpConnectedTo:sock];
                 }
                 /*
@@ -224,7 +239,7 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    [self sendInfoTo:sock];
+    [self sendInfoTo:sock update:FALSE];
     [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 

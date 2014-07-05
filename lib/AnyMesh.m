@@ -32,11 +32,17 @@
     return self;
 }
 
--(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
+-(void)connectWithName:(NSString*)name subscriptions:(NSArray*)listensTo
 {
     _name = name;
-    _listensTo = listensTo;
+    _subscriptions = listensTo;
     [_tcpHandler beginListening];
+}
+
+-(void)updateSubscriptions:(NSArray*)newSubscriptions
+{
+    _subscriptions = newSubscriptions;
+    
 }
 
 -(NSArray*)connectedDevices

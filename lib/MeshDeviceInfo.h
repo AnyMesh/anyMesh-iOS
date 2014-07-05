@@ -11,7 +11,7 @@
 @interface MeshDeviceInfo : NSObject
 
 @property (nonatomic)NSString *name;
-@property (nonatomic)NSArray *listensTo;
+@property (nonatomic)NSArray *subscriptions;
 @property (nonatomic)NSString *ipAddress;
 
 - (MeshDeviceInfo*)_clone;
