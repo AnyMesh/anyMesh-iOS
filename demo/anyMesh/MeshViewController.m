@@ -121,7 +121,7 @@
 
 
 #pragma mark - AnyMesh Delegate Methods
--(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
+-(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = @"New Connection";
@@ -132,7 +132,7 @@
     [self updateTableView];
 }
 
--(void)anyMeshDisconnectedFrom:(NSString *)name
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = @"Disconnected From";
@@ -143,7 +143,7 @@
     [self updateTableView];
 }
 
--(void)anyMeshReceivedMessage:(MeshMessage *)message
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = [NSString stringWithFormat:@"Message: %@", message.data[@"msg"]];

@@ -32,11 +32,12 @@ typedef enum {
     MeshMessageTypePass
 } MeshMessageType;
 
+@class AnyMesh;
 @protocol AnyMeshDelegate <NSObject>
 
--(void)anyMeshReceivedMessage:(MeshMessage*)message;
--(void)anyMeshConnectedTo:(MeshDeviceInfo*)device;
--(void)anyMeshDisconnectedFrom:(NSString*)name;
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage*)message;
+-(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo*)device;
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString*)name;
 
 @end
 

@@ -68,21 +68,21 @@
 {
     SocketInfo *socketInfo = (SocketInfo*)socket.userData;
     if (socketInfo.dInfo.name) {
-        [self.delegate anyMeshConnectedTo:[socketInfo.dInfo _clone]];
+        [self.delegate anyMesh:self connectedTo:[socketInfo.dInfo _clone]];
     }
 }
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
 {
     SocketInfo *socketInfo = (SocketInfo*)socket.userData;
     if (socketInfo.dInfo.name) {
-        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
+        [self.delegate anyMesh:self disconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
     }
 }
 
 #pragma mark Messaging
 - (void)messageReceived:(MeshMessage *)message
 {
-    [self.delegate anyMeshReceivedMessage:message];
+    [self.delegate anyMesh:self receivedMessage:message];
 }
 
 - (void)publishToTarget:(NSString *)target withData:(NSDictionary *)dataDict
