@@ -48,17 +48,17 @@
 }
 
 #pragma mark - Delegate
-- (void)anyMeshConnectedTo:(MeshDeviceInfo *)device
+- (void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
     didConnect = TRUE;
 }
 
--(void)anyMeshDisconnectedFrom:(NSString *)name
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
     
 }
 
--(void)anyMeshReceivedMessage:(MeshMessage *)message
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
 {
     
 }
