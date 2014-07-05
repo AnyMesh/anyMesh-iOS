@@ -72,7 +72,8 @@
         int senderPort = [dataArray[1] intValue];
         NSString *senderName = dataArray[2];
         
-        if (![ipAddress isEqualToString:[am _getIPAddress]] || serverPort != senderPort) {
+        NSString *ownIp = [am _getIPAddress];
+        if ((![ipAddress isEqualToString:ownIp] || serverPort != senderPort) && ![ownIp isEqualToString:@"error"]) {
             [am.tcpHandler connectTo:ipAddress port:senderPort name:senderName];
         }
         

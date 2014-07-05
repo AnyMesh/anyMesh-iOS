@@ -7,8 +7,15 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "AnyMesh.h"
+#import "AGASyncTestHelper.h"
 
-@interface anyMesh_Tests : XCTestCase
+@interface anyMesh_Tests : XCTestCase <AnyMeshDelegate> {
+    AnyMesh *any1;
+    AnyMesh *any2;
+    
+    BOOL didConnect;
+}
 
 @end
 
@@ -28,7 +35,32 @@
 
 - (void)testExample
 {
-    XCTAssertEqual(1, 1, @"test");
+    any1 = [[AnyMesh alloc] init];
+    any1.delegate = self;
+    [any1 connectWithName:@"One" listeningTo:@[@"global", @"odd"]];
+    
+    any2 = [[AnyMesh alloc] init];
+    any2.delegate = self;
+    [any2 connectWithName:@"Two" listeningTo:@[@"global", @"even"]];
+    
+    
+    WAIT_WHILE(!didConnect, 6.0);
+}
+
+#pragma mark - Delegate
+- (void)anyMeshConnectedTo:(MeshDeviceInfo *)device
+{
+    didConnect = TRUE;
+}
+
+-(void)anyMeshDisconnectedFrom:(NSString *)name
+{
+    
+}
+
+-(void)anyMeshReceivedMessage:(MeshMessage *)message
+{
+    
 }
 
 @end

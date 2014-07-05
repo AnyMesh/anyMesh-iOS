@@ -35,6 +35,7 @@
 
         SetupView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SetupView" owner:self options:nil] objectAtIndex:0];
         sView.parentController = self;
+        sView.translatesAutoresizingMaskIntoConstraints = FALSE;
         [sView presentInView:self.view];
     }
 }

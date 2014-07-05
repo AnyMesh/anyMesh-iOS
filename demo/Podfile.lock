@@ -1,23 +1,22 @@
 PODS:
+  - AGAsyncTestHelper/Core (1.0)
+  - AGAsyncTestHelper/Shorthand (1.0):
+    - AGAsyncTestHelper/Core
   - AnyMesh (0.3.0):
     - CocoaAsyncSocket (~> 7.3.0)
   - CocoaAsyncSocket (7.3.5)
-  - Expecta (0.3.0)
-  - Specta (0.2.1)
 
 DEPENDENCIES:
+  - AGAsyncTestHelper/Shorthand
   - AnyMesh (from `../`)
-  - Expecta
-  - Specta (~> 0.2.1)
 
 EXTERNAL SOURCES:
   AnyMesh:
     :path: ../
 
 SPEC CHECKSUMS:
+  AGAsyncTestHelper: fc9d44460933d8167ae431f466ab3a09a5121582
   AnyMesh: adb86b47948dd4c2a65ca113a1d746f56084b8ff
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
-  Expecta: ce8a51b9fad15a2cd573b291cb2909aaed865350
-  Specta: 9141310f46b1f68b676650ff2854e1ed0b74163a
 
 COCOAPODS: 0.33.1
