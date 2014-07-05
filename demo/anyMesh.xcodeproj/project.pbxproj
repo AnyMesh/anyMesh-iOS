@@ -49,7 +49,6 @@
 		5558B6A519657346009B8DFB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5558B6A719657347009B8DFB /* anyMesh_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = anyMesh_Tests.m; sourceTree = "<group>"; };
 		5558B6A919657347009B8DFB /* anyMesh Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "anyMesh Tests-Prefix.pch"; sourceTree = "<group>"; };
-		5558B6C51967402B009B8DFB /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncUdpSocket.m; path = Pods/CocoaAsyncSocket/GCD/GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
 		556AA34C1944E3EE00D3FB57 /* CellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellData.h; sourceTree = "<group>"; };
 		556AA34D1944E3EE00D3FB57 /* CellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellData.m; sourceTree = "<group>"; };
 		556AA34F1944E83900D3FB57 /* SessionInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionInfoView.h; sourceTree = "<group>"; };
@@ -76,7 +75,6 @@
 		5822D18219422D2000F8A383 /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		5822D18319422D2000F8A383 /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		B9DB224755FC475AB9566E80 /* Pods-anyMesh Tests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anyMesh Tests.xcconfig"; path = "Pods/Pods-anyMesh Tests.xcconfig"; sourceTree = "<group>"; };
-		C42136D47706488DB9518DC5 /* Pods-Tests2.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests2.xcconfig"; path = "Pods/Pods-Tests2.xcconfig"; sourceTree = "<group>"; };
 		D297002C956F42ABA60D2EAF /* libPods-anyMesh Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-anyMesh Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84A29410DAA4C66ACE19233 /* libPods-anyMesh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-anyMesh.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -129,14 +127,12 @@
 		55C1BBF8190D95EA00F2A760 = {
 			isa = PBXGroup;
 			children = (
-				5558B6C51967402B009B8DFB /* GCDAsyncUdpSocket.m */,
 				55C1BC0A190D95EA00F2A760 /* anyMesh */,
 				5558B6A119657346009B8DFB /* anyMesh Tests */,
 				55C1BC03190D95EA00F2A760 /* Frameworks */,
 				55C1BC02190D95EA00F2A760 /* Products */,
 				1177C53E548E4BBBB3468046 /* Pods-anyMesh.xcconfig */,
 				B9DB224755FC475AB9566E80 /* Pods-anyMesh Tests.xcconfig */,
-				C42136D47706488DB9518DC5 /* Pods-Tests2.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};

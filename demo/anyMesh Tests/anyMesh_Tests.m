@@ -37,11 +37,11 @@
 {
     any1 = [[AnyMesh alloc] init];
     any1.delegate = self;
-    [any1 connectWithName:@"One" listeningTo:@[@"global", @"odd"]];
+    [any1 connectWithName:@"One" subscriptions:@[@"global", @"odd"]];
     
     any2 = [[AnyMesh alloc] init];
     any2.delegate = self;
-    [any2 connectWithName:@"Two" listeningTo:@[@"global", @"even"]];
+    [any2 connectWithName:@"Two" subscriptions:@[@"global", @"even"]];
     
     
     WAIT_WHILE(!didConnect, 6.0);

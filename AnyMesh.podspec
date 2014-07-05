@@ -8,12 +8,11 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/AnyMesh/anyMesh-iOS"
   s.license      = "MIT (example)"
   s.author             = { "Dave Paul" => "davepaul0@gmail.com" }
-  s.platform     = :ios
   s.platform     = :ios, "6.0"
   s.source       = { :git => "https://github.com/AnyMesh/anyMesh-iOS.git", :tag => "0.3.0" }
-  s.source_files  = "lib", "lib/*.{h,m}"
+  s.source_files  = "lib", "lib/*.{h,m}", "lib/CocoaAsyncSocket","lib/CocoaAsycSocket/*.{h,m}"
 
   s.requires_arc = true
-  s.dependency "CocoaAsyncSocket", "~> 7.3.0"
+
 
 end
