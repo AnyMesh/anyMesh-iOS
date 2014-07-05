@@ -56,7 +56,7 @@
 
 -(void)connectWithInfo:(MeshDeviceInfo *)info
 {
-    [am connectWithName:info.name listeningTo:info.listensTo];
+    [am connectWithName:info.name subscriptions:info.subscriptions];
 }
 
 - (IBAction)publishButtonPressed:(id)sender {
