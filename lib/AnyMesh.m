@@ -78,6 +78,13 @@
         [self.delegate anyMesh:self disconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
     }
 }
+-(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name
+{
+    if ([self.delegate respondsToSelector:@selector(anyMesh:updatedSubscriptions:forName:)]) {
+        [self.delegate anyMesh:self updatedSubscriptions:subscriptions forName:name];
+    }
+}
+
 
 #pragma mark Messaging
 - (void)messageReceived:(MeshMessage *)message

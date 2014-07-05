@@ -170,6 +170,7 @@
                 
                 if (msg.sender.length < 1) {
                     dInfo.subscriptions = msg.listensTo;
+                    [am _tcpUpdatedSubscriptions:dInfo.subscriptions forName:dInfo.name];
                 }
                 else if (info.serverRelationship) {
                     //validate, add device info and send info back

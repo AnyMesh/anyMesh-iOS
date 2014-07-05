@@ -34,10 +34,12 @@ typedef enum {
 
 @class AnyMesh;
 @protocol AnyMeshDelegate <NSObject>
-
 -(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage*)message;
 -(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo*)device;
 -(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString*)name;
+@optional
+-(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
+
 
 @end
 
@@ -68,6 +70,7 @@ typedef enum {
 #pragma mark Internal Use
 -(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
+-(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
 - (NSString *)_getIPAddress;
 
 @end
