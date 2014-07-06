@@ -18,7 +18,7 @@
 	AnyMesh *am;
 	GCDAsyncSocket *listenSocket;
 	NSMutableArray *connections;
-
+    NSMutableArray *temporary;
     
 }
 
