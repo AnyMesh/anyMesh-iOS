@@ -194,9 +194,9 @@
                             return;
                         }
                     }
-                    [self sendPassTo:sock];
                     dInfo.name = msg.sender;
                     dInfo.subscriptions = msg.listensTo;
+                    [self sendPassTo:sock];
                     [am _tcpConnectedTo:sock];
                 }
                 /*

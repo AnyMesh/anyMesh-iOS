@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "AnyMesh.h"
 #import "AGASyncTestHelper.h"
+#import "MeshMessage.h"
 
 @interface InfoUpdate_Tests : XCTestCase <AnyMeshDelegate> {
     AnyMesh *sender;
@@ -29,11 +30,13 @@
     connectedMeshes = 0;
     
     sender = [[AnyMesh alloc] init];
+    sender.delegate = self;
     [sender connectWithName:@"sender" subscriptions:@[]];
     receiver = [[AnyMesh alloc] init];
+    receiver.delegate = self;
     [receiver connectWithName:@"receiver" subscriptions:@[@"start"]];
     
-    WAIT_WHILE(!testDone, 10.0);
+    WAIT_WHILE(!testDone, 20.0);
 }
 
 #pragma mark - Delegate
@@ -42,6 +45,7 @@
     connectedMeshes++;
     if (connectedMeshes > 2) XCTFail(@"Duplicate connections have been made!");
 
+    else if (connectedMeshes == 2) [sender publishToTarget:@"start" withData:@{@"index":@(1)}];
     
 }
 
@@ -53,7 +57,23 @@
 
 -(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
 {
+    NSLog(@"%@ mesh received message from %@", anyMesh.name, message.sender);
     
+    if (anyMesh == sender) XCTFail(@"only receiver instance should receive messages in this test.");
+    else {
+        if ([message.data[@"index"] isEqualToNumber:@(1)]) [receiver updateSubscriptions:@[@"end"]];
+        else if ([message.data[@"index"] isEqualToNumber:@(2)]) testDone = TRUE;
+    }
+}
+
+-(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray *)subscriptions forName:(NSString *)name
+{
+    if (anyMesh == sender) XCTFail(@"only receiver updates subscriptions in this test.");
+    else {
+        XCTAssert(subscriptions.count == 1, @"updated subscription array is only one keyword");
+        XCTAssert(([subscriptions[0] isEqualToString:@"end"]), @"new keyword is 'end'");
+        [sender publishToTarget:@"end" withData:@{@"index":@(2)}];
+    }
 }
 
 @end
