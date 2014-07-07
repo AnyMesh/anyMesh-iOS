@@ -11,7 +11,8 @@
 
 @interface SocketInfo : NSObject
 
-@property MeshDeviceInfo *dInfo;
+@property (retain) MeshDeviceInfo *dInfo;
 @property BOOL serverRelationship;
+@property BOOL isValidated;
 
 @end

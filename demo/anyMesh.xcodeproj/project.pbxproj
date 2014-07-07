@@ -8,12 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1C13AF9613A84A9FB11C8749 /* libPods-anyMesh Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D297002C956F42ABA60D2EAF /* libPods-anyMesh Tests.a */; };
-		55361B871968771E004D8768 /* InfoUpdate_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 55361B861968771E004D8768 /* InfoUpdate_Tests.m */; };
+		55361B871968771E004D8768 /* UpdateInfo_Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 55361B861968771E004D8768 /* UpdateInfo_Test.m */; };
+		55361B9D196A3853004D8768 /* DisconnectTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 55361B9C196A3853004D8768 /* DisconnectTest.m */; };
 		5558B69E19657346009B8DFB /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC1D190D95EB00F2A760 /* XCTest.framework */; };
 		5558B69F19657346009B8DFB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC04190D95EA00F2A760 /* Foundation.framework */; };
 		5558B6A019657346009B8DFB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55C1BC08190D95EA00F2A760 /* UIKit.framework */; };
 		5558B6A619657346009B8DFB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5558B6A419657346009B8DFB /* InfoPlist.strings */; };
-		5558B6A819657347009B8DFB /* anyMesh_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5558B6A719657347009B8DFB /* anyMesh_Tests.m */; };
+		5558B6A819657347009B8DFB /* Connect_Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 5558B6A719657347009B8DFB /* Connect_Test.m */; };
 		556AA34E1944E3EE00D3FB57 /* CellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 556AA34D1944E3EE00D3FB57 /* CellData.m */; };
 		556AA3511944E83900D3FB57 /* SessionInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 556AA3501944E83900D3FB57 /* SessionInfoView.m */; };
 		556AA3531944E85B00D3FB57 /* SessionInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 556AA3521944E85B00D3FB57 /* SessionInfoView.xib */; };
@@ -45,11 +46,12 @@
 /* Begin PBXFileReference section */
 		1177C53E548E4BBBB3468046 /* Pods-anyMesh.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-anyMesh.xcconfig"; path = "Pods/Pods-anyMesh.xcconfig"; sourceTree = "<group>"; };
 		495097CCB76F46AD8A11A759 /* libPods-Tests2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Tests2.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		55361B861968771E004D8768 /* InfoUpdate_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoUpdate_Tests.m; sourceTree = "<group>"; };
+		55361B861968771E004D8768 /* UpdateInfo_Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateInfo_Test.m; sourceTree = "<group>"; };
+		55361B9C196A3853004D8768 /* DisconnectTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DisconnectTest.m; sourceTree = "<group>"; };
 		5558B69D19657346009B8DFB /* anyMesh_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = anyMesh_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5558B6A319657346009B8DFB /* anyMesh Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "anyMesh Tests-Info.plist"; sourceTree = "<group>"; };
 		5558B6A519657346009B8DFB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		5558B6A719657347009B8DFB /* anyMesh_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = anyMesh_Tests.m; sourceTree = "<group>"; };
+		5558B6A719657347009B8DFB /* Connect_Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Connect_Test.m; sourceTree = "<group>"; };
 		5558B6A919657347009B8DFB /* anyMesh Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "anyMesh Tests-Prefix.pch"; sourceTree = "<group>"; };
 		556AA34C1944E3EE00D3FB57 /* CellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellData.h; sourceTree = "<group>"; };
 		556AA34D1944E3EE00D3FB57 /* CellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellData.m; sourceTree = "<group>"; };
@@ -110,8 +112,9 @@
 		5558B6A119657346009B8DFB /* anyMesh Tests */ = {
 			isa = PBXGroup;
 			children = (
-				5558B6A719657347009B8DFB /* anyMesh_Tests.m */,
-				55361B861968771E004D8768 /* InfoUpdate_Tests.m */,
+				5558B6A719657347009B8DFB /* Connect_Test.m */,
+				55361B9C196A3853004D8768 /* DisconnectTest.m */,
+				55361B861968771E004D8768 /* UpdateInfo_Test.m */,
 				5558B6A219657346009B8DFB /* Supporting Files */,
 			);
 			path = "anyMesh Tests";
@@ -363,8 +366,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				55361B871968771E004D8768 /* InfoUpdate_Tests.m in Sources */,
-				5558B6A819657347009B8DFB /* anyMesh_Tests.m in Sources */,
+				55361B9D196A3853004D8768 /* DisconnectTest.m in Sources */,
+				55361B871968771E004D8768 /* UpdateInfo_Test.m in Sources */,
+				5558B6A819657347009B8DFB /* Connect_Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

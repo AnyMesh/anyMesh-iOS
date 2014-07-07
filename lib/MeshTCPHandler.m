@@ -151,13 +151,14 @@
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		@autoreleasepool {
+            SocketInfo *info = (SocketInfo*)sock.userData;
             
 			NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
 			NSDictionary *msgObj = [NSJSONSerialization JSONObjectWithData:strData options:0 error:nil];
             MeshMessage *msg = [[MeshMessage alloc] initWithHandler:self messageObject:msgObj];
            
             if (msg.type == MeshMessageTypeInfo) {
-                SocketInfo *info = (SocketInfo*)sock.userData;
+
                 MeshDeviceInfo *dInfo = info.dInfo;
                 
                 if (msg.sender.length < 1) {
@@ -188,6 +189,7 @@
                     }
                     dInfo.name = msg.sender;
                     dInfo.subscriptions = msg.listensTo;
+                    info.isValidated = TRUE;
                     [self sendPassTo:sock];
                     [am _tcpConnectedTo:sock];
                 }
@@ -201,6 +203,7 @@
             }
             else if (msg.type == MeshMessageTypePass) {
                 //notify
+                info.isValidated = TRUE;
                 [am _tcpConnectedTo:sock];
             }
             
@@ -221,7 +224,8 @@
 	{
 		dispatch_async(dispatch_get_main_queue(), ^{
 			@autoreleasepool {
-                [am _tcpDisconnectedFrom:sock];
+                SocketInfo *info = (SocketInfo*)sock.userData;
+                if (info.isValidated)[am _tcpDisconnectedFrom:sock];
 			}
 		});
 		

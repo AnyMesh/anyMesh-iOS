@@ -47,6 +47,7 @@
 {
     [broadcastTimer invalidate];
     broadcastTimer = nil;
+    serverPort = 0;
 }
 -(void)broadcast
 {
