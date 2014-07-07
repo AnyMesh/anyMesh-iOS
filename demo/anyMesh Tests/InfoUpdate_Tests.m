@@ -43,6 +43,8 @@
 - (void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
     connectedMeshes++;
+    NSLog(@"%d connections", connectedMeshes);
+    
     if (connectedMeshes > 2) XCTFail(@"Duplicate connections have been made!");
 
     else if (connectedMeshes == 2) [sender publishToTarget:@"start" withData:@{@"index":@(1)}];
@@ -51,6 +53,7 @@
 
 -(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
+    NSLog(@"%@ reports disconnection from %@", anyMesh.name, name);
     //connectedMeshes--;
     //if (connectedMeshes < 0) XCTFail(@"Error in reporting connections and disconnections!");
 }
@@ -71,7 +74,7 @@
 {
     NSLog(@"%@ mesh updated subscriptions for %@", anyMesh.name, name);
     
-    if (anyMesh == sender) XCTFail(@"only receiver updates subscriptions in this test.");
+    if (anyMesh == receiver) XCTFail(@"only receiver updates subscriptions in this test.");
     else {
         XCTAssert(subscriptions.count == 1, @"updated subscription array is only one keyword");
         XCTAssert(([subscriptions[0] isEqualToString:@"end"]), @"new keyword is 'end'");
