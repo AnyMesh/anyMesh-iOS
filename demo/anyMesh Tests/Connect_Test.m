@@ -10,7 +10,7 @@
 #import "AnyMesh.h"
 #import "AGASyncTestHelper.h"
 
-@interface anyMesh_Tests : XCTestCase <AnyMeshDelegate> {
+@interface Connect_Test : XCTestCase <AnyMeshDelegate> {
     AnyMesh *any1;
     AnyMesh *any2;
     
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation anyMesh_Tests
+@implementation Connect_Test
 
 - (void)setUp
 {
@@ -30,6 +30,8 @@
 - (void)tearDown
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [any1 suspend];
+    [any2 suspend];
     [super tearDown];
 }
 

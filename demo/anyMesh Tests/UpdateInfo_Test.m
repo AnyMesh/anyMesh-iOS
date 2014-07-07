@@ -10,8 +10,9 @@
 #import "AnyMesh.h"
 #import "AGASyncTestHelper.h"
 #import "MeshMessage.h"
+#import "MeshDeviceInfo.h"
 
-@interface InfoUpdate_Tests : XCTestCase <AnyMeshDelegate> {
+@interface UpdateInfo_Test : XCTestCase <AnyMeshDelegate> {
     AnyMesh *sender;
     AnyMesh *receiver;
     
@@ -23,7 +24,7 @@
 
 @end
 
-@implementation InfoUpdate_Tests
+@implementation UpdateInfo_Test
 
 - (void)testInfoUpdate
 {
@@ -31,17 +32,22 @@
     
     sender = [[AnyMesh alloc] init];
     sender.delegate = self;
+    sender.networkID = @"update";
     [sender connectWithName:@"sender" subscriptions:@[@"global"]];
+    
     receiver = [[AnyMesh alloc] init];
     receiver.delegate = self;
+    receiver.networkID = @"update";
     [receiver connectWithName:@"receiver" subscriptions:@[@"start"]];
     
-    WAIT_WHILE(!testDone, 2000.0);
+    WAIT_WHILE(!testDone, 20.0);
 }
 
 #pragma mark - Delegate
 - (void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
+     NSLog(@"%@ reports connection to %@", anyMesh.name, device.name);
+    
     connectedMeshes++;
     NSLog(@"%d connections", connectedMeshes);
     
@@ -54,8 +60,9 @@
 -(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
     NSLog(@"%@ reports disconnection from %@", anyMesh.name, name);
-    //connectedMeshes--;
-    //if (connectedMeshes < 0) XCTFail(@"Error in reporting connections and disconnections!");
+    
+    connectedMeshes--;
+    if (connectedMeshes < 0) XCTFail(@"Error in reporting connections and disconnections!");
 }
 
 -(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
