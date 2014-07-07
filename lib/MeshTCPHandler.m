@@ -25,7 +25,7 @@
         
 		// Setup an array to store all accepted client connections
 		connections = [[NSMutableArray alloc] initWithCapacity:1];
-        
+        temporary = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -58,15 +58,7 @@
     if ([self socketForName:name]) return;
     
     GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
-    
-    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    dInfo.ipAddress = ipAddress;
-    SocketInfo *sInfo = [[SocketInfo alloc] init];
-    sInfo.dInfo = dInfo;
-    socket.userData = sInfo;
-
-    @synchronized(connections){[connections addObject:socket];}
-    
+    [temporary addObject:socket];
     [socket connectToHost:ipAddress onPort:port error:nil];
 }
 
@@ -170,6 +162,7 @@
                 
                 if (msg.sender.length < 1) {
                     dInfo.subscriptions = msg.listensTo;
+                    [am _tcpUpdatedSubscriptions:dInfo.subscriptions forName:dInfo.name];
                 }
                 else if (info.serverRelationship) {
                     //validate, add device info and send info back
@@ -193,9 +186,9 @@
                             return;
                         }
                     }
-                    [self sendPassTo:sock];
                     dInfo.name = msg.sender;
                     dInfo.subscriptions = msg.listensTo;
+                    [self sendPassTo:sock];
                     [am _tcpConnectedTo:sock];
                 }
                 /*
@@ -239,6 +232,13 @@
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
+    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
+    SocketInfo *sInfo = [[SocketInfo alloc] init];
+    sInfo.dInfo = dInfo;
+    sock.userData = sInfo;
+    
+    @synchronized(connections){[connections addObject:sock];}
+    
     [self sendInfoTo:sock update:FALSE];
     [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }

@@ -1,0 +1,19 @@
+PODS:
+  - AGAsyncTestHelper/Core (1.0)
+  - AGAsyncTestHelper/Shorthand (1.0):
+    - AGAsyncTestHelper/Core
+  - AnyMesh (0.3.0)
+
+DEPENDENCIES:
+  - AGAsyncTestHelper/Shorthand
+  - AnyMesh (from `../`)
+
+EXTERNAL SOURCES:
+  AnyMesh:
+    :path: ../
+
+SPEC CHECKSUMS:
+  AGAsyncTestHelper: fc9d44460933d8167ae431f466ab3a09a5121582
+  AnyMesh: 528fcb87e7b75a89c166415653f169c4129bd74a
+
+COCOAPODS: 0.33.1
