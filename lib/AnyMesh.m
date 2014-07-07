@@ -42,6 +42,7 @@
 -(void)updateSubscriptions:(NSArray*)newSubscriptions
 {
     _subscriptions = newSubscriptions;
+    [_tcpHandler sendInfoUpdates];
     
 }
 
