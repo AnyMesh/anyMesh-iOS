@@ -11,39 +11,38 @@
 #import "MeshTCPHandler.h"
 #import "MeshDeviceInfo.h"
 #import "GCDAsyncSocket.h"
+#import "SocketInfo.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
-static AnyMesh *sharedInstance = nil;
 
 @implementation AnyMesh
 
-
-+ (AnyMesh *)sharedInstance {
-    if (sharedInstance == nil) {
-        sharedInstance = [[super allocWithZone:NULL] init];
-    }
-    
-    return sharedInstance;
-}
 
 -(id)init
 {
     if (self = [super init]) {
         self.socketQueue = dispatch_queue_create("socketQueue", NULL);
-        self.networkID = @"c8m3!x";
+        self.networkID = @"anymesh";
+        self.discoveryPort = UDP_PORT;
+        
+        _udpHandler = [[MeshUDPHandler alloc] initWithAnyMesh:self];
+        _tcpHandler = [[MeshTCPHandler alloc] initWithAnyMesh:self];
     }
     return self;
 }
 
--(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo
+-(void)connectWithName:(NSString*)name subscriptions:(NSArray*)listensTo
 {
-    _udpHandler = [[MeshUDPHandler alloc] initWithNetworkID:_networkID onPort:UDP_PORT];
-    [_udpHandler startBroadcasting];
-    
     _name = name;
-    _listensTo = listensTo;
-    _tcpHandler = [[MeshTCPHandler alloc] initWithPort:TCP_PORT];
+    _subscriptions = listensTo;
+    [_tcpHandler beginListening];
+}
+
+-(void)updateSubscriptions:(NSArray*)newSubscriptions
+{
+    _subscriptions = newSubscriptions;
+    [_tcpHandler sendInfoUpdates];
     
 }
 
@@ -61,30 +60,37 @@ static AnyMesh *sharedInstance = nil;
 
 -(void)resume
 {
-    [_udpHandler startBroadcasting];
-    [_tcpHandler resumeAccepting];
+    //[_udpHandler startBroadcasting];
+    if(self.name)[_tcpHandler beginListening];
 }
 
 #pragma mark Connections
 -(void)_tcpConnectedTo:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshConnectedTo:[socketInfo _clone]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMesh:self connectedTo:[socketInfo.dInfo _clone]];
     }
 }
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
 {
-    MeshDeviceInfo *socketInfo = (MeshDeviceInfo*)socket.userData;
-    if (socketInfo.name) {
-        [self.delegate anyMeshDisconnectedFrom:[NSString stringWithString:socketInfo.name]];
+    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
+    if (socketInfo.dInfo.name) {
+        [self.delegate anyMesh:self disconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
     }
 }
+-(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name
+{
+    if ([self.delegate respondsToSelector:@selector(anyMesh:updatedSubscriptions:forName:)]) {
+        [self.delegate anyMesh:self updatedSubscriptions:subscriptions forName:name];
+    }
+}
+
 
 #pragma mark Messaging
 - (void)messageReceived:(MeshMessage *)message
 {
-    [self.delegate anyMeshReceivedMessage:message];
+    [self.delegate anyMesh:self receivedMessage:message];
 }
 
 - (void)publishToTarget:(NSString *)target withData:(NSDictionary *)dataDict
@@ -112,7 +118,9 @@ static AnyMesh *sharedInstance = nil;
         while (temp_addr != NULL) {
             if( temp_addr->ifa_addr->sa_family == AF_INET) {
                 // Check if interface is en0 which is the wifi connection on the iPhone
-                if ([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                NSString *interface = [NSString stringWithUTF8String:temp_addr->ifa_name];
+                
+                if ([interface isEqualToString:@"en0"] || [interface isEqualToString:@"en1"]) {
                     // Get NSString from C String
                     address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
                 }

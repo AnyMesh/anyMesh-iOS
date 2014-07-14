@@ -15,6 +15,7 @@
     UITapGestureRecognizer *recognizer;
 }
 
+@property AnyMesh *am;
 @property (weak, nonatomic) IBOutlet UITextField *msgField;
 @property (weak, nonatomic) IBOutlet UITextField *targetField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

@@ -10,18 +10,18 @@
 #import "MeshMessage.h"
 #import "MeshDeviceInfo.h"
 #import "SetupView.h"
-#import "UIView+AutoLayout.h"
 #import "CellData.h"
 #import "SessionInfoView.h"
 
 @implementation MeshViewController
+@synthesize am;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        am = [AnyMesh sharedInstance];
+        am = [[AnyMesh alloc] init];
         am.delegate = self;
         messages = [[NSMutableArray alloc] init];
         
@@ -35,6 +35,7 @@
 
         SetupView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SetupView" owner:self options:nil] objectAtIndex:0];
         sView.parentController = self;
+        sView.translatesAutoresizingMaskIntoConstraints = FALSE;
         [sView presentInView:self.view];
     }
 }
@@ -55,7 +56,7 @@
 
 -(void)connectWithInfo:(MeshDeviceInfo *)info
 {
-    [am connectWithName:info.name listeningTo:info.listensTo];
+    [am connectWithName:info.name subscriptions:info.subscriptions];
 }
 
 - (IBAction)publishButtonPressed:(id)sender {
@@ -92,7 +93,7 @@
 -(void)updateTableView
 {
     [_tableView reloadData];
-    int rows = [_tableView numberOfRowsInSection:0];
+    NSInteger rows = [_tableView numberOfRowsInSection:0];
     [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(rows-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
     [self.view endEditing:TRUE];
 }
@@ -120,7 +121,7 @@
 
 
 #pragma mark - AnyMesh Delegate Methods
--(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
+-(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = @"New Connection";
@@ -131,7 +132,7 @@
     [self updateTableView];
 }
 
--(void)anyMeshDisconnectedFrom:(NSString *)name
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = @"Disconnected From";
@@ -142,7 +143,7 @@
     [self updateTableView];
 }
 
--(void)anyMeshReceivedMessage:(MeshMessage *)message
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
 {
     CellData *cData = [[CellData alloc] init];
     cData.message = [NSString stringWithFormat:@"Message: %@", message.data[@"msg"]];

@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class AnyMesh;
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    AnyMesh *anymesh;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -28,14 +28,18 @@ typedef enum {
     MeshMessageTypePublish,
     MeshMessageTypeRequest,
     MeshMessageTypeResponse,
-    MeshMessageTypeInfo
+    MeshMessageTypeInfo,
+    MeshMessageTypePass
 } MeshMessageType;
 
+@class AnyMesh;
 @protocol AnyMeshDelegate <NSObject>
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage*)message;
+-(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo*)device;
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString*)name;
+@optional
+-(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
 
--(void)anyMeshReceivedMessage:(MeshMessage*)message;
--(void)anyMeshConnectedTo:(MeshDeviceInfo*)device;
--(void)anyMeshDisconnectedFrom:(NSString*)name;
 
 @end
 
@@ -46,24 +50,27 @@ typedef enum {
 @property (nonatomic) dispatch_queue_t socketQueue;
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
+@property (nonatomic) int discoveryPort;
 @property (nonatomic) NSString *name;
-@property (nonatomic) NSArray *listensTo;
+@property (nonatomic) NSArray *subscriptions;
 @property (nonatomic) NSString *networkID;
 
-+ (AnyMesh*)sharedInstance;
 
--(void)connectWithName:(NSString*)name listeningTo:(NSArray*)listensTo;
+-(void)connectWithName:(NSString*)name subscriptions:(NSArray*)subscriptions;
 -(NSArray*)connectedDevices;
 -(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
+-(void)updateSubscriptions:(NSArray*)subscriptions;
 
 -(void)suspend;
 -(void)resume;
 
 
+#pragma mark Internal Use
 -(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
 -(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
+-(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
 - (NSString *)_getIPAddress;
 
 @end
