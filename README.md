@@ -64,6 +64,12 @@ To include AnyMesh to your project, add this to your Podfile:
 
     pod "AnyMesh", "~>0.3.0"
 
+Or to quickly get going on a sample XCode project with Unit Tests, just type the following in Terminal:
+
+    pod try AnyMesh
+
+Once you have downloaded / imported AnyMesh into a project:
+
 Create/access an AnyMesh instance:
 
     AnyMesh *am = [[AnyMesh alloc] init];
@@ -130,9 +136,6 @@ More optional methods for your delegate to implement:
 
         //if your program is keeping track of subscriptions for each connected instance, you may want to use this:
         -(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray *)subscriptions forName:(NSString *)name;
-
-
-
 
 ###AnyMesh software is licensed with the MIT License
 
