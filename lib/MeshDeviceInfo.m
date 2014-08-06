@@ -10,18 +10,36 @@
 
 @implementation MeshDeviceInfo
 
--(MeshDeviceInfo*)clone
+-(MeshDeviceInfo*)_clone
 {
     MeshDeviceInfo *clone = [[MeshDeviceInfo alloc] init];
-    clone.name = [NSString stringWithString:self.name];
+    if(self.name)clone.name = [NSString stringWithString:self.name];
     NSMutableArray *clonedArray = [[NSMutableArray alloc] init];
-    for (NSString *listenString in self.listensTo) {
-        [clonedArray addObject:[NSString stringWithString:listenString]];
+    if (self.subscriptions) {
+        for (NSString *subscription in self.subscriptions) {
+            [clonedArray addObject:[NSString stringWithString:subscription]];
+        }
     }
-    clone.listensTo = clonedArray;
+    clone.subscriptions = clonedArray;
     clone.ipAddress = self.ipAddress;
     return clone;
 }
 
+-(BOOL)_validate
+{
+    if(self.name){
+        if(![[self.name class] isSubclassOfClass:[NSString class]]) return FALSE;
+    }
+    if(self.subscriptions){
+        if (![[self.subscriptions class] isSubclassOfClass:[NSArray class]]) return FALSE;
+        
+        for (NSObject *subscription in self.subscriptions)
+        {
+            if (![[subscription class] isSubclassOfClass:[NSString class]]) return FALSE;
+        }
+
+    }
+    return TRUE;
+}
 
 @end

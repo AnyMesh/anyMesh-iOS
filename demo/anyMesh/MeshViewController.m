@@ -8,20 +8,22 @@
 
 #import "MeshViewController.h"
 #import "MeshMessage.h"
-#import "DeviceCell.h"
-#import "CellInfo.h"
 #import "MeshDeviceInfo.h"
+#import "SetupView.h"
+#import "CellData.h"
+#import "SessionInfoView.h"
 
 @implementation MeshViewController
+@synthesize am;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        am = [AnyMesh sharedInstance];
+        am = [[AnyMesh alloc] init];
         am.delegate = self;
-        connectedDevices = [[NSMutableArray alloc] init];
+        messages = [[NSMutableArray alloc] init];
         
             }
     return self;
@@ -30,9 +32,11 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     if (!am.name) {
-        inputVC = [[InputViewController alloc] initWithNibName:@"InputViewController" bundle:nil];
-        inputVC.delegate = self;
-        [self presentViewController:inputVC animated:true completion:nil];
+
+        SetupView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SetupView" owner:self options:nil] objectAtIndex:0];
+        sView.parentController = self;
+        sView.translatesAutoresizingMaskIntoConstraints = FALSE;
+        [sView presentInView:self.view];
     }
 }
 
@@ -40,10 +44,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [_tableView registerNib:[UINib nibWithNibName:@"DeviceCell" bundle:[NSBundle mainBundle]]  forCellReuseIdentifier:@"Cell"];
     _msgField.delegate = self;
     _targetField.delegate = self;
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,108 +54,136 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)connectWithInfo:(MeshDeviceInfo *)info
+{
+    [am connectWithName:info.name subscriptions:info.subscriptions];
+}
+
 - (IBAction)publishButtonPressed:(id)sender {
     [am publishToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
+    
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Published: %@", _msgField.text];
+    cData.subTitle = [NSString stringWithFormat:@"Targeting all \"%@\" subscribers", _targetField.text];
+    cData.color = [UIColor purpleColor];
+    [messages addObject:cData];
+    [self updateTableView];
     
 }
 - (IBAction)requestButtonPressed:(id)sender {
     [am requestToTarget:_targetField.text withData:@{@"msg":_msgField.text}];
+    
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Message sent: %@", _msgField.text];
+    cData.subTitle = [NSString stringWithFormat:@"Requested to: %@", _targetField.text];
+    cData.color = [UIColor purpleColor];
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
+-(IBAction)infoButtonPressed:(id)sender
+{
+    SessionInfoView *sView = [[[NSBundle mainBundle] loadNibNamed:@"SessionInfoView" owner:self options:nil] objectAtIndex:0];
+    sView.parentController = self;
+    sView.nameLabel.text = am.name;
+    sView.connectedDevices = [am connectedDevices];
+    [sView presentInView:self.view];
+}
+
+-(void)updateTableView
+{
+    [_tableView reloadData];
+    NSInteger rows = [_tableView numberOfRowsInSection:0];
+    [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(rows-1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:true];
+    [self.view endEditing:TRUE];
+}
 
 #pragma mark - TableView Datasource and Delegate Methods
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [connectedDevices count];
+    return [messages count];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DeviceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
+    }
 
-    CellInfo *info = [connectedDevices objectAtIndex:indexPath.row];
-    cell.nameLabel.text = info.deviceInfo.name;
-    cell.messageTextView.text = info.message;
+    CellData *cData = [messages objectAtIndex:indexPath.row];
+    cell.textLabel.text = cData.message;
+    cell.detailTextLabel.text = cData.subTitle;
+    cell.textLabel.textColor = cData.color;
     return cell;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 100;
-}
 
--(void)inputViewSubmittedWithInfo:(MeshDeviceInfo *)info
-{
-    [self dismissViewControllerAnimated:TRUE completion:nil];
-    [am connectWithName:info.name listeningTo:info.listensTo];
-    _nameLabel.text = [NSString stringWithFormat:@"Name: %@", info.name];
-    NSMutableString *listensToString = [[NSMutableString alloc] initWithFormat:@"Listens To:"];
-    for (NSString *listensToItem in info.listensTo) {
-        [listensToString appendString:[NSString stringWithFormat:@"%@ ", listensToItem]];
-    }
-    _listensToLabel.text = listensToString;
-}
+
+
 
 #pragma mark - AnyMesh Delegate Methods
--(void)anyMeshConnectedTo:(MeshDeviceInfo *)device
+-(void)anyMesh:(AnyMesh*)anyMesh connectedTo:(MeshDeviceInfo *)device
 {
-    CellInfo *info = [[CellInfo alloc] init];
-    info.deviceInfo = device;
-    [connectedDevices addObject:info];
-    [self.tableView reloadData];
+    CellData *cData = [[CellData alloc] init];
+    cData.message = @"New Connection";
+    cData.subTitle = device.name;
+    cData.color = [UIColor greenColor];
+    
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
--(void)anyMeshDisconnectedFrom:(NSString *)name
+-(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString *)name
 {
-    CellInfo *objectToRemove;
-    for (CellInfo *device in connectedDevices)
-    {
-        if ([device.deviceInfo.name isEqualToString:name]) {
-            objectToRemove = device;
-        }
-    }
-    if (objectToRemove)[connectedDevices removeObject:objectToRemove];
+    CellData *cData = [[CellData alloc] init];
+    cData.message = @"Disconnected From";
+    cData.subTitle = name;
+    cData.color = [UIColor redColor];
     
-    [self.tableView reloadData];
+    [messages addObject:cData];
+    [self updateTableView];
 }
 
--(void)anyMeshReceivedMessage:(MeshMessage *)message
+-(void)anyMesh:(AnyMesh*)anyMesh receivedMessage:(MeshMessage *)message
 {
-    CellInfo *senderCell;
-    for (CellInfo *device in connectedDevices)
-    {
-        if ([device.deviceInfo.name isEqualToString:message.sender]) {
-            senderCell = device;
-        }
+    CellData *cData = [[CellData alloc] init];
+    cData.message = [NSString stringWithFormat:@"Message: %@", message.data[@"msg"]];
+    cData.subTitle = message.sender;
+    cData.color = [UIColor blueColor];
+    
+    [messages addObject:cData];
+    [self updateTableView];
+    
+}
+
+
+#pragma mark - TextField
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (!recognizer) {
+        recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+        [self.view addGestureRecognizer:recognizer];
     }
-    if (senderCell){
-        [connectedDevices removeObject:senderCell];
-        [connectedDevices insertObject:senderCell atIndex:0];
-        senderCell.message = message.data[@"msg"];
-    }
-    
-    [self.tableView reloadData];
-    
-    
-    NSLog(@"***************************");
-    NSLog(@"Received message from %@", message.sender);
-    NSLog(@"Message type:%d", message.type);
-    NSLog(@"Message target:%@", message.target);
-    NSLog(@"%@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:message.data options:0 error:nil] encoding:NSUTF8StringEncoding]);
-    NSLog(@"****************************");
-    
 }
 
 -(void)dismissKeyboard:(id)sender
 {
-    [_msgField resignFirstResponder];
-    [_targetField resignFirstResponder];
+    [self.view endEditing:TRUE];
+    if (recognizer) {
+        [self.view removeGestureRecognizer:recognizer];
+        recognizer = nil;
+    }
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [textField resignFirstResponder];
+    [self.view endEditing:TRUE];
+    if (recognizer) {
+        [self.view removeGestureRecognizer:recognizer];
+        recognizer = nil;
+    }
     return TRUE;
 }
 
+#pragma mark - Orientation
 -(BOOL)shouldAutorotate
 {
     return FALSE;
