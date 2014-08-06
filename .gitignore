@@ -11,3 +11,7 @@ anyMesh.xcodeproj/xcuserdata/dpaul.xcuserdatad/xcschemes/xcschememanagement.plis
 *.xcscheme
 *.xcuserstate
 demo/anyMesh.xcodeproj/xcuserdata/Dave.xcuserdatad/xcschemes
+demo/anyMesh.xcodeproj/xcuserdata
+demo/anyMesh/UIView-AutoLayout-master/Example/Example.xcodeproj/xcuserdata/dpaul.xcuserdatad
+demo/anyMesh/UIView-AutoLayout-master/Tests/AutoLayout.xcodeproj/xcuserdata/dpaul.xcuserdatad
+demo/anyMesh.xcodeproj/project.xcworkspace/xcshareddata
