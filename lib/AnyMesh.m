@@ -7,16 +7,14 @@
 //
 
 #import "AnyMesh.h"
-#import "MeshUDPHandler.h"
-#import "MeshTCPHandler.h"
 #import "MeshDeviceInfo.h"
-#import "SocketInfo.h"
 #import <ifaddrs.h>
 #import <arpa/inet.h>
 
 
 @implementation AnyMesh
 
+#pragma mark - Setup
 
 -(id)init
 {
@@ -38,31 +36,81 @@
     [udpSocket enableBroadcast:true error:nil];
     
     NSError *error = nil;
-    if (![udpSocket bindToPort:am.discoveryPort error:&error])
+    if (![udpSocket bindToPort:_discoveryPort error:&error])
     {
         NSLog(@"Error starting server (bind): %@", error);
-        return nil;
+        return;
     }
     if (![udpSocket beginReceiving:&error])
     {
         [udpSocket close];
         
         NSLog(@"Error starting server (recv): %@", error);
-        return nil;
+        return;
     }
+}
+
+-(void)startBroadcastingWithPort:(int)port;
+{
+    serverPort = port;
+    broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
+}
+
+-(void)broadcast
+{
+    if(!am.name)return;
+    NSString *broadcastString = [NSString stringWithFormat:@"%@,%d,%@", am.networkID, serverPort, am.name];
+    NSData *broadcastData = [broadcastString dataUsingEncoding:NSUTF8StringEncoding];
+    [udpSocket sendData:broadcastData toHost:@"255.255.255.255" port:am.discoveryPort withTimeout:-1 tag:0];
 }
 
 -(void)connectWithName:(NSString*)name subscriptions:(NSArray*)listensTo
 {
     _name = name;
     _subscriptions = listensTo;
-    [_tcpHandler beginListening];
+    
+    NSError *error;
+    BOOL success = [listenSocket acceptOnPort:tcpPort error:&error];
+    if (!success) {
+        tcpPort++;
+        [self beginListening];
+    }
+    else {
+        [am.udpHandler startBroadcastingWithPort:tcpPort];
+    }
+}
+
+#pragma mark - Connections
+
+- (void)connectTo:(NSString*)ipAddress port:(int)port name:(NSString *)name
+{
+    if ([self socketForName:name]) return;
+    
+    GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
+    [socket connectToHost:ipAddress onPort:port error:nil];
 }
 
 -(void)updateSubscriptions:(NSArray*)newSubscriptions
 {
     _subscriptions = newSubscriptions;
-    [_tcpHandler sendInfoUpdates];
+    for (GCDAsyncSocket *connection in connections) {
+        MeshDeviceInfo *dInfo = connection.userData;
+        if (dInfo.name) {
+            [self sendInfoTo:connection update:TRUE];
+        }
+    }
+    
+}
+
+-(void)sendInfoTo:(GCDAsyncSocket*)socket update:(BOOL)isUpdate
+{
+    NSString *name = am.name;
+    if (isUpdate) name = @"";
+    NSDictionary *message = @{KEY_TYPE:@"info",
+                              KEY_SENDER:name,
+                              KEY_SUBSCRIPTIONS:am.subscriptions};
+    NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
+    [socket writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
     
 }
 
@@ -71,17 +119,12 @@
     return [_tcpHandler getConnections];
 }
 
--(void)suspend
-{
-    [_udpHandler stopBroadcasting];
-    [_tcpHandler disconnectAll];
-    
-}
+
 
 -(void)resume
 {
-    //[_udpHandler startBroadcasting];
-    if(self.name)[_tcpHandler beginListening];
+    [self startBroadcasting];
+    if(self.name)[self beginListening];
 }
 
 #pragma mark Connections
@@ -92,23 +135,22 @@
         [self.delegate anyMesh:self connectedTo:[socketInfo.dInfo _clone]];
     }
 }
--(void)_tcpDisconnectedFrom:(GCDAsyncSocket *)socket
-{
-    SocketInfo *socketInfo = (SocketInfo*)socket.userData;
-    if (socketInfo.dInfo.name) {
-        [self.delegate anyMesh:self disconnectedFrom:[NSString stringWithString:socketInfo.dInfo.name]];
-    }
-}
+
 
 #pragma mark - Shutting down
--(void)disconnectAll
+-(void)suspend
 {
     [listenSocket disconnect];
     for(GCDAsyncSocket *socket in connections)
     {
         [socket disconnect];
     }
+    
+    [broadcastTimer invalidate];
+    broadcastTimer = nil;
+    serverPort = 0;
 }
+
 
 #pragma mark Messaging
 - (void)messageReceived:(MeshMessage *)message
@@ -118,12 +160,38 @@
 
 - (void)publishToTarget:(NSString *)target withData:(NSDictionary *)dataDict
 {
-     [_tcpHandler sendMessageTo:target withType:MeshMessageTypePublish dataObject:dataDict];
+     [self sendMessageTo:target withType:MeshMessageTypePublish dataObject:dataDict];
 }
 - (void)requestToTarget:(NSString *)target withData:(NSDictionary *)dataDict
 {
-     [_tcpHandler sendMessageTo:target withType:MeshMessageTypeRequest dataObject:dataDict];
+     [self sendMessageTo:target withType:MeshMessageTypeRequest dataObject:dataDict];
 }
+
+-(void)sendMessageTo:(NSString *)target withType:(MeshMessageTypeGeneral)type dataObject:(NSDictionary *)dataDict
+{
+    NSDictionary *message = @{KEY_SENDER:am.name,
+                              KEY_TARGET:target,
+                              KEY_TYPE:@(type),
+                              KEY_DATA:dataDict};
+    NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
+    
+    if (type == MessageTypePublish) {
+        for (GCDAsyncSocket *connection in connections) {
+            MeshDeviceInfo *devInfo = connection.userData;
+            if ([devInfo.subscriptions containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
+        }
+    }
+    else {
+        for (GCDAsyncSocket *connection in connections) {
+            MeshDeviceInfo *devInfo = connection.userData;
+            if ([devInfo.name isEqualToString:target]) {
+                [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
+                return;
+            }
+        }
+    }
+}
+
 
 #pragma mark Socket Delegate Methods
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
@@ -193,6 +261,31 @@
     [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 
+#pragma mark UDP Server Delegate
+-(void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data fromAddress:(NSData *)address withFilterContext:(id)filterContext
+{
+    if (!am.name || serverPort == 0) return;
+    
+    
+    uint16_t aport_DONOTUSE = 0;
+    NSString *ipAddress = nil;
+    [GCDAsyncUdpSocket getHost:&ipAddress port:&aport_DONOTUSE fromAddress:address];
+    if ([ipAddress rangeOfString:@":"].length > 0)return;
+    
+    NSArray *dataArray = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] componentsSeparatedByString:@","];
+    if ([am.networkID isEqualToString:dataArray[0]]) {
+        int senderPort = [dataArray[1] intValue];
+        NSString *senderName = dataArray[2];
+        
+        NSString *ownIp = [am _getIPAddress];
+        if ((![ipAddress isEqualToString:ownIp] || serverPort != senderPort) && ![ownIp isEqualToString:@"error"]) {
+            [am.tcpHandler connectTo:ipAddress port:senderPort name:senderName];
+        }
+        
+    }
+    
+}
+
 #pragma mark Utility
 - (GCDAsyncSocket*)socketForName:(NSString*)name
 {
@@ -241,5 +334,19 @@
     
     return address;
 }
+
+-(NSArray*)getConnections
+{
+    NSMutableArray *devices = [[NSMutableArray alloc] init];
+    @synchronized(connections){
+        for (GCDAsyncSocket* connection in connections)
+        {
+            MeshDeviceInfo *dInfo = connection.userData;
+            if (dInfo.name.length > 0) [devices addObject:[dInfo _clone]];
+        }
+    }
+    return devices;
+}
+
 
 @end

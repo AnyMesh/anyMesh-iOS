@@ -48,6 +48,10 @@ typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
     	NSMutableArray *connections;
         AsyncSocket *listenSocket;
         int tcpPort;
+        int workingPort;
+    
+        AsyncUdpSocket *udpSocket;
+        NSTimer *broadcastTimer;
 }
 
 @property (nonatomic) MeshTCPHandler *tcpHandler;
