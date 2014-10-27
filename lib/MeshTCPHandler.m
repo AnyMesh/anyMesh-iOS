@@ -6,29 +6,13 @@
 //  Copyright (c) 2014 dpTools. All rights reserved.
 //
 
-#import "MeshTCPHandler.h"
-#import "MeshUDPHandler.h"
-#import "GCDAsyncSocket.h"
+
 #import "MeshDeviceInfo.h"
 #import "MeshMessage.h"
 #import "NSData+lineReturn.h"
-#import "SocketInfo.h"
 
 @implementation MeshTCPHandler
 
--(id)initWithAnyMesh:(AnyMesh *)anyMesh
-{
-    if (self = [super init]) {
-        tcpPort = TCP_PORT;
-        am = anyMesh;
-		listenSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
-        
-		// Setup an array to store all accepted client connections
-		connections = [[NSMutableArray alloc] initWithCapacity:1];
-        temporary = [[NSMutableArray alloc] init];
-    }
-    return self;
-}
 
 -(void)beginListening
 {
@@ -44,44 +28,33 @@
 }
 
 
--(void)disconnectAll
-{
-    [listenSocket disconnect];
-    for(GCDAsyncSocket *socket in connections)
-    {
-        [socket disconnect];
-    }
-}
+
 
 - (void)connectTo:(NSString*)ipAddress port:(int)port name:(NSString *)name
 {
     if ([self socketForName:name]) return;
     
     GCDAsyncSocket *socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:am.socketQueue];
-    [temporary addObject:socket];
     [socket connectToHost:ipAddress onPort:port error:nil];
 }
 
--(void)sendMessageTo:(NSString *)target withType:(MeshMessageType)type dataObject:(NSDictionary *)dataDict
+-(void)sendMessageTo:(NSString *)target withType:(MeshMessageTypeGeneral)type dataObject:(NSDictionary *)dataDict
 {
-    NSArray *types = @[@"pub", @"req", @"res"];
     NSDictionary *message = @{KEY_SENDER:am.name,
                               KEY_TARGET:target,
-                              KEY_TYPE:types[type],
+                              KEY_TYPE:@(type),
                               KEY_DATA:dataDict};
     NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
     
-    if (type == MeshMessageTypePublish) {
+    if (type == MessageTypePublish) {
         for (GCDAsyncSocket *connection in connections) {
-            SocketInfo *info = (SocketInfo*)connection.userData;
-            MeshDeviceInfo *devInfo = info.dInfo;
+            MeshDeviceInfo *devInfo = connection.userData;
             if ([devInfo.subscriptions containsObject:target]) [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
         }
     }
     else {
         for (GCDAsyncSocket *connection in connections) {
-            SocketInfo *info = (SocketInfo*)connection.userData;
-            MeshDeviceInfo *devInfo = info.dInfo;
+            MeshDeviceInfo *devInfo = connection.userData;
             if ([devInfo.name isEqualToString:target]) {
                 [connection writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
                 return;
@@ -96,7 +69,7 @@
     if (isUpdate) name = @"";
     NSDictionary *message = @{KEY_TYPE:@"info",
                               KEY_SENDER:name,
-                              KEY_LISTENSTO:am.subscriptions};
+                              KEY_SUBSCRIPTIONS:am.subscriptions};
     NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
     [socket writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
     
@@ -105,19 +78,13 @@
 -(void)sendInfoUpdates
 {
     for (GCDAsyncSocket *connection in connections) {
-        SocketInfo *sInfo = (SocketInfo*)connection.userData;
-        if (sInfo.dInfo.name) {
+        MeshDeviceInfo *dInfo = connection.userData;
+        if (dInfo.name) {
             [self sendInfoTo:connection update:TRUE];
         }
     }
 }
 
--(void)sendPassTo:(GCDAsyncSocket*)socket
-{
-    NSDictionary *message = @{KEY_TYPE:@"pass"};
-    NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
-    [socket writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
-}
 
 -(NSArray*)getConnections
 {
@@ -125,142 +92,12 @@
     @synchronized(connections){
         for (GCDAsyncSocket* connection in connections)
         {
-            SocketInfo *info = (SocketInfo*)connection.userData;
-            MeshDeviceInfo *dInfo = info.dInfo;
+            MeshDeviceInfo *dInfo = connection.userData;
             if (dInfo.name.length > 0) [devices addObject:[dInfo _clone]];
         }
     }
     return devices;
 }
 
-#pragma mark Socket Delegate Methods
-- (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
-{
-	// This method is executed on the socketQueue (not the main thread)
-    SocketInfo *info = [[SocketInfo alloc] init];
-    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    info.dInfo = dInfo;
-    info.serverRelationship = TRUE;
-    newSocket.userData = info;
-	@synchronized(connections){[connections addObject:newSocket];}
-	[newSocket readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
-}
-
-
-- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
-{
-	dispatch_async(dispatch_get_main_queue(), ^{
-		@autoreleasepool {
-            SocketInfo *info = (SocketInfo*)sock.userData;
-            
-			NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
-			NSDictionary *msgObj = [NSJSONSerialization JSONObjectWithData:strData options:0 error:nil];
-            MeshMessage *msg = [[MeshMessage alloc] initWithHandler:self messageObject:msgObj];
-           
-            if (msg.type == MeshMessageTypeInfo) {
-
-                MeshDeviceInfo *dInfo = info.dInfo;
-                
-                if (msg.sender.length < 1) {
-                    dInfo.subscriptions = msg.listensTo;
-                    [am _tcpUpdatedSubscriptions:dInfo.subscriptions forName:dInfo.name];
-                }
-                else if (info.serverRelationship) {
-                    //validate, add device info and send info back
-                    if ([self socketForName:msg.sender]) {
-                        [connections removeObject:sock];
-                        [sock disconnect];
-                    }
-                    else {
-                        dInfo.name = msg.sender;
-                        dInfo.subscriptions = msg.listensTo;
-                        [self sendInfoTo:sock update:FALSE];
-                    }
-                }
-                else {
-                    //validate, add device, notify, and send PASS.  check array index
-                    GCDAsyncSocket *existingSocket = [self socketForName:msg.sender];
-                    if (existingSocket) {
-                        if ([connections indexOfObject:existingSocket] < [connections indexOfObject:sock]) {
-                            [connections removeObject:sock];
-                            [sock disconnect];
-                            return;
-                        }
-                    }
-                    dInfo.name = msg.sender;
-                    dInfo.subscriptions = msg.listensTo;
-                    info.isValidated = TRUE;
-                    [self sendPassTo:sock];
-                    [am _tcpConnectedTo:sock];
-                }
-                /*
-                dInfo.name = msg.sender;
-                dInfo.listensTo = msg.listensTo;
-                
-                if ([dInfo _validate]) [am _tcpConnectedTo:sock];
-                else [sock disconnect];
-                */
-            }
-            else if (msg.type == MeshMessageTypePass) {
-                //notify
-                info.isValidated = TRUE;
-                [am _tcpConnectedTo:sock];
-            }
-            
-            
-            else {
-                [am messageReceived:msg];
-            }
-        }
-	});
-	
-	[sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
-}
-
-
-- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
-{
-	if (sock != listenSocket)
-	{
-		dispatch_async(dispatch_get_main_queue(), ^{
-			@autoreleasepool {
-                SocketInfo *info = (SocketInfo*)sock.userData;
-                if (info.isValidated)[am _tcpDisconnectedFrom:sock];
-			}
-		});
-		
-		@synchronized(connections){if([connections containsObject:sock])[connections removeObject:sock];}
-	}
-}
-
-
-- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
-{
-    MeshDeviceInfo *dInfo = [[MeshDeviceInfo alloc] init];
-    SocketInfo *sInfo = [[SocketInfo alloc] init];
-    sInfo.dInfo = dInfo;
-    sock.userData = sInfo;
-    
-    @synchronized(connections){[connections addObject:sock];}
-    
-    [self sendInfoTo:sock update:FALSE];
-    [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1 tag:0];
-}
-
-#pragma mark Utility
-- (GCDAsyncSocket*)socketForName:(NSString*)name
-{
-    @synchronized(connections){
-        for (GCDAsyncSocket *connection in connections)
-        {
-            SocketInfo *info = (SocketInfo*)connection.userData;
-            MeshDeviceInfo *dInfo = info.dInfo;
-            if ([dInfo.name isEqualToString:name]) {
-                return connection;
-            }
-        }
-    }
-    return nil;
-}
 
 @end

@@ -13,30 +13,6 @@
 
 @implementation MeshUDPHandler
     
--(id)initWithAnyMesh:(AnyMesh *)anyMesh
-{
-    if (self = [super init]) {
-        am = anyMesh;
-        
-        udpSocket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-        [udpSocket enableBroadcast:true error:nil];
-        
-        NSError *error = nil;
-        if (![udpSocket bindToPort:am.discoveryPort error:&error])
-        {
-            NSLog(@"Error starting server (bind): %@", error);
-            return nil;
-        }
-        if (![udpSocket beginReceiving:&error])
-        {
-            [udpSocket close];
-            
-            NSLog(@"Error starting server (recv): %@", error);
-            return nil;
-        }
-    }
-    return self;
-}
 
 -(void)startBroadcastingWithPort:(int)port;
 {

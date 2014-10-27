@@ -7,30 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AsyncSocket.h"
+#import "AsyncUdpSocket.h"
 @class MeshTCPHandler;
 @class MeshTCPClient;
 @class MeshUDPHandler;
 @class MeshMessage;
 @class MeshDeviceInfo;
-@class GCDAsyncSocket;
 
 #define KEY_TYPE @"type"
 #define KEY_TARGET @"target"
 #define KEY_SENDER @"sender"
 #define KEY_DATA @"data"
 #define KEY_NAME @"name"
-#define KEY_LISTENSTO @"listensTo"
+#define KEY_SUBSCRIPTIONS @"subscriptions"
 
 #define UDP_PORT 12345
 #define TCP_PORT 12346
 
-typedef enum {
-    MeshMessageTypePublish,
-    MeshMessageTypeRequest,
-    MeshMessageTypeResponse,
-    MeshMessageTypeInfo,
-    MeshMessageTypePass
-} MeshMessageType;
+typedef NS_ENUM(NSInteger, MeshMessageTypeGeneral) {
+    MessageTypePublish,
+    MessageTypeRequest,
+    MessageTypeSystem
+};
+typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
+    MessageTypeSystemSubscription
+};
 
 @class AnyMesh;
 @protocol AnyMeshDelegate <NSObject>
@@ -39,11 +41,14 @@ typedef enum {
 -(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString*)name;
 @optional
 -(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
-
-
 @end
 
-@interface AnyMesh : NSObject 
+
+@interface AnyMesh : NSObject <AsyncSocketDelegate, AsyncUdpSocketDelegate> {
+    	NSMutableArray *connections;
+        AsyncSocket *listenSocket;
+        int tcpPort;
+}
 
 @property (nonatomic) MeshTCPHandler *tcpHandler;
 @property (nonatomic) MeshUDPHandler *udpHandler;
@@ -68,9 +73,6 @@ typedef enum {
 
 
 #pragma mark Internal Use
--(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
--(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
--(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
 - (NSString *)_getIPAddress;
 
 @end

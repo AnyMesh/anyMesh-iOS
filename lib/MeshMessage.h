@@ -13,16 +13,15 @@
 
 @interface MeshMessage : NSObject
 
-@property (nonatomic)MeshMessageType type;
+@property (nonatomic)MeshMessageTypeGeneral type;
 @property (nonatomic)NSDictionary *data;
 @property (nonatomic)NSString *sender;
 @property (nonatomic)NSString *target;
-@property (nonatomic)NSArray *listensTo;
 
 @property (nonatomic)MeshTCPHandler *tcpHandler;
 
--(id)initWithHandler:(MeshTCPHandler*)handler messageObject:(NSDictionary*)msgObj;
--(void)respondWith:(NSDictionary*)responseObject;
+-(id)initWithMessageObject:(NSDictionary*)msgObj;
+
 
 
 @end

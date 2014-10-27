@@ -8,18 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "AnyMesh.h"
-@class GCDAsyncSocket;
 @class MeshDeviceInfo;
 
 
 @interface MeshTCPHandler : NSObject
 {
-    int tcpPort;
-	AnyMesh *am;
-	GCDAsyncSocket *listenSocket;
-	NSMutableArray *connections;
-    NSMutableArray *temporary;
-    
+
+
 }
 
 -(id)initWithAnyMesh:(AnyMesh*)anyMesh;
