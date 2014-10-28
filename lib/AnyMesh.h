@@ -18,6 +18,7 @@
 #define KEY_DATA @"data"
 #define KEY_NAME @"name"
 #define KEY_SUBSCRIPTIONS @"subscriptions"
+#define KEY_ISUPDATE @"isUpdate"
 
 #define UDP_PORT 12345
 #define TCP_PORT 12346

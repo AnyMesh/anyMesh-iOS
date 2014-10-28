@@ -102,10 +102,14 @@
 
 -(void)sendInfoTo:(AsyncSocket*)socket update:(BOOL)isUpdate
 {
-    NSString *name = _name;
-    NSDictionary *message = @{KEY_TYPE:@"info",
-                              KEY_SENDER:name,
-                              KEY_SUBSCRIPTIONS:_subscriptions};
+    NSDictionary *message = @{KEY_TYPE:@(MessageTypeSystem),
+                              KEY_SENDER:_name,
+                              KEY_TARGET:socket.deviceInfo.name,
+                              KEY_DATA: @{
+                                  KEY_TYPE:@(MessageTypeSystemSubscription),
+                                  KEY_ISUPDATE:@(isUpdate),
+                                  KEY_SUBSCRIPTIONS:_subscriptions
+                              }};
     NSData *msgData = [NSJSONSerialization dataWithJSONObject:message options:0 error:nil];
     [socket writeData:[msgData addLineReturn] withTimeout:-1 tag:0];
     
@@ -190,13 +194,22 @@
     NSData *strData = [data subdataWithRange:NSMakeRange(0, [data length] - 2)];
     NSDictionary *msgObj = [NSJSONSerialization JSONObjectWithData:strData options:0 error:nil];
     MeshMessage *msg = [[MeshMessage alloc] initWithMessageObject:msgObj];
-            
+    
     if (msg.type == MessageTypeSystem) {
-                
-        //TODO: handle system msg
-                
-        if ([self.delegate respondsToSelector:@selector(anyMesh:updatedSubscriptions:forName:)]) {
-            [self.delegate anyMesh:self updatedSubscriptions:_subscriptions forName:_name];
+        
+       NSDictionary *sysData = msg.data;
+        if ([sysData[KEY_TYPE] integerValue] == MessageTypeSystemSubscription) {
+            if ([sysData[KEY_ISUPDATE] boolValue]) {
+                sock.deviceInfo.subscriptions = sysData[KEY_SUBSCRIPTIONS];
+                if ([self.delegate respondsToSelector:@selector(anyMesh:updatedSubscriptions:forName:)]) {
+                    [self.delegate anyMesh:self updatedSubscriptions:_subscriptions forName:_name];
+                }
+            }
+            else {
+                sock.deviceInfo.name = msg.sender;
+                sock.deviceInfo.subscriptions = sysData[KEY_SUBSCRIPTIONS];
+                if(sock.deviceInfo.name.length > 0) [self.delegate anyMesh:self connectedTo:sock.deviceInfo];
+            }
         }
     }
     else [self.delegate anyMesh:self receivedMessage:msg];
