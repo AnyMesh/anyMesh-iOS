@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class MeshDeviceInfo;
 @class AsyncSocket;
 @class AsyncReadPacket;
 @class AsyncWritePacket;
@@ -184,6 +185,7 @@ typedef enum AsyncSocketError AsyncSocketError;
 	
 	long theUserData;
 }
+@property (nonatomic, retain)MeshDeviceInfo *deviceInfo;
 
 - (id)init;
 - (id)initWithDelegate:(id)delegate;

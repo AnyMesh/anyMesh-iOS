@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AsyncSocket.h"
 #import "AsyncUdpSocket.h"
-@class MeshTCPHandler;
-@class MeshTCPClient;
-@class MeshUDPHandler;
 @class MeshMessage;
 @class MeshDeviceInfo;
 
@@ -54,9 +51,7 @@ typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
         NSTimer *broadcastTimer;
 }
 
-@property (nonatomic) MeshTCPHandler *tcpHandler;
-@property (nonatomic) MeshUDPHandler *udpHandler;
-@property (nonatomic) dispatch_queue_t socketQueue;
+
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
 @property (nonatomic) int discoveryPort;
@@ -67,7 +62,6 @@ typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
 
 -(void)connectWithName:(NSString*)name subscriptions:(NSArray*)subscriptions;
 -(NSArray*)connectedDevices;
--(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)updateSubscriptions:(NSArray*)subscriptions;
@@ -76,7 +70,5 @@ typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
 -(void)resume;
 
 
-#pragma mark Internal Use
-- (NSString *)_getIPAddress;
 
 @end
