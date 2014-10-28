@@ -185,6 +185,7 @@
 {
     newSocket.deviceInfo = [[MeshDeviceInfo alloc] init];
     [connections addObject:newSocket];
+    [self sendInfoTo:newSocket update:FALSE];
     [newSocket readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 
@@ -231,10 +232,8 @@
 
 - (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-   sock.deviceInfo = [[MeshDeviceInfo alloc] init];
-
+    sock.deviceInfo = [[MeshDeviceInfo alloc] init];
     [connections addObject:sock];
-    
     [self sendInfoTo:sock update:FALSE];
     [sock readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
@@ -251,8 +250,11 @@
         NSString *senderName = dataArray[2];
         
         NSString *ownIp = [self _getIPAddress];
-        if ((![host isEqualToString:ownIp] || tcpPort != senderPort) && ![ownIp isEqualToString:@"error"]) {
-            [self connectTo:host port:senderPort name:senderName];
+        if ((![host isEqualToString:ownIp] || tcpPort != senderPort) &&
+        ![ownIp isEqualToString:@"error"]) {
+            if ([_name compare:senderName] == NSOrderedDescending ) {
+                [self connectTo:host port:senderPort name:senderName];
+            }
         }
         
     }
