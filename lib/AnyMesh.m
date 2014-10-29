@@ -24,6 +24,7 @@
         self.networkID = @"anymesh";
         self.discoveryPort = UDP_PORT;
         connections = [[NSMutableArray alloc] init];
+        temporary = [[NSMutableArray alloc] init];
         listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
         
         [self startUDPListener];
@@ -43,10 +44,12 @@
         return;
     }
     [udpSocket receiveWithTimeout:-1 tag:0];
+    NSLog(@"listening!");
 }
 
 -(void)startBroadcasting;
 {
+    NSLog(@"starting to broadcast");
     broadcastTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(broadcast) userInfo:nil repeats:TRUE];
 }
 
@@ -56,24 +59,29 @@
     NSString *broadcastString = [NSString stringWithFormat:@"%@,%d,%@", _networkID, tcpPort, _name];
     NSData *broadcastData = [broadcastString dataUsingEncoding:NSUTF8StringEncoding];
     [udpSocket sendData:broadcastData toHost:@"255.255.255.255" port:_discoveryPort withTimeout:-1 tag:0];
+    
+    NSLog(@"broadcasting on %ld", (long)_discoveryPort);
 }
 
 -(void)connectWithName:(NSString*)name subscriptions:(NSArray*)listensTo
 {
     _name = name;
     _subscriptions = listensTo;
+    tcpPort = 0;
+    workingPort = TCP_PORT;
     [self startTCPServer];
 }
 
 -(void)startTCPServer
 {
     NSError *error;
-    BOOL success = [listenSocket acceptOnPort:tcpPort error:&error];
+    BOOL success = [listenSocket acceptOnPort:workingPort error:&error];
     if (!success) {
-        tcpPort++;
+        workingPort++;
         [self startTCPServer];
     }
     else {
+        tcpPort = workingPort;
         [self startBroadcasting];
     }
 
@@ -85,8 +93,11 @@
 {
     if ([self socketForName:name]) return;
     
+    NSLog(@"trying to connect to %@", name);
+    
     AsyncSocket *socket = [[AsyncSocket alloc] initWithDelegate:self];
     [socket connectToHost:ipAddress onPort:port error:nil];
+    [temporary addObject:socket];
 }
 
 -(void)updateSubscriptions:(NSArray*)newSubscriptions
@@ -102,9 +113,10 @@
 
 -(void)sendInfoTo:(AsyncSocket*)socket update:(BOOL)isUpdate
 {
+    NSString *target = socket.deviceInfo.name ? socket.deviceInfo.name : @"";
     NSDictionary *message = @{KEY_TYPE:@(MessageTypeSystem),
                               KEY_SENDER:_name,
-                              KEY_TARGET:socket.deviceInfo.name,
+                              KEY_TARGET:target,
                               KEY_DATA: @{
                                   KEY_TYPE:@(MessageTypeSystemSubscription),
                                   KEY_ISUPDATE:@(isUpdate),
@@ -135,8 +147,12 @@
 -(void)suspend
 {
     [listenSocket disconnect];
+    NSMutableArray *socketsToDisconnect = [[NSMutableArray alloc] init];
     for(AsyncSocket *socket in connections)
     {
+        [socketsToDisconnect addObject:socket];
+    }
+    for (AsyncSocket *socket in socketsToDisconnect) {
         [socket disconnect];
     }
     
@@ -183,6 +199,8 @@
 #pragma mark Socket Delegate Methods
 - (void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
 {
+    NSLog(@"Accepting new socket");
+    
     newSocket.deviceInfo = [[MeshDeviceInfo alloc] init];
     [connections addObject:newSocket];
     [self sendInfoTo:newSocket update:FALSE];
@@ -197,7 +215,7 @@
     MeshMessage *msg = [[MeshMessage alloc] initWithMessageObject:msgObj];
     
     if (msg.type == MessageTypeSystem) {
-        
+        NSLog(@"received system msg");
        NSDictionary *sysData = msg.data;
         if ([sysData[KEY_TYPE] integerValue] == MessageTypeSystemSubscription) {
             if ([sysData[KEY_ISUPDATE] boolValue]) {
@@ -224,6 +242,7 @@
     {
         if([connections containsObject:sock]) {
             [connections removeObject:sock];
+            [temporary removeObject:sock];
             [self.delegate anyMesh:self disconnectedFrom:sock.deviceInfo.name];
         }
     }
@@ -234,13 +253,14 @@
 {
     sock.deviceInfo = [[MeshDeviceInfo alloc] init];
     [connections addObject:sock];
+    [temporary removeObject:sock];
     [self sendInfoTo:sock update:FALSE];
     [sock readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
 }
 
 #pragma mark UDP Server Delegate
 - (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
-{
+{    
     if (!_name || tcpPort == 0) return FALSE;
     if ([host rangeOfString:@":"].length > 0)return FALSE;
     

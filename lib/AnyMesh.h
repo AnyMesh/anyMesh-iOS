@@ -44,6 +44,7 @@ typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
 
 @interface AnyMesh : NSObject <AsyncSocketDelegate, AsyncUdpSocketDelegate> {
     	NSMutableArray *connections;
+        NSMutableArray *temporary;
         AsyncSocket *listenSocket;
         int tcpPort;
         int workingPort;
