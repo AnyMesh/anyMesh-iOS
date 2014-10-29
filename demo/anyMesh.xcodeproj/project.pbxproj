@@ -10,7 +10,7 @@
 	<string>46</string>
 	<key>objects</key>
 	<dict>
-		<key>04DAB1911705C693A7A835F1</key>
+		<key>069BD928C77E5A2C5C19D87A</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -19,66 +19,13 @@
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-anyMesh.debug.xcconfig</string>
+			<string>Pods-anyMesh.release.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-anyMesh/Pods-anyMesh.debug.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-anyMesh/Pods-anyMesh.release.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>1C13AF9613A84A9FB11C8749</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D297002C956F42ABA60D2EAF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>31AF7CCE15404E3E88B25FAE</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>383B775B0D77E659A99CF1CF</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>04DAB1911705C693A7A835F1</string>
-				<string>609926082B069671018CA820</string>
-				<string>719ACE6F8CBB136B7F49BB9C</string>
-				<string>E5904984EA02947581A34ED0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>430F207B35A9428EA44F0EC4</key>
+		<key>08C556C2CC8B414158CF7D74</key>
 		<dict>
 			<key>buildActionMask</key>
 			<string>2147483647</string>
@@ -102,7 +49,30 @@ fi
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
-		<key>495097CCB76F46AD8A11A759</key>
+		<key>3802A828731758E60AAAE276</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A64F5F5FF96437FAE8C37B53</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>383B775B0D77E659A99CF1CF</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>E3A4A231BEF73FE96BCFCFFF</string>
+				<string>069BD928C77E5A2C5C19D87A</string>
+				<string>B7DEC20C1A2CCA91DD9EAFBA</string>
+				<string>6676EC8292BB4580CC318B91</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>448E7794B65BCB1E18DFAFE4</key>
 		<dict>
 			<key>explicitFileType</key>
 			<string>archive.ar</string>
@@ -111,33 +81,9 @@ fi
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>path</key>
-			<string>libPods-Tests2.a</string>
+			<string>libPods-anyMesh.a</string>
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>50B97D11D1B04A458315ADC7</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
 		</dict>
 		<key>55361B861968771E004D8768</key>
 		<dict>
@@ -203,7 +149,7 @@ fi
 				<string>5558B69E19657346009B8DFB</string>
 				<string>5558B6A019657346009B8DFB</string>
 				<string>5558B69F19657346009B8DFB</string>
-				<string>1C13AF9613A84A9FB11C8749</string>
+				<string>3802A828731758E60AAAE276</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -233,7 +179,7 @@ fi
 				<string>5558B69919657346009B8DFB</string>
 				<string>5558B69A19657346009B8DFB</string>
 				<string>5558B69B19657346009B8DFB</string>
-				<string>50B97D11D1B04A458315ADC7</string>
+				<string>BFF8259E2D3941EDC707E90C</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -415,7 +361,7 @@ fi
 		<key>5558B6AC19657347009B8DFB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>719ACE6F8CBB136B7F49BB9C</string>
+			<string>B7DEC20C1A2CCA91DD9EAFBA</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>BUNDLE_LOADER</key>
@@ -452,7 +398,7 @@ fi
 		<key>5558B6AD19657347009B8DFB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>E5904984EA02947581A34ED0</string>
+			<string>6676EC8292BB4580CC318B91</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>BUNDLE_LOADER</key>
@@ -686,7 +632,7 @@ fi
 				<string>55C1BC07190D95EA00F2A760</string>
 				<string>55C1BC09190D95EA00F2A760</string>
 				<string>55C1BC05190D95EA00F2A760</string>
-				<string>A357DAA4401241FEAD566E7B</string>
+				<string>C57DAD9A304FC92546660418</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -716,11 +662,11 @@ fi
 			<string>55C1BC2D190D95EB00F2A760</string>
 			<key>buildPhases</key>
 			<array>
-				<string>31AF7CCE15404E3E88B25FAE</string>
+				<string>69B3163CBF5515CE81ECB2DB</string>
 				<string>55C1BBFD190D95EA00F2A760</string>
 				<string>55C1BBFE190D95EA00F2A760</string>
 				<string>55C1BBFF190D95EA00F2A760</string>
-				<string>430F207B35A9428EA44F0EC4</string>
+				<string>08C556C2CC8B414158CF7D74</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -772,9 +718,8 @@ fi
 				<string>55C1BC06190D95EA00F2A760</string>
 				<string>55C1BC08190D95EA00F2A760</string>
 				<string>55C1BC1D190D95EB00F2A760</string>
-				<string>E84A29410DAA4C66ACE19233</string>
-				<string>D297002C956F42ABA60D2EAF</string>
-				<string>495097CCB76F46AD8A11A759</string>
+				<string>448E7794B65BCB1E18DFAFE4</string>
+				<string>A64F5F5FF96437FAE8C37B53</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -1175,7 +1120,7 @@ fi
 		<key>55C1BC2E190D95EB00F2A760</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>04DAB1911705C693A7A835F1</string>
+			<string>E3A4A231BEF73FE96BCFCFFF</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
@@ -1207,7 +1152,7 @@ fi
 		<key>55C1BC2F190D95EB00F2A760</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>609926082B069671018CA820</string>
+			<string>069BD928C77E5A2C5C19D87A</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
@@ -1375,7 +1320,7 @@ fi
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>609926082B069671018CA820</key>
+		<key>6676EC8292BB4580CC318B91</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1384,26 +1329,41 @@ fi
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-anyMesh.release.xcconfig</string>
+			<string>Pods-anyMesh Tests.release.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-anyMesh/Pods-anyMesh.release.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests.release.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>719ACE6F8CBB136B7F49BB9C</key>
+		<key>69B3163CBF5515CE81ECB2DB</key>
 		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
+			<string>PBXShellScriptBuildPhase</string>
 			<key>name</key>
-			<string>Pods-anyMesh Tests.debug.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
+			<string>Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
 		</dict>
 		<key>7CF4A4779817462896CC9F0D</key>
 		<dict>
@@ -1435,14 +1395,7 @@ fi
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
-		<key>A357DAA4401241FEAD566E7B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E84A29410DAA4C66ACE19233</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D297002C956F42ABA60D2EAF</key>
+		<key>A64F5F5FF96437FAE8C37B53</key>
 		<dict>
 			<key>explicitFileType</key>
 			<string>archive.ar</string>
@@ -1455,7 +1408,7 @@ fi
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
-		<key>E5904984EA02947581A34ED0</key>
+		<key>B7DEC20C1A2CCA91DD9EAFBA</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1464,24 +1417,57 @@ fi
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-anyMesh Tests.release.xcconfig</string>
+			<string>Pods-anyMesh Tests.debug.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests.release.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests.debug.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>E84A29410DAA4C66ACE19233</key>
+		<key>BFF8259E2D3941EDC707E90C</key>
 		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>Copy Pods Resources</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
 			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-anyMesh Tests/Pods-anyMesh Tests-resources.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>C57DAD9A304FC92546660418</key>
+		<dict>
+			<key>fileRef</key>
+			<string>448E7794B65BCB1E18DFAFE4</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E3A4A231BEF73FE96BCFCFFF</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-anyMesh.debug.xcconfig</string>
 			<key>path</key>
-			<string>libPods-anyMesh.a</string>
+			<string>Pods/Target Support Files/Pods-anyMesh/Pods-anyMesh.debug.xcconfig</string>
 			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
+			<string>&lt;group&gt;</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>
