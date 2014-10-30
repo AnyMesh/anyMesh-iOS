@@ -108,11 +108,13 @@
             [self sendInfoTo:connection update:TRUE];
         }
     }
-    
 }
 
 -(void)sendInfoTo:(AsyncSocket*)socket update:(BOOL)isUpdate
 {
+    if (isUpdate) NSLog(@"sending updated subscriptions to %@", socket.deviceInfo.name);
+    else NSLog(@"sending info to %@", socket.deviceInfo.name);
+    
     NSString *target = socket.deviceInfo.name ? socket.deviceInfo.name : @"";
     NSDictionary *message = @{KEY_TYPE:@(MessageTypeSystem),
                               KEY_SENDER:_name,
@@ -197,14 +199,27 @@
 
 
 #pragma mark Socket Delegate Methods
+
 - (void)onSocket:(AsyncSocket *)sock didAcceptNewSocket:(AsyncSocket *)newSocket
 {
     NSLog(@"Accepting new socket");
-    
-    newSocket.deviceInfo = [[MeshDeviceInfo alloc] init];
-    [connections addObject:newSocket];
-    [self sendInfoTo:newSocket update:FALSE];
-    [newSocket readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
+    [self addSocket:newSocket];
+}
+
+- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
+{
+    NSLog(@"%@ did connect to host!", _name);
+    [self addSocket:sock];
+}
+
+-(void)addSocket:(AsyncSocket *)sock
+{
+    if (![connections containsObject:sock]) {
+        [connections addObject:sock];
+        [temporary removeObject:sock];
+        [self sendInfoTo:sock update:FALSE];
+        [sock readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
+    }
 }
 
 
@@ -215,7 +230,7 @@
     MeshMessage *msg = [[MeshMessage alloc] initWithMessageObject:msgObj];
     
     if (msg.type == MessageTypeSystem) {
-        NSLog(@"received system msg");
+        NSLog(@"%@ received system msg", _name);
        NSDictionary *sysData = msg.data;
         if ([sysData[KEY_TYPE] integerValue] == MessageTypeSystemSubscription) {
             if ([sysData[KEY_ISUPDATE] boolValue]) {
@@ -225,9 +240,13 @@
                 }
             }
             else {
-                sock.deviceInfo.name = msg.sender;
-                sock.deviceInfo.subscriptions = sysData[KEY_SUBSCRIPTIONS];
-                if(sock.deviceInfo.name.length > 0) [self.delegate anyMesh:self connectedTo:sock.deviceInfo];
+                NSLog(@"info from %@", msg.sender);
+                if(msg.sender.length > 0
+                && !sock.deviceInfo.name) {
+                    sock.deviceInfo.name = msg.sender;
+                    sock.deviceInfo.subscriptions = sysData[KEY_SUBSCRIPTIONS];
+                    [self.delegate anyMesh:self connectedTo:sock.deviceInfo];
+                }
             }
         }
     }
@@ -249,14 +268,7 @@
 }
 
 
-- (void)onSocket:(AsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
-{
-    sock.deviceInfo = [[MeshDeviceInfo alloc] init];
-    [connections addObject:sock];
-    [temporary removeObject:sock];
-    [self sendInfoTo:sock update:FALSE];
-    [sock readDataToData:[AsyncSocket CRLFData] withTimeout:-1 tag:0];
-}
+
 
 #pragma mark UDP Server Delegate
 - (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port

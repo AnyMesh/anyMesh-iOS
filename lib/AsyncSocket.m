@@ -13,6 +13,7 @@
 #endif
 
 #import "AsyncSocket.h"
+#import "MeshDeviceInfo.h"
 #import <TargetConditionals.h>
 #import <sys/socket.h>
 #import <netinet/in.h>
@@ -724,6 +725,8 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 		
 		// Default run loop modes
 		theRunLoopModes = [NSArray arrayWithObject:NSDefaultRunLoopMode];
+        
+        self.deviceInfo = [[MeshDeviceInfo alloc] init];
 	}
 	return self;
 }
