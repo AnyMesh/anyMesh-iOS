@@ -236,7 +236,7 @@
             if ([sysData[KEY_ISUPDATE] boolValue]) {
                 sock.deviceInfo.subscriptions = sysData[KEY_SUBSCRIPTIONS];
                 if ([self.delegate respondsToSelector:@selector(anyMesh:updatedSubscriptions:forName:)]) {
-                    [self.delegate anyMesh:self updatedSubscriptions:_subscriptions forName:_name];
+                    [self.delegate anyMesh:self updatedSubscriptions:sock.deviceInfo.subscriptions forName:sock.deviceInfo.name];
                 }
             }
             else {
