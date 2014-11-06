@@ -15,7 +15,7 @@ AnyMesh makes it easy to build a decentralized, multi-platform mesh network on a
 All supported platforms work roughly the same way.  Configure each AnyMesh instance with 2 properties:
 
 * Name - a name or identifier for the instance
-* ListensTo - an array of keywords for your instance to listen for
+* Subscriptions - an array of keywords for your instance to listen for
 
 > AnyMesh will automatically find and connect to other AnyMesh
 > instances.
@@ -23,7 +23,7 @@ All supported platforms work roughly the same way.  Configure each AnyMesh insta
 Then, to communicate across the network, an instance can send two types of messages:
 
 * Request - send a message to a specific device Name.
-* Publish - send a message to associated with a keyword.  Any other instance that subscribes to the keyword will receive the message.
+* Publish - send a message associated with a keyword.  Any other instance that subscribes to the keyword will receive the message.
 
 That's all there is to it!
 ## FAQ
@@ -55,14 +55,20 @@ A: AnyMesh is still very young concept, and although it is fully functional, it 
 platforms.  See the CONTRIBUTE.md file for suggestions on contributing to development.
 #AnyMesh iOS
 ## Please Read:
-0.3.0 has been released!  Multiple meshes on the same IP address, and even in the same app are now supported!  Please see the Changelog for complete list of changes!
+11/4/2014 - 0.4.0 has been released!  See CHANGELOG for details.
 
 
 ##Quickstart:
 CocoaPods is now the preferred method for installing AnyMesh-iOS or its example project. See cocoapods.org for information on installing and using CocoaPods.
 To include AnyMesh to your project, add this to your Podfile:
 
-    pod "AnyMesh", "~>0.3.0"
+    pod "AnyMesh", "~>0.4.0"
+
+Or to quickly get going on a sample XCode project with Unit Tests, just type the following in Terminal:
+
+    pod try AnyMesh
+
+Once you have downloaded / imported AnyMesh into a project:
 
 Or to quickly get going on a sample XCode project with Unit Tests, just type the following in Terminal:
 

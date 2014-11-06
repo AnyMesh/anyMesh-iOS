@@ -11,30 +11,17 @@
 
 @implementation MeshMessage
 
--(id)initWithHandler:(MeshTCPHandler*)handler messageObject:(NSDictionary*)msgObj
+-(id)initWithMessageObject:(NSDictionary*)msgObj
 {
     if (self = [super init]) {
-        _tcpHandler = handler;
         
-        if ([msgObj[KEY_TYPE] isEqualToString:@"pub"]) _type = MeshMessageTypePublish;
-        else if ([msgObj[KEY_TYPE] isEqualToString:@"req"]) _type = MeshMessageTypeRequest;
-        else if ([msgObj[KEY_TYPE] isEqualToString:@"res"]) _type = MeshMessageTypeResponse;
-        else if ([msgObj[KEY_TYPE] isEqualToString:@"info"]) _type = MeshMessageTypeInfo;
-        else if ([msgObj[KEY_TYPE] isEqualToString:@"pass"]) _type = MeshMessageTypePass;
-        
+        _type = [msgObj[KEY_TYPE] integerValue];
         _data = msgObj[KEY_DATA];
         _sender = msgObj[KEY_SENDER];
-        _target = msgObj[KEY_TARGET];
-        _listensTo = msgObj[KEY_LISTENSTO];
-        
+        _target = msgObj[KEY_TARGET];        
     }
     
     return self;
-}
-
--(void)respondWith:(NSDictionary*)responseObject
-{
-    
 }
 
 @end

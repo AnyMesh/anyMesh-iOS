@@ -1,6 +1,11 @@
-# Current Version: 0.3.0
-## Compatible with Node and Python from 0.3.x up
-## NOT Compatible with Node and Python releases before 0.3.0
+# Current Version: 0.4.0
+## Compatible with Node and Python from 0.4.x up
+## NOT Compatible with Node and Python releases before 0.4.0
+
+## New in 0.4.0 11/04/2014
+* Communication schema has been updated again, for simplified discovery and connection process.  
+* New schema is incompatible with previous releases.
+
 
 ## New in 0.3.0 7/13/2014
 * New communication protocol allows multiple anyMesh instances on the same IP Address, and even multiple instance within the same program!

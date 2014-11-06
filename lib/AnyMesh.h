@@ -7,30 +7,30 @@
 //
 
 #import <Foundation/Foundation.h>
-@class MeshTCPHandler;
-@class MeshTCPClient;
-@class MeshUDPHandler;
+#import "AsyncSocket.h"
+#import "AsyncUdpSocket.h"
 @class MeshMessage;
 @class MeshDeviceInfo;
-@class GCDAsyncSocket;
 
 #define KEY_TYPE @"type"
 #define KEY_TARGET @"target"
 #define KEY_SENDER @"sender"
 #define KEY_DATA @"data"
 #define KEY_NAME @"name"
-#define KEY_LISTENSTO @"listensTo"
+#define KEY_SUBSCRIPTIONS @"subscriptions"
+#define KEY_ISUPDATE @"isUpdate"
 
 #define UDP_PORT 12345
 #define TCP_PORT 12346
 
-typedef enum {
-    MeshMessageTypePublish,
-    MeshMessageTypeRequest,
-    MeshMessageTypeResponse,
-    MeshMessageTypeInfo,
-    MeshMessageTypePass
-} MeshMessageType;
+typedef NS_ENUM(NSInteger, MeshMessageTypeGeneral) {
+    MessageTypePublish,
+    MessageTypeRequest,
+    MessageTypeSystem
+};
+typedef NS_ENUM(NSInteger, MeshMessageTypeSystem) {
+    MessageTypeSystemSubscription
+};
 
 @class AnyMesh;
 @protocol AnyMeshDelegate <NSObject>
@@ -39,15 +39,21 @@ typedef enum {
 -(void)anyMesh:(AnyMesh*)anyMesh disconnectedFrom:(NSString*)name;
 @optional
 -(void)anyMesh:(AnyMesh *)anyMesh updatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
-
-
 @end
 
-@interface AnyMesh : NSObject 
 
-@property (nonatomic) MeshTCPHandler *tcpHandler;
-@property (nonatomic) MeshUDPHandler *udpHandler;
-@property (nonatomic) dispatch_queue_t socketQueue;
+@interface AnyMesh : NSObject <AsyncSocketDelegate, AsyncUdpSocketDelegate> {
+    	NSMutableArray *connections;
+        NSMutableArray *temporary;
+        AsyncSocket *listenSocket;
+        int tcpPort;
+        int workingPort;
+    
+        AsyncUdpSocket *udpSocket;
+        NSTimer *broadcastTimer;
+}
+
+
 @property (nonatomic) NSObject<AnyMeshDelegate> *delegate;
 
 @property (nonatomic) int discoveryPort;
@@ -58,7 +64,6 @@ typedef enum {
 
 -(void)connectWithName:(NSString*)name subscriptions:(NSArray*)subscriptions;
 -(NSArray*)connectedDevices;
--(void)messageReceived:(MeshMessage*)message;
 -(void)publishToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)requestToTarget:(NSString*)target withData:(NSDictionary *)dataDict;
 -(void)updateSubscriptions:(NSArray*)subscriptions;
@@ -67,10 +72,5 @@ typedef enum {
 -(void)resume;
 
 
-#pragma mark Internal Use
--(void)_tcpConnectedTo:(GCDAsyncSocket*)socket;
--(void)_tcpDisconnectedFrom:(GCDAsyncSocket*)socket;
--(void)_tcpUpdatedSubscriptions:(NSArray*)subscriptions forName:(NSString*)name;
-- (NSString *)_getIPAddress;
 
 @end

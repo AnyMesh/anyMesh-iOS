@@ -10,10 +10,8 @@
 
 @interface MeshDeviceInfo : NSObject
 
-@property (nonatomic)NSString *name;
-@property (nonatomic)NSArray *subscriptions;
-@property (nonatomic)NSString *ipAddress;
+@property (nonatomic, copy)NSString *name;
+@property (nonatomic, copy)NSArray *subscriptions;
 
-- (MeshDeviceInfo*)_clone;
 - (BOOL)_validate;
 @end
