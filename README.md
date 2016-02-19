@@ -64,13 +64,13 @@ To include AnyMesh to your project, add this to your Podfile:
 
     pod "AnyMesh", "~>0.4.0"
 
-Or to quickly get going on a sample XCode project with Unit Tests, just type the following in Terminal:
+Or to quickly get going on a sample Xcode project with Unit Tests, just type the following in Terminal:
 
     pod try AnyMesh
 
 Once you have downloaded / imported AnyMesh into a project:
 
-Or to quickly get going on a sample XCode project with Unit Tests, just type the following in Terminal:
+Or to quickly get going on a sample Xcode project with Unit Tests, just type the following in Terminal:
 
     pod try AnyMesh
 
