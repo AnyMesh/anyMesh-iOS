@@ -1,3 +1,5 @@
+NOTE: AnyMesh is no longer under active development or support.
+
 #AnyMesh
 https://github.com/AnyMesh
 
@@ -148,4 +150,3 @@ More optional methods for your delegate to implement:
 ###Any questions, comments, or suggestions, contact the Author:
 Dave Paul
 davepaul0@gmail.com
-
